@@ -170,6 +170,34 @@ tl.to(
 );
 
 // --- SCROLL WAVE IMAGE GALLERY (SECOND SITE) ---
+const WEDDING_DATA = {
+  1: {
+    tag: "01 / HALDI CEREMONY",
+    title: "Bright Yellows & Blessings",
+    desc: "Turmeric rituals, laughter, and warm auspicious blessings with loved ones.",
+  },
+  4: {
+    tag: "02 / MEHENDI NIGHT",
+    title: "Henna, Beats & Color",
+    desc: "Intricate henna art on hands, festive music, live dhol, and vibrant colors.",
+  },
+  7: {
+    tag: "03 / SANGEET NIGHT",
+    title: "Music, Dance & Glitz",
+    desc: "High-energy family dance performances, glam, and celebration under the lights.",
+  },
+  10: {
+    tag: "04 / WEDDING CEREMONY",
+    title: "The Sacred Pheras",
+    desc: "Exchanging eternal vows around the holy fire as two families unite in love.",
+  },
+  13: {
+    tag: "05 / GRAND RECEPTION",
+    title: "Gala, Dinner & Toast",
+    desc: "A lavish evening of fine dining, celebratory toasts, and dancing under the stars.",
+  },
+};
+
 const CONFIG = {
   waves: {
     base: { amp: 0.1, freq: 1.0, speed: 1.0, phase: 5.0 },
@@ -180,7 +208,7 @@ const CONFIG = {
   clipPower: 2,
 };
 
-const TOTAL_IMAGES = 12;
+const TOTAL_IMAGES = 16;
 const IMAGE_BASE_HEIGHT = 375;
 const ASPECT_RATIOS = ["3/2", "4/3", "5/4", "7/5"];
 
@@ -190,12 +218,11 @@ if (spotlightImagesContainer) {
   for (let i = 0; i < TOTAL_IMAGES; i++) {
     const imageItem = document.createElement("div");
     imageItem.classList.add("spotlight-image");
-
-    const imageAspectRatio = ASPECT_RATIOS[i % ASPECT_RATIOS.length];
-    imageItem.style.aspectRatio = imageAspectRatio;
+    if (i % 2 === 1) {
+      imageItem.classList.add("reverse");
+    }
 
     const shrinkStartIndex = Math.floor(TOTAL_IMAGES * 0.75);
-
     const shrinkFactor =
       i >= shrinkStartIndex
         ? (i - shrinkStartIndex + 1) / (TOTAL_IMAGES - shrinkStartIndex)
@@ -204,10 +231,35 @@ if (spotlightImagesContainer) {
     const imageHeight = IMAGE_BASE_HEIGHT * (1 - shrinkFactor * 0.5);
     imageItem.style.height = `${Math.round(imageHeight)}px`;
 
-    const img = document.createElement("img");
-    img.src = `/gallery/img${i + 1}.jpg`;
+    // Image wrapper
+    const imgWrapper = document.createElement("div");
+    imgWrapper.classList.add("spotlight-img-wrapper");
+    imgWrapper.style.aspectRatio = ASPECT_RATIOS[i % ASPECT_RATIOS.length];
 
-    imageItem.appendChild(img);
+    const imgNumber = (i % 12) + 1;
+    const img = document.createElement("img");
+    img.src = `/gallery/img${imgNumber}.jpg`;
+    img.alt = WEDDING_DATA[i] ? WEDDING_DATA[i].title : `Wedding Gallery Photo ${i + 1}`;
+
+    imgWrapper.appendChild(img);
+    imageItem.appendChild(imgWrapper);
+
+    // Text card: Only on 2nd image (index 1) and every 3rd image thereafter (indices 1, 4, 7, 10, 13)
+    const showText = (i - 1) % 3 === 0;
+    if (showText && WEDDING_DATA[i]) {
+      const textDiv = document.createElement("div");
+      textDiv.classList.add("spotlight-text");
+
+      const info = WEDDING_DATA[i];
+      textDiv.innerHTML = `
+        <span class="chapter-number">${info.tag}</span>
+        <h3 class="chapter-title">${info.title}</h3>
+        <p class="chapter-desc">${info.desc}</p>
+      `;
+
+      imageItem.appendChild(textDiv);
+    }
+
     spotlightImagesContainer.appendChild(imageItem);
   }
 
@@ -225,7 +277,11 @@ if (spotlightImagesContainer) {
 
       const imageHeight =
         IMAGE_BASE_HEIGHT * sizeFactor * (1 - shrinkFactor * 0.5);
-      imageItem.style.height = `${Math.round(imageHeight)}px`;
+      
+      const imgWrapper = imageItem.querySelector(".spotlight-img-wrapper");
+      if (imgWrapper) {
+        imgWrapper.style.height = `${Math.round(imageHeight)}px`;
+      }
     });
   }
 
@@ -233,6 +289,7 @@ if (spotlightImagesContainer) {
 
   imageItems.forEach((imageItem, index) => {
     const normalizedIndex = index / (TOTAL_IMAGES - 1);
+    const imgWrapper = imageItem.querySelector(".spotlight-img-wrapper");
 
     ScrollTrigger.create({
       trigger: imageItem,
@@ -262,7 +319,7 @@ if (spotlightImagesContainer) {
 
         const translateX =
           (vw - imageItem.offsetWidth) / 2 -
-          vw * 0.1 +
+          vw * 0.05 +
           baseWave * vw * base.amp +
           flowWave * vw * flow.amp +
           detailWave * vw * detail.amp;
@@ -273,7 +330,9 @@ if (spotlightImagesContainer) {
           Math.pow(centerOffset, CONFIG.clipPower) * CONFIG.clipMax;
 
         imageItem.style.translate = `${translateX}px`;
-        imageItem.style.clipPath = `inset(0 ${clipAmount}% 0 ${clipAmount}%)`;
+        if (imgWrapper) {
+          imgWrapper.style.clipPath = `inset(0 ${clipAmount}% 0 ${clipAmount}%)`;
+        }
       },
     });
   });
