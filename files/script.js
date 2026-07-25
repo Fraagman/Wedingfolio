@@ -6,8 +6,14 @@ import Lenis from "lenis";
 
 gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
 
+// Prevent mobile address-bar resize triggers from causing screen flashing
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 // Initialize Lenis Smooth Scroll
-const lenis = new Lenis();
+const lenis = new Lenis({
+  smoothWheel: true,
+  syncTouch: true,
+});
 lenis.on("scroll", ScrollTrigger.update);
 gsap.ticker.add((time) => {
   lenis.raf(time * 1000);
@@ -173,7 +179,7 @@ tl.to(
 const FUNCTIONS_DATA = [
   {
     id: "haldi",
-    badge: "01 — HALDI CEREMONY",
+    badge: "",
     title: "Haldi",
     tagline: "A golden splash of turmeric, laughter & family blessings",
     day: "MON",
@@ -182,7 +188,7 @@ const FUNCTIONS_DATA = [
     venue: "Courtyard Villa Lawn",
     dressSub: "Shades of Sun & Gold",
     dressDetail: "Yellow Kurta, Floral Sarees or Bright Ethnic Wear",
-    images: [1, 2, 3],
+    images: [],
   },
   {
     id: "mehendi",
@@ -280,10 +286,12 @@ if (spotlightImagesContainer) {
     }
 
     // Section Badge Header
-    const badgeEl = document.createElement("div");
-    badgeEl.classList.add("function-badge");
-    badgeEl.textContent = func.badge;
-    sectionEl.appendChild(badgeEl);
+    if (func.badge) {
+      const badgeEl = document.createElement("div");
+      badgeEl.classList.add("function-badge");
+      badgeEl.textContent = func.badge;
+      sectionEl.appendChild(badgeEl);
+    }
 
     // Split function images: 1 image on top, centered invitation card, remaining images below
     const topImages = func.images.slice(0, 1);
