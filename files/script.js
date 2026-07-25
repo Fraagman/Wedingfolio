@@ -172,29 +172,54 @@ tl.to(
 // --- SCROLL WAVE IMAGE GALLERY (SECOND SITE) ---
 const WEDDING_DATA = {
   1: {
-    tag: "01 / HALDI CEREMONY",
-    title: "Bright Yellows & Blessings",
-    desc: "Turmeric rituals, laughter, and warm auspicious blessings with loved ones.",
+    title: "Haldi",
+    tagline: "A golden splash of turmeric, laughter & family blessings",
+    day: "MON",
+    date: "June 2 2026",
+    time: "10:00 AM onwards",
+    venue: "Courtyard Villa Lawn",
+    dressSub: "Shades of Sun & Gold",
+    dressDetail: "Yellow Kurta, Floral Sarees or Bright Ethnic Wear",
   },
   4: {
-    tag: "02 / MEHENDI NIGHT",
-    title: "Henna, Beats & Color",
-    desc: "Intricate henna art on hands, festive music, live dhol, and vibrant colors.",
+    title: "Mehendi",
+    tagline: "An afternoon of intricate henna, music & vibrant color",
+    day: "TUE",
+    date: "June 3 2026",
+    time: "03:00 PM onwards",
+    venue: "Mango Grove Garden",
+    dressSub: "Vibrant Festive Shades",
+    dressDetail: "Green, Floral Prints, Lehengas or Indo-Western",
   },
   7: {
-    tag: "03 / SANGEET NIGHT",
-    title: "Music, Dance & Glitz",
-    desc: "High-energy family dance performances, glam, and celebration under the lights.",
+    title: "Sangeet",
+    tagline: "A playful night of sangeet and cultural festivities",
+    day: "WED",
+    date: "June 4 2026",
+    time: "07:30 PM onwards",
+    venue: "Uttar Garden Lawn",
+    dressSub: "Embracing the charm of Gujarati heritage",
+    dressDetail: "Bandhani, Patola, Leheriya or Kutchi Mirrorwork",
   },
   10: {
-    tag: "04 / WEDDING CEREMONY",
-    title: "The Sacred Pheras",
-    desc: "Exchanging eternal vows around the holy fire as two families unite in love.",
+    title: "Wedding",
+    tagline: "A sacred union under divine blessings & holy fire",
+    day: "THU",
+    date: "June 5 2026",
+    time: "05:00 PM onwards",
+    venue: "The Royal Palace Mandap",
+    dressSub: "Traditional Royal Elegance",
+    dressDetail: "Classic Sherwanis, Kanjeevarams or Regal Silks",
   },
   13: {
-    tag: "05 / GRAND RECEPTION",
-    title: "Gala, Dinner & Toast",
-    desc: "A lavish evening of fine dining, celebratory toasts, and dancing under the stars.",
+    title: "Reception",
+    tagline: "An enchanting evening of fine dining, music & toasts",
+    day: "FRI",
+    date: "June 6 2026",
+    time: "08:00 PM onwards",
+    venue: "Grand Imperial Ballroom",
+    dressSub: "Black Tie & Glamour",
+    dressDetail: "Tuxedos, Evening Gowns or Designer Lehengas",
   },
 };
 
@@ -229,12 +254,12 @@ if (spotlightImagesContainer) {
         : 0;
 
     const imageHeight = IMAGE_BASE_HEIGHT * (1 - shrinkFactor * 0.5);
-    imageItem.style.height = `${Math.round(imageHeight)}px`;
 
     // Image wrapper
     const imgWrapper = document.createElement("div");
     imgWrapper.classList.add("spotlight-img-wrapper");
     imgWrapper.style.aspectRatio = ASPECT_RATIOS[i % ASPECT_RATIOS.length];
+    imgWrapper.style.height = `${Math.round(imageHeight)}px`;
 
     const imgNumber = (i % 12) + 1;
     const img = document.createElement("img");
@@ -248,13 +273,25 @@ if (spotlightImagesContainer) {
     const showText = (i - 1) % 3 === 0;
     if (showText && WEDDING_DATA[i]) {
       const textDiv = document.createElement("div");
-      textDiv.classList.add("spotlight-text");
+      textDiv.classList.add("spotlight-text", "invitation-card");
 
       const info = WEDDING_DATA[i];
       textDiv.innerHTML = `
-        <span class="chapter-number">${info.tag}</span>
-        <h3 class="chapter-title">${info.title}</h3>
-        <p class="chapter-desc">${info.desc}</p>
+        <h2 class="card-function-title">${info.title}</h2>
+        <p class="card-tagline">${info.tagline}</p>
+        
+        <div class="card-event-details">
+          <span class="card-day">${info.day}</span>
+          <span class="card-date">${info.date}</span>
+          <span class="card-time">${info.time}</span>
+          <span class="card-venue">${info.venue}</span>
+        </div>
+
+        <div class="card-dress-code">
+          <h4 class="dress-code-header">Dress code</h4>
+          <p class="dress-code-sub">${info.dressSub}</p>
+          <p class="dress-code-detail">${info.dressDetail}</p>
+        </div>
       `;
 
       imageItem.appendChild(textDiv);
@@ -317,20 +354,20 @@ if (spotlightImagesContainer) {
               progress * detail.speed,
           );
 
-        const translateX =
-          (vw - imageItem.offsetWidth) / 2 -
-          vw * 0.05 +
-          baseWave * vw * base.amp +
-          flowWave * vw * flow.amp +
-          detailWave * vw * detail.amp;
-
-        const centerOffset = Math.abs(progress - 0.5) * 2;
-
-        const clipAmount =
-          Math.pow(centerOffset, CONFIG.clipPower) * CONFIG.clipMax;
-
-        imageItem.style.translate = `${translateX}px`;
         if (imgWrapper) {
+          const wrapperWidth = imgWrapper.offsetWidth;
+          const translateX =
+            (vw - wrapperWidth) / 2 -
+            vw * 0.05 +
+            baseWave * vw * base.amp +
+            flowWave * vw * flow.amp +
+            detailWave * vw * detail.amp;
+
+          const centerOffset = Math.abs(progress - 0.5) * 2;
+          const clipAmount =
+            Math.pow(centerOffset, CONFIG.clipPower) * CONFIG.clipMax;
+
+          imgWrapper.style.translate = `${translateX}px`;
           imgWrapper.style.clipPath = `inset(0 ${clipAmount}% 0 ${clipAmount}%)`;
         }
       },

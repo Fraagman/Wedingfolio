@@ -1,5 +1,5 @@
 @import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
-@import url("https://fonts.googleapis.com/css2?family=Cossette+Titre:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cossette+Titre:wght@400;700&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap");
 
 :root {
   --base-100: #fff;
@@ -193,30 +193,30 @@ section.spotlight {
 .spotlight-images {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  width: 100%;
 }
 
 .spotlight-image {
   position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 1.75rem;
-  will-change: transform;
-  margin-bottom: 3rem;
-  width: fit-content;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+  width: 100%;
 }
 
 .spotlight-image.reverse {
-  flex-direction: row-reverse;
+  flex-direction: column;
 }
 
 .spotlight-img-wrapper {
   position: relative;
   clip-path: inset(0 20% 0 20%);
-  will-change: clip-path;
+  will-change: transform, clip-path;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
 }
@@ -227,44 +227,118 @@ section.spotlight {
   object-fit: cover;
 }
 
-.spotlight-text {
+.spotlight-text.invitation-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 0.4rem;
-  width: 280px;
+  align-items: center;
+  text-align: center;
+  width: calc(100vw - 2.5rem);
+  max-width: 325px;
   flex-shrink: 0;
-  padding: 1.35rem 1.5rem;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  border-radius: 14px;
-  box-shadow: 0 15px 35px rgba(20, 20, 20, 0.08);
+  padding: 2.25rem 1.75rem;
+  background: radial-gradient(circle at 50% 40%, #1c232e 0%, #0c1017 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
-.chapter-number {
-  font-family: "PP Neue Montreal", sans-serif;
-  font-size: 0.725rem;
+.card-function-title {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.6rem, 5vw, 3.25rem);
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1.05;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.card-tagline {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #ded8cb;
+  line-height: 1.35;
+  margin-bottom: 1.35rem;
+  max-width: 95%;
+}
+
+.card-event-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 1.35rem;
+  width: 100%;
+}
+
+.card-day {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #7b7e70;
+  color: #e0dad0;
 }
 
-.chapter-title {
-  font-family: "Cossette Titre", serif;
-  font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+.card-date {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.35rem;
   font-weight: 600;
-  color: var(--base-300);
-  line-height: 1.2;
+  color: #ffffff;
 }
 
-.chapter-desc {
-  font-family: "PP Neue Montreal", sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.45;
-  color: #3b3d32;
+.card-time {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #dcd6c8;
+}
+
+.card-venue {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-top: 0.15rem;
+}
+
+.card-dress-code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 1.15rem;
+  width: 100%;
+}
+
+.dress-code-header {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.15rem;
+}
+
+.dress-code-sub {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #ded8cb;
+  line-height: 1.3;
+}
+
+.dress-code-detail {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #c4bea8;
+  line-height: 1.35;
 }
 
 @media (max-width: 1000px) {
@@ -285,26 +359,14 @@ section.spotlight {
   .spotlight-image.reverse {
     flex-direction: column;
     align-items: center;
-    gap: 0.85rem;
-    width: fit-content;
-    margin-bottom: 2.5rem;
+    gap: 1.25rem;
+    width: 100%;
+    margin-bottom: 3.5rem;
   }
 
-  .spotlight-text {
-    width: calc(100vw - 3rem);
-    max-width: 310px;
-    padding: 1.1rem 1.25rem;
-    box-sizing: border-box;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  }
-
-  .chapter-title {
-    font-size: 1.25rem;
-  }
-
-  .chapter-desc {
-    font-size: 0.825rem;
+  .spotlight-text.invitation-card {
+    width: calc(100vw - 2.5rem);
+    max-width: 325px;
+    padding: 2rem 1.35rem;
   }
 }
