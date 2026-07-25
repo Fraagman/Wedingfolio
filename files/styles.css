@@ -185,9 +185,110 @@ section.outro {
 section.spotlight {
   position: relative;
   width: 100%;
-  padding: 2rem 0;
+  padding: 0;
   overflow: hidden;
   background-color: var(--base-200);
+}
+
+.function-section {
+  position: relative;
+  width: 100%;
+  padding: 4.5rem 1rem 5.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.function-section#haldi {
+  position: relative;
+  overflow: hidden;
+  background: #ede6d3;
+  padding-top: 4.5rem;
+  padding-bottom: 7rem;
+}
+
+/* HALDI SCENIC LAYERED BACKGROUND CONTAINER */
+.haldi-scene-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.haldi-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+
+/* Z-Index Hierarchy & Transform Origins for Organic Wind & Depth Motion */
+.haldi-layer.layer-base { z-index: 0; opacity: 0.95; transform-origin: center center; }
+.haldi-layer.layer-tree-left { z-index: 1; transform-origin: bottom left; }
+.haldi-layer.layer-arch { z-index: 2; transform-origin: center center; }
+.haldi-layer.layer-branch-left { z-index: 4; transform-origin: top left; }
+.haldi-layer.layer-branch-right { z-index: 4; transform-origin: top right; }
+.haldi-layer.layer-leaves-left { z-index: 5; transform-origin: bottom left; }
+.haldi-layer.layer-leaves-right { z-index: 5; transform-origin: bottom right; }
+.haldi-layer.layer-haldi-bowl { z-index: 5; transform-origin: bottom center; }
+
+/* Haldi Section Content Layering */
+.function-section#haldi .function-badge,
+.function-section#haldi .spotlight-image,
+.function-section#haldi .spotlight-text.invitation-card {
+  position: relative;
+  z-index: 3;
+}
+
+.function-section#haldi .spotlight-text.invitation-card {
+  background: rgba(16, 22, 30, 0.42);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(245, 215, 110, 0.45);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35), 0 0 25px rgba(245, 215, 110, 0.15);
+}
+
+.function-section#mehendi {
+  background: linear-gradient(180deg, #eef3e8 0%, #dce4d3 100%);
+}
+
+.function-section#sangeet {
+  background: linear-gradient(180deg, #ebedef 0%, #dae0e6 100%);
+}
+
+.function-section#wedding {
+  background: linear-gradient(180deg, #f7efe8 0%, #e9ded6 100%);
+}
+
+.function-section#reception {
+  background: linear-gradient(180deg, #eaede8 0%, #dbded7 100%);
+}
+
+.function-badge {
+  font-family: "PP Neue Montreal", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #5a5c4e;
+  padding: 0.45rem 1.15rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  margin-bottom: 0.5rem;
 }
 
 .spotlight-images {
@@ -236,12 +337,12 @@ section.spotlight {
   max-width: 325px;
   flex-shrink: 0;
   padding: 2.25rem 1.75rem;
-  background: radial-gradient(circle at 50% 40%, #1c232e 0%, #0c1017 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(14, 18, 25, 0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 20px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25);
   color: #ffffff;
   box-sizing: border-box;
   margin: 0 auto;

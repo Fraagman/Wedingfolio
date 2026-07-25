@@ -169,9 +169,11 @@ tl.to(
   4.75,
 );
 
-// --- SCROLL WAVE IMAGE GALLERY (SECOND SITE) ---
-const WEDDING_DATA = {
-  1: {
+// --- SCROLL WAVE IMAGE GALLERY — 5 WEDDING FUNCTION SECTIONS ---
+const FUNCTIONS_DATA = [
+  {
+    id: "haldi",
+    badge: "01 — HALDI CEREMONY",
     title: "Haldi",
     tagline: "A golden splash of turmeric, laughter & family blessings",
     day: "MON",
@@ -180,8 +182,11 @@ const WEDDING_DATA = {
     venue: "Courtyard Villa Lawn",
     dressSub: "Shades of Sun & Gold",
     dressDetail: "Yellow Kurta, Floral Sarees or Bright Ethnic Wear",
+    images: [1, 2, 3],
   },
-  4: {
+  {
+    id: "mehendi",
+    badge: "02 — MEHENDI NIGHT",
     title: "Mehendi",
     tagline: "An afternoon of intricate henna, music & vibrant color",
     day: "TUE",
@@ -190,8 +195,11 @@ const WEDDING_DATA = {
     venue: "Mango Grove Garden",
     dressSub: "Vibrant Festive Shades",
     dressDetail: "Green, Floral Prints, Lehengas or Indo-Western",
+    images: [4, 5, 6],
   },
-  7: {
+  {
+    id: "sangeet",
+    badge: "03 — SANGEET NIGHT",
     title: "Sangeet",
     tagline: "A playful night of sangeet and cultural festivities",
     day: "WED",
@@ -200,8 +208,11 @@ const WEDDING_DATA = {
     venue: "Uttar Garden Lawn",
     dressSub: "Embracing the charm of Gujarati heritage",
     dressDetail: "Bandhani, Patola, Leheriya or Kutchi Mirrorwork",
+    images: [7, 8, 9],
   },
-  10: {
+  {
+    id: "wedding",
+    badge: "04 — WEDDING CEREMONY",
     title: "Wedding",
     tagline: "A sacred union under divine blessings & holy fire",
     day: "THU",
@@ -210,8 +221,11 @@ const WEDDING_DATA = {
     venue: "The Royal Palace Mandap",
     dressSub: "Traditional Royal Elegance",
     dressDetail: "Classic Sherwanis, Kanjeevarams or Regal Silks",
+    images: [10, 11, 12],
   },
-  13: {
+  {
+    id: "reception",
+    badge: "05 — GRAND RECEPTION",
     title: "Reception",
     tagline: "An enchanting evening of fine dining, music & toasts",
     day: "FRI",
@@ -220,8 +234,9 @@ const WEDDING_DATA = {
     venue: "Grand Imperial Ballroom",
     dressSub: "Black Tie & Glamour",
     dressDetail: "Tuxedos, Evening Gowns or Designer Lehengas",
+    images: [1, 2, 3, 4],
   },
-};
+];
 
 const CONFIG = {
   waves: {
@@ -233,88 +248,130 @@ const CONFIG = {
   clipPower: 2,
 };
 
-const TOTAL_IMAGES = 16;
 const IMAGE_BASE_HEIGHT = 375;
 const ASPECT_RATIOS = ["3/2", "4/3", "5/4", "7/5"];
 
 const spotlightImagesContainer = document.querySelector(".spotlight-images");
 
 if (spotlightImagesContainer) {
-  for (let i = 0; i < TOTAL_IMAGES; i++) {
-    const imageItem = document.createElement("div");
-    imageItem.classList.add("spotlight-image");
-    if (i % 2 === 1) {
-      imageItem.classList.add("reverse");
-    }
+  let globalImageIndex = 0;
 
-    const shrinkStartIndex = Math.floor(TOTAL_IMAGES * 0.75);
-    const shrinkFactor =
-      i >= shrinkStartIndex
-        ? (i - shrinkStartIndex + 1) / (TOTAL_IMAGES - shrinkStartIndex)
-        : 0;
+  FUNCTIONS_DATA.forEach((func) => {
+    // Create Dedicated Function Section Container
+    const sectionEl = document.createElement("section");
+    sectionEl.classList.add("function-section");
+    sectionEl.id = func.id;
 
-    const imageHeight = IMAGE_BASE_HEIGHT * (1 - shrinkFactor * 0.5);
-
-    // Image wrapper
-    const imgWrapper = document.createElement("div");
-    imgWrapper.classList.add("spotlight-img-wrapper");
-    imgWrapper.style.aspectRatio = ASPECT_RATIOS[i % ASPECT_RATIOS.length];
-    imgWrapper.style.height = `${Math.round(imageHeight)}px`;
-
-    const imgNumber = (i % 12) + 1;
-    const img = document.createElement("img");
-    img.src = `/gallery/img${imgNumber}.jpg`;
-    img.alt = WEDDING_DATA[i] ? WEDDING_DATA[i].title : `Wedding Gallery Photo ${i + 1}`;
-
-    imgWrapper.appendChild(img);
-    imageItem.appendChild(imgWrapper);
-
-    // Text card: Only on 2nd image (index 1) and every 3rd image thereafter (indices 1, 4, 7, 10, 13)
-    const showText = (i - 1) % 3 === 0;
-    if (showText && WEDDING_DATA[i]) {
-      const textDiv = document.createElement("div");
-      textDiv.classList.add("spotlight-text", "invitation-card");
-
-      const info = WEDDING_DATA[i];
-      textDiv.innerHTML = `
-        <h2 class="card-function-title">${info.title}</h2>
-        <p class="card-tagline">${info.tagline}</p>
-        
-        <div class="card-event-details">
-          <span class="card-day">${info.day}</span>
-          <span class="card-date">${info.date}</span>
-          <span class="card-time">${info.time}</span>
-          <span class="card-venue">${info.venue}</span>
-        </div>
-
-        <div class="card-dress-code">
-          <h4 class="dress-code-header">Dress code</h4>
-          <p class="dress-code-sub">${info.dressSub}</p>
-          <p class="dress-code-detail">${info.dressDetail}</p>
-        </div>
+    // Inject Haldi Scenic Layered Background for Haldi Section
+    if (func.id === "haldi") {
+      const bgScene = document.createElement("div");
+      bgScene.classList.add("haldi-scene-bg");
+      bgScene.innerHTML = `
+        <img src="/haldi-bg/10.png" class="haldi-layer layer-base" alt="" />
+        <img src="/haldi-bg/6.png" class="haldi-layer layer-tree-left" alt="" />
+        <img src="/haldi-bg/7.png" class="haldi-layer layer-arch" alt="" />
+        <img src="/haldi-bg/9.png" class="haldi-layer layer-branch-left" alt="" />
+        <img src="/haldi-bg/8.png" class="haldi-layer layer-branch-right" alt="" />
+        <img src="/haldi-bg/5.png" class="haldi-layer layer-leaves-left" alt="" />
+        <img src="/haldi-bg/4.png" class="haldi-layer layer-leaves-right" alt="" />
+        <img src="/haldi-bg/3.png" class="haldi-layer layer-haldi-bowl" alt="" />
       `;
-
-      imageItem.appendChild(textDiv);
+      sectionEl.appendChild(bgScene);
     }
 
-    spotlightImagesContainer.appendChild(imageItem);
-  }
+    // Section Badge Header
+    const badgeEl = document.createElement("div");
+    badgeEl.classList.add("function-badge");
+    badgeEl.textContent = func.badge;
+    sectionEl.appendChild(badgeEl);
+
+    // Split function images: 1 image on top, centered invitation card, remaining images below
+    const topImages = func.images.slice(0, 1);
+    const bottomImages = func.images.slice(1);
+
+    const createImageItem = (imgNum) => {
+      const imageItem = document.createElement("div");
+      imageItem.classList.add("spotlight-image");
+      if (globalImageIndex % 2 === 1) {
+        imageItem.classList.add("reverse");
+      }
+      imageItem.dataset.globalIndex = globalImageIndex;
+
+      const shrinkStartIndex = Math.floor(16 * 0.75);
+      const shrinkFactor =
+        globalImageIndex >= shrinkStartIndex
+          ? (globalImageIndex - shrinkStartIndex + 1) / (16 - shrinkStartIndex)
+          : 0;
+
+      const imageHeight = IMAGE_BASE_HEIGHT * (1 - shrinkFactor * 0.5);
+
+      const imgWrapper = document.createElement("div");
+      imgWrapper.classList.add("spotlight-img-wrapper");
+      imgWrapper.style.aspectRatio = ASPECT_RATIOS[globalImageIndex % ASPECT_RATIOS.length];
+      imgWrapper.style.height = `${Math.round(imageHeight)}px`;
+
+      const img = document.createElement("img");
+      img.src = `/gallery/img${imgNum}.jpg`;
+      img.alt = `${func.title} Photo`;
+
+      imgWrapper.appendChild(img);
+      imageItem.appendChild(imgWrapper);
+
+      globalImageIndex++;
+      return imageItem;
+    };
+
+    // Render Top Image
+    topImages.forEach((imgNum) => {
+      sectionEl.appendChild(createImageItem(imgNum));
+    });
+
+    // Render Centered Invitation Text Card for this Function
+    const textDiv = document.createElement("div");
+    textDiv.classList.add("spotlight-text", "invitation-card");
+    textDiv.innerHTML = `
+      <h2 class="card-function-title">${func.title}</h2>
+      <p class="card-tagline">${func.tagline}</p>
+      
+      <div class="card-event-details">
+        <span class="card-day">${func.day}</span>
+        <span class="card-date">${func.date}</span>
+        <span class="card-time">${func.time}</span>
+        <span class="card-venue">${func.venue}</span>
+      </div>
+
+      <div class="card-dress-code">
+        <h4 class="dress-code-header">Dress code</h4>
+        <p class="dress-code-sub">${func.dressSub}</p>
+        <p class="dress-code-detail">${func.dressDetail}</p>
+      </div>
+    `;
+    sectionEl.appendChild(textDiv);
+
+    // Render Bottom Images
+    bottomImages.forEach((imgNum) => {
+      sectionEl.appendChild(createImageItem(imgNum));
+    });
+
+    spotlightImagesContainer.appendChild(sectionEl);
+  });
 
   const imageItems = gsap.utils.toArray(".spotlight-image");
 
   function updateImageSizes() {
     const sizeFactor = Math.min(window.innerWidth / 750, 1);
 
-    imageItems.forEach((imageItem, i) => {
-      const shrinkStartIndex = Math.floor(TOTAL_IMAGES * 0.75);
+    imageItems.forEach((imageItem) => {
+      const idx = parseInt(imageItem.dataset.globalIndex || "0", 10);
+      const shrinkStartIndex = Math.floor(16 * 0.75);
       const shrinkFactor =
-        i >= shrinkStartIndex
-          ? (i - shrinkStartIndex + 1) / (TOTAL_IMAGES - shrinkStartIndex)
+        idx >= shrinkStartIndex
+          ? (idx - shrinkStartIndex + 1) / (16 - shrinkStartIndex)
           : 0;
 
       const imageHeight =
         IMAGE_BASE_HEIGHT * sizeFactor * (1 - shrinkFactor * 0.5);
-      
+
       const imgWrapper = imageItem.querySelector(".spotlight-img-wrapper");
       if (imgWrapper) {
         imgWrapper.style.height = `${Math.round(imageHeight)}px`;
@@ -324,8 +381,9 @@ if (spotlightImagesContainer) {
 
   updateImageSizes();
 
-  imageItems.forEach((imageItem, index) => {
-    const normalizedIndex = index / (TOTAL_IMAGES - 1);
+  imageItems.forEach((imageItem) => {
+    const idx = parseInt(imageItem.dataset.globalIndex || "0", 10);
+    const normalizedIndex = idx / (16 - 1);
     const imgWrapper = imageItem.querySelector(".spotlight-img-wrapper");
 
     ScrollTrigger.create({
@@ -378,5 +436,159 @@ if (spotlightImagesContainer) {
     updateImageSizes();
     ScrollTrigger.refresh();
   });
+
+  // --- HALDI SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
+  const haldiSection = document.querySelector("#haldi");
+  if (haldiSection) {
+    // 1. CONTINUOUS IDLE BREEZE (BRANCHES & LEAVES SWAYING IN THE WIND)
+    gsap.to("#haldi .layer-branch-left", {
+      rotation: 3,
+      xPercent: 2,
+      duration: 3.5,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#haldi .layer-branch-right", {
+      rotation: -3.5,
+      xPercent: -2.5,
+      duration: 4.2,
+      delay: 0.3,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#haldi .layer-tree-left", {
+      rotation: 1.8,
+      xPercent: 1,
+      duration: 5,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#haldi .layer-leaves-left", {
+      rotation: -2.5,
+      scale: 1.02,
+      duration: 3.8,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#haldi .layer-leaves-right", {
+      rotation: 2.8,
+      scale: 1.02,
+      duration: 4.5,
+      delay: 0.4,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 2. SCROLL-DRIVEN MOTION (LOCKED IN POSITION WITH ORGANIC ROTATION & FRAMING)
+    // Base Scenic Background: Subtle scale zoom inside container
+    gsap.to("#haldi .layer-base", {
+      scale: 1.05,
+      ease: "none",
+      scrollTrigger: {
+        trigger: haldiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Midground Lemon Tree: Organic tilt & sway
+    gsap.to("#haldi .layer-tree-left", {
+      rotation: -3,
+      xPercent: -2,
+      ease: "none",
+      scrollTrigger: {
+        trigger: haldiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Golden Archway: Subtle focal framing
+    gsap.to("#haldi .layer-arch", {
+      scale: 1.03,
+      ease: "none",
+      scrollTrigger: {
+        trigger: haldiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Top Left Branch: Locked at top, organic wind tilt on scroll
+    gsap.to("#haldi .layer-branch-left", {
+      rotation: 5,
+      xPercent: 3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: haldiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Top Right Branch: Locked at top, organic wind tilt on scroll
+    gsap.to("#haldi .layer-branch-right", {
+      rotation: -6,
+      xPercent: -3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: haldiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Bottom Left Leaves: Locked at bottom, opens outward on scroll
+    gsap.to("#haldi .layer-leaves-left", {
+      rotation: -4,
+      xPercent: -3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: haldiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Bottom Right Leaves: Locked at bottom, opens outward on scroll
+    gsap.to("#haldi .layer-leaves-right", {
+      rotation: 4,
+      xPercent: 3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: haldiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Haldi Bowl & Mandala Rug: Grounded in position
+    gsap.to("#haldi .layer-haldi-bowl", {
+      scale: 1.03,
+      ease: "none",
+      scrollTrigger: {
+        trigger: haldiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+  }
 }
 
