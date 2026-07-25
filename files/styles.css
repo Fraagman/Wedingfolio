@@ -235,6 +235,38 @@ section.spotlight {
   transform-style: preserve-3d;
 }
 
+/* Golden Sunlight Shimmer Overlay */
+.haldi-sunbeam {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120vw;
+  height: 70vh;
+  background: radial-gradient(circle at 50% 30%, rgba(255, 220, 110, 0.32) 0%, rgba(245, 195, 75, 0.12) 45%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+  transform: translateZ(5px);
+  animation: sunbeamPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes sunbeamPulse {
+  0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1.06); }
+}
+
+/* Floating Turmeric Dust & Marigold Petals Canvas */
+.haldi-particles-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  transform: translateZ(35px);
+}
+
 .haldi-layer {
   position: absolute;
   top: 0;

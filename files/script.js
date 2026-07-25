@@ -274,8 +274,10 @@ if (spotlightImagesContainer) {
       bgScene.classList.add("haldi-scene-bg");
       bgScene.innerHTML = `
         <img src="/haldi-bg/10.png" class="haldi-layer layer-base" alt="" />
+        <div class="haldi-sunbeam"></div>
         <img src="/haldi-bg/6.png" class="haldi-layer layer-tree-left" alt="" />
         <img src="/haldi-bg/7.png" class="haldi-layer layer-arch" alt="" />
+        <canvas id="haldi-particles-canvas" class="haldi-particles-layer"></canvas>
         <img src="/haldi-bg/9.png" class="haldi-layer layer-branch-left" alt="" />
         <img src="/haldi-bg/8.png" class="haldi-layer layer-branch-right" alt="" />
         <img src="/haldi-bg/5.png" class="haldi-layer layer-leaves-left" alt="" />
@@ -597,6 +599,88 @@ if (spotlightImagesContainer) {
         scrub: 1,
       },
     });
+
+    // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
+    gsap.fromTo(
+      "#haldi .spotlight-text.invitation-card",
+      { y: 35, opacity: 0.85, scale: 0.96 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: haldiSection,
+          start: "top 80%",
+          end: "top 35%",
+          scrub: 1,
+        },
+      },
+    );
+
+    gsap.to("#haldi .spotlight-text.invitation-card", {
+      y: -6,
+      duration: 3,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 4. FLOATING GOLDEN TURMERIC DUST & MARIGOLD PETALS PARTICLES
+    const canvas = document.getElementById("haldi-particles-canvas");
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      let width = (canvas.width = haldiSection.offsetWidth);
+      let height = (canvas.height = haldiSection.offsetHeight);
+
+      const updateCanvasSize = () => {
+        if (canvas && haldiSection) {
+          width = canvas.width = haldiSection.offsetWidth;
+          height = canvas.height = haldiSection.offsetHeight;
+        }
+      };
+      window.addEventListener("resize", updateCanvasSize);
+
+      const particles = [];
+      const particleCount = 28;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 2.2 + 0.8,
+          color: Math.random() > 0.4 ? "rgba(255, 215, 0, " : "rgba(245, 185, 50, ",
+          alpha: Math.random() * 0.55 + 0.25,
+          speedY: -(Math.random() * 0.5 + 0.2),
+          speedX: Math.random() * 0.4 - 0.2,
+          oscillationSpeed: Math.random() * 0.03 + 0.01,
+          angle: Math.random() * Math.PI * 2,
+        });
+      }
+
+      function renderParticles() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach((p) => {
+          p.angle += p.oscillationSpeed;
+          p.x += Math.sin(p.angle) * 0.35 + p.speedX;
+          p.y += p.speedY;
+
+          if (p.y < -10) {
+            p.y = height + 10;
+            p.x = Math.random() * width;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ")";
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = "rgba(255, 215, 0, 0.7)";
+          ctx.fill();
+        });
+        requestAnimationFrame(renderParticles);
+      }
+      renderParticles();
+    }
   }
 }
 
