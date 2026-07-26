@@ -218,7 +218,7 @@ const FUNCTIONS_DATA = [
   },
   {
     id: "wedding",
-    badge: "04 — WEDDING CEREMONY",
+    badge: "",
     title: "Wedding",
     tagline: "A sacred union under divine blessings & holy fire",
     day: "THU",
@@ -324,6 +324,26 @@ if (spotlightImagesContainer) {
         <img src="/sangeet-bg/6.png" class="sangeet-layer layer-sitar" alt="" />
         <img src="/sangeet-bg/3.png" class="sangeet-layer layer-tabla" alt="" />
         <img src="/sangeet-bg/5.png" class="sangeet-layer layer-mic" alt="" />
+      `;
+      sectionEl.appendChild(bgScene);
+    }
+
+    // Inject Wedding Scenic Layered Background for Wedding Section
+    if (func.id === "wedding") {
+      const bgScene = document.createElement("div");
+      bgScene.classList.add("wedding-scene-bg");
+      bgScene.innerHTML = `
+        <img src="/wedding-bg/2.png" class="wedding-layer layer-base" alt="" />
+        <div class="wedding-sunbeam"></div>
+        <img src="/wedding-bg/10.png" class="wedding-layer layer-mandap-platform" alt="" />
+        <img src="/wedding-bg/7.png" class="wedding-layer layer-mandap-arch" alt="" />
+        <img src="/wedding-bg/8.png" class="wedding-layer layer-parasol-right" alt="" />
+        <img src="/wedding-bg/5.png" class="wedding-layer layer-banana-leaves" alt="" />
+        <canvas id="wedding-particles-canvas" class="wedding-particles-layer"></canvas>
+        <img src="/wedding-bg/3.png" class="wedding-layer layer-canopy-left" alt="" />
+        <img src="/wedding-bg/9.png" class="wedding-layer layer-canopy-right" alt="" />
+        <img src="/wedding-bg/6.png" class="wedding-layer layer-flowers-left" alt="" />
+        <img src="/wedding-bg/11.png" class="wedding-layer layer-fg-flowers" alt="" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -1132,6 +1152,206 @@ if (spotlightImagesContainer) {
         requestAnimationFrame(renderSangeetParticles);
       }
       renderSangeetParticles();
+    }
+  }
+
+  // --- WEDDING SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
+  const weddingSection = document.querySelector("#wedding");
+  if (weddingSection) {
+    // 1. CONTINUOUS IDLE BREEZE (TEMPLE BELLS, CANOPY & FLORAL PARASOL SWAYING IN THE WIND)
+    gsap.to("#wedding .layer-canopy-left", {
+      rotation: 2.5,
+      xPercent: 1.5,
+      duration: 3.8,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#wedding .layer-canopy-right", {
+      rotation: -2.8,
+      xPercent: -1.8,
+      duration: 4.2,
+      delay: 0.2,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#wedding .layer-parasol-right", {
+      rotation: -1.8,
+      xPercent: -1.2,
+      duration: 4.5,
+      delay: 0.3,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#wedding .layer-banana-leaves", {
+      rotation: 2.2,
+      xPercent: 1.5,
+      duration: 4.0,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 2. SCROLL-DRIVEN MOTION (LOCKED IN POSITION WITH ORGANIC ROTATION & FRAMING)
+    // Base Scenic Background: Subtle scale zoom inside container
+    gsap.to("#wedding .layer-base", {
+      scale: 1.05,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Carved Marble Mandap Arch: Subtle focal framing
+    gsap.to("#wedding .layer-mandap-arch", {
+      scale: 1.03,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Mandap Altar Platform: Grounded foreground presentation
+    gsap.to("#wedding .layer-mandap-platform", {
+      scale: 1.02,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Top Left Branch with Temple Bells: Tilts inward on scroll
+    gsap.to("#wedding .layer-canopy-left", {
+      rotation: 4,
+      xPercent: 2.5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Top Right Crimson Royal Umbrella: Tilts inward on scroll
+    gsap.to("#wedding .layer-canopy-right", {
+      rotation: -4,
+      xPercent: -2.5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Foreground Marigold Garlands: Grounded foreground presentation
+    gsap.to("#wedding .layer-fg-flowers", {
+      scale: 1.03,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
+    gsap.fromTo(
+      "#wedding .spotlight-text.invitation-card",
+      { y: 35, opacity: 0.85, scale: 0.96 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: weddingSection,
+          start: "top 80%",
+          end: "top 35%",
+          scrub: 1,
+        },
+      },
+    );
+
+    gsap.to("#wedding .spotlight-text.invitation-card", {
+      y: -6,
+      duration: 3,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 4. FLOATING SACRED RICE & ROSE PETAL PARTICLES
+    const wCanvas = document.getElementById("wedding-particles-canvas");
+    if (wCanvas) {
+      const ctx = wCanvas.getContext("2d");
+      let width = (wCanvas.width = weddingSection.offsetWidth);
+      let height = (wCanvas.height = weddingSection.offsetHeight);
+
+      const updateCanvasSize = () => {
+        if (wCanvas && weddingSection) {
+          width = wCanvas.width = weddingSection.offsetWidth;
+          height = wCanvas.height = weddingSection.offsetHeight;
+        }
+      };
+      window.addEventListener("resize", updateCanvasSize);
+
+      const particles = [];
+      const particleCount = 28;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 2.5 + 0.8,
+          color: Math.random() > 0.4 ? "rgba(240, 160, 140, " : "rgba(255, 215, 120, ",
+          alpha: Math.random() * 0.55 + 0.25,
+          speedY: -(Math.random() * 0.45 + 0.2),
+          speedX: Math.random() * 0.4 - 0.2,
+          oscillationSpeed: Math.random() * 0.03 + 0.01,
+          angle: Math.random() * Math.PI * 2,
+        });
+      }
+
+      function renderWeddingParticles() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach((p) => {
+          p.angle += p.oscillationSpeed;
+          p.x += Math.sin(p.angle) * 0.35 + p.speedX;
+          p.y += p.speedY;
+
+          if (p.y < -10) {
+            p.y = height + 10;
+            p.x = Math.random() * width;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ")";
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = "rgba(240, 160, 140, 0.7)";
+          ctx.fill();
+        });
+        requestAnimationFrame(renderWeddingParticles);
+      }
+      renderWeddingParticles();
     }
   }
 
