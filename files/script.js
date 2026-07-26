@@ -205,7 +205,7 @@ const FUNCTIONS_DATA = [
   },
   {
     id: "sangeet",
-    badge: "03 — SANGEET NIGHT",
+    badge: "",
     title: "Sangeet",
     tagline: "A playful night of sangeet and cultural festivities",
     day: "WED",
@@ -303,6 +303,27 @@ if (spotlightImagesContainer) {
         <img src="/mehendi-bg/3.png" class="mehendi-layer layer-canopy-center" alt="" />
         <img src="/mehendi-bg/8.png" class="mehendi-layer layer-fg-grass" alt="" />
         <img src="/mehendi-bg/9.png" class="mehendi-layer layer-floor-mandala" alt="" />
+      `;
+      sectionEl.appendChild(bgScene);
+    }
+
+    // Inject Sangeet Scenic Layered Background for Sangeet Section
+    if (func.id === "sangeet") {
+      const bgScene = document.createElement("div");
+      bgScene.classList.add("sangeet-scene-bg");
+      bgScene.innerHTML = `
+        <img src="/sangeet-bg/2.png" class="sangeet-layer layer-base" alt="" />
+        <div class="sangeet-sunbeam"></div>
+        <img src="/sangeet-bg/10.png" class="sangeet-layer layer-gazebo" alt="" />
+        <img src="/sangeet-bg/8.png" class="sangeet-layer layer-trees-left" alt="" />
+        <img src="/sangeet-bg/9.png" class="sangeet-layer layer-trees-right" alt="" />
+        <img src="/sangeet-bg/7.png" class="sangeet-layer layer-stage-arch" alt="" />
+        <img src="/sangeet-bg/4.png" class="sangeet-layer layer-stage-cushions" alt="" />
+        <canvas id="sangeet-particles-canvas" class="sangeet-particles-layer"></canvas>
+        <img src="/sangeet-bg/11.png" class="sangeet-layer layer-hanging-canopy" alt="" />
+        <img src="/sangeet-bg/6.png" class="sangeet-layer layer-sitar" alt="" />
+        <img src="/sangeet-bg/3.png" class="sangeet-layer layer-tabla" alt="" />
+        <img src="/sangeet-bg/5.png" class="sangeet-layer layer-mic" alt="" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -923,6 +944,194 @@ if (spotlightImagesContainer) {
         requestAnimationFrame(renderMehendiParticles);
       }
       renderMehendiParticles();
+    }
+  }
+
+  // --- SANGEET SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
+  const sangeetSection = document.querySelector("#sangeet");
+  if (sangeetSection) {
+    // 1. CONTINUOUS IDLE BREEZE (LANTERNS, CANOPY & INSTRUMENTS SWAYING IN THE WIND)
+    gsap.to("#sangeet .layer-hanging-canopy", {
+      rotation: 2.8,
+      xPercent: 1.8,
+      duration: 3.8,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#sangeet .layer-sitar", {
+      rotation: 1.5,
+      xPercent: 1.0,
+      duration: 4.5,
+      delay: 0.2,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#sangeet .layer-trees-left", {
+      rotation: -1.8,
+      xPercent: -1.2,
+      duration: 4.8,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#sangeet .layer-trees-right", {
+      rotation: 2.2,
+      xPercent: 1.4,
+      duration: 4.2,
+      delay: 0.3,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 2. SCROLL-DRIVEN MOTION (LOCKED IN POSITION WITH ORGANIC ROTATION & FRAMING)
+    // Base Scenic Background: Subtle scale zoom inside container
+    gsap.to("#sangeet .layer-base", {
+      scale: 1.05,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sangeetSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Sangeet Stage & Pink Floral Arch: Subtle focal framing
+    gsap.to("#sangeet .layer-stage-arch", {
+      scale: 1.03,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sangeetSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Top Hanging Canopy & Lanterns: Tilts inward on scroll
+    gsap.to("#sangeet .layer-hanging-canopy", {
+      rotation: -5,
+      xPercent: -3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sangeetSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Sitar Instrument: Grounded foreground presentation
+    gsap.to("#sangeet .layer-sitar", {
+      rotation: 3,
+      xPercent: 2,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sangeetSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Tabla Drums: Grounded foreground presentation
+    gsap.to("#sangeet .layer-tabla", {
+      scale: 1.03,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sangeetSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
+    gsap.fromTo(
+      "#sangeet .spotlight-text.invitation-card",
+      { y: 35, opacity: 0.85, scale: 0.96 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: sangeetSection,
+          start: "top 80%",
+          end: "top 35%",
+          scrub: 1,
+        },
+      },
+    );
+
+    gsap.to("#sangeet .spotlight-text.invitation-card", {
+      y: -6,
+      duration: 3,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 4. FLOATING MUSICAL SPARKLE & GOLDEN TWILIGHT DUST PARTICLES
+    const sCanvas = document.getElementById("sangeet-particles-canvas");
+    if (sCanvas) {
+      const ctx = sCanvas.getContext("2d");
+      let width = (sCanvas.width = sangeetSection.offsetWidth);
+      let height = (sCanvas.height = sangeetSection.offsetHeight);
+
+      const updateCanvasSize = () => {
+        if (sCanvas && sangeetSection) {
+          width = sCanvas.width = sangeetSection.offsetWidth;
+          height = sCanvas.height = sangeetSection.offsetHeight;
+        }
+      };
+      window.addEventListener("resize", updateCanvasSize);
+
+      const particles = [];
+      const particleCount = 28;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 2.5 + 0.8,
+          color: Math.random() > 0.4 ? "rgba(255, 215, 120, " : "rgba(245, 175, 95, ",
+          alpha: Math.random() * 0.55 + 0.25,
+          speedY: -(Math.random() * 0.45 + 0.2),
+          speedX: Math.random() * 0.4 - 0.2,
+          oscillationSpeed: Math.random() * 0.03 + 0.01,
+          angle: Math.random() * Math.PI * 2,
+        });
+      }
+
+      function renderSangeetParticles() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach((p) => {
+          p.angle += p.oscillationSpeed;
+          p.x += Math.sin(p.angle) * 0.35 + p.speedX;
+          p.y += p.speedY;
+
+          if (p.y < -10) {
+            p.y = height + 10;
+            p.x = Math.random() * width;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ")";
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = "rgba(255, 215, 120, 0.7)";
+          ctx.fill();
+        });
+        requestAnimationFrame(renderSangeetParticles);
+      }
+      renderSangeetParticles();
     }
   }
 

@@ -435,9 +435,112 @@ section.spotlight {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 20px rgba(160, 215, 140, 0.15);
 }
 
+/* SANGEET CEREMONY SCENIC LAYERED BACKGROUND & 3D PARALLAX */
 .function-section#sangeet {
-  background: linear-gradient(180deg, #ebedef 0%, #dae0e6 100%);
+  position: relative;
+  width: 100%;
+  min-height: 125vh;
+  min-height: 125dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 1.25rem;
+  overflow: hidden;
+  background: #fdf5e6;
+  border-bottom: none;
+  box-sizing: border-box;
+  transform-style: preserve-3d;
 }
+
+.sangeet-scene-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Warm Twilight Lantern Light Shimmer Overlay */
+.sangeet-sunbeam {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120vw;
+  height: 70vh;
+  background: radial-gradient(circle at 50% 30%, rgba(255, 220, 150, 0.35) 0%, rgba(245, 175, 95, 0.14) 45%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+  transform: translateZ(5px);
+  animation: sangeetSunbeamPulse 4.2s ease-in-out infinite alternate;
+}
+
+@keyframes sangeetSunbeamPulse {
+  0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1.06); }
+}
+
+/* Floating Musical Notes & Golden Twilight Sparkles Canvas Layer */
+.sangeet-particles-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  transform: translateZ(35px);
+}
+
+.sangeet-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Strict 3D TranslateZ Stacking Contexts for Zero GPU Z-Fighting Flickering */
+.sangeet-layer.layer-base { z-index: 0; opacity: 0.95; transform-origin: center center; transform: translateZ(0px); }
+.sangeet-layer.layer-gazebo { z-index: 1; transform-origin: bottom left; transform: translateZ(10px); }
+.sangeet-layer.layer-trees-left { z-index: 2; transform-origin: bottom left; transform: translateZ(18px); }
+.sangeet-layer.layer-trees-right { z-index: 2; transform-origin: bottom right; transform: translateZ(18px); }
+.sangeet-layer.layer-stage-arch { z-index: 2; transform-origin: center center; transform: translateZ(25px); }
+.sangeet-layer.layer-stage-cushions { z-index: 2; transform-origin: center center; transform: translateZ(28px); }
+.sangeet-layer.layer-hanging-canopy { z-index: 4; transform-origin: top right; transform: translateZ(42px); }
+.sangeet-layer.layer-sitar { z-index: 5; transform-origin: bottom left; transform: translateZ(50px); }
+.sangeet-layer.layer-tabla { z-index: 5; transform-origin: bottom center; transform: translateZ(52px); }
+.sangeet-layer.layer-mic { z-index: 5; transform-origin: bottom right; transform: translateZ(54px); }
+
+/* Sangeet Invitation Card Layering & Translucent Royal Glassmorphism */
+.function-section#sangeet .function-badge,
+.function-section#sangeet .spotlight-image,
+.function-section#sangeet .spotlight-text.invitation-card {
+  position: relative;
+  z-index: 3;
+  transform: translateZ(30px);
+}
+
+.function-section#sangeet .spotlight-text.invitation-card {
+  background: rgba(30, 16, 24, 0.32);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(245, 195, 120, 0.45);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 20px rgba(245, 195, 120, 0.15);
+}
+
+
 
 .function-section#wedding {
   background: linear-gradient(180deg, #f7efe8 0%, #e9ded6 100%);
@@ -645,8 +748,18 @@ section.spotlight {
     overflow: hidden;
   }
 
+  .function-section#haldi,
+  .function-section#mehendi,
+  .function-section#sangeet {
+    min-height: 125vh;
+    min-height: 125dvh;
+    padding: 5rem 1rem;
+    border-bottom: none;
+  }
+
   .haldi-layer,
-  .mehendi-layer {
+  .mehendi-layer,
+  .sangeet-layer {
     object-fit: cover;
     object-position: center center;
   }
