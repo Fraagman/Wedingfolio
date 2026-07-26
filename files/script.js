@@ -192,7 +192,7 @@ const FUNCTIONS_DATA = [
   },
   {
     id: "mehendi",
-    badge: "02 — MEHENDI NIGHT",
+    badge: "",
     title: "Mehendi",
     tagline: "An afternoon of intricate henna, music & vibrant color",
     day: "TUE",
@@ -201,7 +201,7 @@ const FUNCTIONS_DATA = [
     venue: "Mango Grove Garden",
     dressSub: "Vibrant Festive Shades",
     dressDetail: "Green, Floral Prints, Lehengas or Indo-Western",
-    images: [4, 5, 6],
+    images: [],
   },
   {
     id: "sangeet",
@@ -283,6 +283,26 @@ if (spotlightImagesContainer) {
         <img src="/haldi-bg/5.png" class="haldi-layer layer-leaves-left" alt="" />
         <img src="/haldi-bg/4.png" class="haldi-layer layer-leaves-right" alt="" />
         <img src="/haldi-bg/3.png" class="haldi-layer layer-haldi-bowl" alt="" />
+      `;
+      sectionEl.appendChild(bgScene);
+    }
+
+    // Inject Mehendi Scenic Layered Background for Mehendi Section
+    if (func.id === "mehendi") {
+      const bgScene = document.createElement("div");
+      bgScene.classList.add("mehendi-scene-bg");
+      bgScene.innerHTML = `
+        <img src="/mehendi-bg/2.png" class="mehendi-layer layer-base" alt="" />
+        <div class="mehendi-sunbeam"></div>
+        <img src="/mehendi-bg/10.png" class="mehendi-layer layer-gazebo" alt="" />
+        <img src="/mehendi-bg/7.png" class="mehendi-layer layer-flowers-left" alt="" />
+        <img src="/mehendi-bg/6.png" class="mehendi-layer layer-foliage-right" alt="" />
+        <canvas id="mehendi-particles-canvas" class="mehendi-particles-layer"></canvas>
+        <img src="/mehendi-bg/5.png" class="mehendi-layer layer-canopy-left" alt="" />
+        <img src="/mehendi-bg/4.png" class="mehendi-layer layer-canopy-right" alt="" />
+        <img src="/mehendi-bg/3.png" class="mehendi-layer layer-canopy-center" alt="" />
+        <img src="/mehendi-bg/8.png" class="mehendi-layer layer-fg-grass" alt="" />
+        <img src="/mehendi-bg/9.png" class="mehendi-layer layer-floor-mandala" alt="" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -680,6 +700,229 @@ if (spotlightImagesContainer) {
         requestAnimationFrame(renderParticles);
       }
       renderParticles();
+    }
+  }
+
+  // --- MEHENDI SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
+  const mehendiSection = document.querySelector("#mehendi");
+  if (mehendiSection) {
+    // 1. CONTINUOUS IDLE BREEZE (LEAVES & CANOPY SWAYING IN THE WIND)
+    gsap.to("#mehendi .layer-canopy-left", {
+      rotation: 3.2,
+      xPercent: 2.2,
+      duration: 3.6,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#mehendi .layer-canopy-right", {
+      rotation: -3.6,
+      xPercent: -2.5,
+      duration: 4.3,
+      delay: 0.2,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#mehendi .layer-canopy-center", {
+      scale: 1.02,
+      yPercent: 1.5,
+      duration: 3.8,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#mehendi .layer-flowers-left", {
+      rotation: -2.2,
+      xPercent: -1.2,
+      duration: 4.8,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#mehendi .layer-foliage-right", {
+      rotation: 2.5,
+      xPercent: 1.5,
+      duration: 4.4,
+      delay: 0.3,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 2. SCROLL-DRIVEN MOTION (LOCKED IN POSITION WITH ORGANIC ROTATION & FRAMING)
+    // Base Scenic Background: Subtle scale zoom inside container
+    gsap.to("#mehendi .layer-base", {
+      scale: 1.05,
+      ease: "none",
+      scrollTrigger: {
+        trigger: mehendiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Green Marble Gazebo Mandap: Subtle focal framing
+    gsap.to("#mehendi .layer-gazebo", {
+      scale: 1.03,
+      ease: "none",
+      scrollTrigger: {
+        trigger: mehendiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Pink Flowering Bush Left: Opens outward on scroll
+    gsap.to("#mehendi .layer-flowers-left", {
+      rotation: -4,
+      xPercent: -3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: mehendiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Tropical Foliage Right: Opens outward on scroll
+    gsap.to("#mehendi .layer-foliage-right", {
+      rotation: 4,
+      xPercent: 3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: mehendiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Top Left Banana Canopy: Tilts inward on scroll
+    gsap.to("#mehendi .layer-canopy-left", {
+      rotation: 5,
+      xPercent: 3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: mehendiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Top Right Palm Canopy: Tilts inward on scroll
+    gsap.to("#mehendi .layer-canopy-right", {
+      rotation: -6,
+      xPercent: -3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: mehendiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Henna Floor Mandala Rug: Grounded foreground presentation
+    gsap.to("#mehendi .layer-floor-mandala", {
+      scale: 1.03,
+      ease: "none",
+      scrollTrigger: {
+        trigger: mehendiSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
+    gsap.fromTo(
+      "#mehendi .spotlight-text.invitation-card",
+      { y: 35, opacity: 0.85, scale: 0.96 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: mehendiSection,
+          start: "top 80%",
+          end: "top 35%",
+          scrub: 1,
+        },
+      },
+    );
+
+    gsap.to("#mehendi .spotlight-text.invitation-card", {
+      y: -6,
+      duration: 3,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 4. FLOATING HENNA LEAVES & GOLDEN SPARKLES PARTICLES
+    const mCanvas = document.getElementById("mehendi-particles-canvas");
+    if (mCanvas) {
+      const ctx = mCanvas.getContext("2d");
+      let width = (mCanvas.width = mehendiSection.offsetWidth);
+      let height = (mCanvas.height = mehendiSection.offsetHeight);
+
+      const updateCanvasSize = () => {
+        if (mCanvas && mehendiSection) {
+          width = mCanvas.width = mehendiSection.offsetWidth;
+          height = mCanvas.height = mehendiSection.offsetHeight;
+        }
+      };
+      window.addEventListener("resize", updateCanvasSize);
+
+      const particles = [];
+      const particleCount = 26;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 2.5 + 0.8,
+          color: Math.random() > 0.4 ? "rgba(160, 225, 140, " : "rgba(235, 215, 110, ",
+          alpha: Math.random() * 0.55 + 0.25,
+          speedY: -(Math.random() * 0.45 + 0.2),
+          speedX: Math.random() * 0.4 - 0.2,
+          oscillationSpeed: Math.random() * 0.03 + 0.01,
+          angle: Math.random() * Math.PI * 2,
+        });
+      }
+
+      function renderMehendiParticles() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach((p) => {
+          p.angle += p.oscillationSpeed;
+          p.x += Math.sin(p.angle) * 0.35 + p.speedX;
+          p.y += p.speedY;
+
+          if (p.y < -10) {
+            p.y = height + 10;
+            p.x = Math.random() * width;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ")";
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = "rgba(160, 225, 140, 0.7)";
+          ctx.fill();
+        });
+        requestAnimationFrame(renderMehendiParticles);
+      }
+      renderMehendiParticles();
     }
   }
 }
