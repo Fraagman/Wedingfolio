@@ -448,12 +448,8 @@ section.spotlight {
   border-bottom: none;
   box-sizing: border-box;
   overflow: hidden;
-  will-change: clip-path;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
 }
 
 .function-section#haldi {
@@ -490,6 +486,7 @@ section.spotlight {
   z-index: 0;
   overflow: hidden;
   transform-style: preserve-3d;
+  contain: layout style;
 }
 
 /* Golden Sunlight Shimmer Overlay */
@@ -536,6 +533,7 @@ section.spotlight {
   user-select: none;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  will-change: transform;
 }
 
 /* Strict 3D TranslateZ Stacking to Eliminate GPU Z-Fighting Flickering */
@@ -601,6 +599,7 @@ section.spotlight {
   z-index: 0;
   overflow: hidden;
   transform-style: preserve-3d;
+  contain: layout style;
 }
 
 /* Emerald Sunlight Shimmer Overlay */
@@ -647,6 +646,7 @@ section.spotlight {
   user-select: none;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  will-change: transform;
 }
 
 /* Strict 3D TranslateZ Stacking Contexts for Zero GPU Z-Fighting Flickering */
@@ -707,6 +707,7 @@ section.spotlight {
   z-index: 0;
   overflow: hidden;
   transform-style: preserve-3d;
+  contain: layout style;
 }
 
 /* Warm Twilight Lantern Light Shimmer Overlay */
@@ -753,6 +754,7 @@ section.spotlight {
   user-select: none;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  will-change: transform;
 }
 
 /* Strict 3D TranslateZ Stacking Contexts for Zero GPU Z-Fighting Flickering */
@@ -814,6 +816,7 @@ section.spotlight {
   z-index: 0;
   overflow: hidden;
   transform-style: preserve-3d;
+  contain: layout style;
 }
 
 /* Divine Crimson & Gold Sacred Light Burst Overlay */
@@ -860,6 +863,7 @@ section.spotlight {
   user-select: none;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  will-change: transform;
 }
 
 /* Strict 3D TranslateZ Stacking Contexts for Zero GPU Z-Fighting Flickering */
@@ -920,6 +924,7 @@ section.spotlight {
   z-index: 0;
   overflow: hidden;
   transform-style: preserve-3d;
+  contain: layout style;
 }
 
 /* Starlight & Fairy Light Glow Overlay */
@@ -966,6 +971,7 @@ section.spotlight {
   user-select: none;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  will-change: transform;
 }
 
 /* Strict 3D TranslateZ Stacking Contexts for Zero GPU Z-Fighting Flickering */
@@ -1042,6 +1048,9 @@ section.spotlight {
   border-radius: 12px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .spotlight-img-wrapper img {

@@ -476,11 +476,18 @@ if (spotlightImagesContainer) {
     const idx = parseInt(imageItem.dataset.globalIndex || "0", 10);
     const normalizedIndex = idx / (16 - 1);
     const imgWrapper = imageItem.querySelector(".spotlight-img-wrapper");
+    let cachedWidth = imgWrapper ? imgWrapper.offsetWidth : 0;
+
+    // Cache width on resize instead of reading on every scroll tick
+    window.addEventListener("resize", () => {
+      if (imgWrapper) cachedWidth = imgWrapper.offsetWidth;
+    });
 
     ScrollTrigger.create({
       trigger: imageItem,
       start: "top bottom",
       end: "bottom top",
+      fastScrollEnd: true,
       onUpdate: ({ progress }) => {
         const { base, flow, detail } = CONFIG.waves;
         const vw = window.innerWidth;
@@ -504,9 +511,8 @@ if (spotlightImagesContainer) {
           );
 
         if (imgWrapper) {
-          const wrapperWidth = imgWrapper.offsetWidth;
           const translateX =
-            (vw - wrapperWidth) / 2 -
+            (vw - cachedWidth) / 2 -
             vw * 0.05 +
             baseWave * vw * base.amp +
             flowWave * vw * flow.amp +
@@ -516,8 +522,10 @@ if (spotlightImagesContainer) {
           const clipAmount =
             Math.pow(centerOffset, CONFIG.clipPower) * CONFIG.clipMax;
 
-          imgWrapper.style.translate = `${translateX}px`;
-          imgWrapper.style.clipPath = `inset(0 ${clipAmount}% 0 ${clipAmount}%)`;
+          gsap.set(imgWrapper, {
+            x: translateX,
+            clipPath: `inset(0 ${clipAmount}% 0 ${clipAmount}%)`,
+          });
         }
       },
     });
