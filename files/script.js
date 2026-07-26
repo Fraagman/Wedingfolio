@@ -1107,21 +1107,26 @@ if (spotlightImagesContainer) {
       }
     }
 
-    // Function to trigger full-screen wipe transition curtain (with beating heart animation)
-    const triggerWipeOverlay = (onMidpoint) => {
+    let transitionStoryCounter = 0;
+
+    // Function to trigger full-screen wipe transition curtain (displaying transitionstory 1.png to 6.png in numerical order)
+    const triggerWipeOverlay = (onMidpoint, storyNum = 1) => {
       const wipeEl = document.querySelector(".page-transition-wipe");
-      const heartEl = document.querySelector(".wipe-heart");
+      const storyImgEl = document.querySelector(".wipe-story-img");
       if (!wipeEl) {
         if (onMidpoint) onMidpoint();
         return;
       }
 
-      gsap.killTweensOf([wipeEl, heartEl]);
-      const tl = gsap.timeline();
-
-      if (heartEl) {
-        gsap.set(heartEl, { scale: 0, opacity: 0 });
+      // Format numerical image index (1.png to 6.png)
+      const validStoryNum = ((storyNum - 1) % 6) + 1;
+      if (storyImgEl) {
+        storyImgEl.src = `/transitionstory/${validStoryNum}.png`;
+        gsap.set(storyImgEl, { scale: 0.7, opacity: 0 });
       }
+
+      gsap.killTweensOf([wipeEl, storyImgEl]);
+      const tl = gsap.timeline();
 
       // Wipe IN: clip-path expands vertically from bottom (0% 100%) to full screen (0% 0%)
       tl.fromTo(
@@ -1137,31 +1142,31 @@ if (spotlightImagesContainer) {
         }
       );
 
-      // Pop beating heart into center
-      if (heartEl) {
+      // Animate transition story image into view
+      if (storyImgEl) {
         tl.to(
-          heartEl,
+          storyImgEl,
           {
             scale: 1,
             opacity: 1,
             duration: 0.35,
-            ease: "back.out(2)",
+            ease: "power3.out",
           },
           "-=0.25"
         );
       }
 
-      // Hide heart before wipe out completes
-      if (heartEl) {
+      // Fade out story image before wipe curtain collapses away
+      if (storyImgEl) {
         tl.to(
-          heartEl,
+          storyImgEl,
           {
-            scale: 0,
+            scale: 1.08,
             opacity: 0,
             duration: 0.25,
             ease: "power2.in",
           },
-          "+=0.1"
+          "+=0.15"
         );
       }
 
@@ -1176,8 +1181,8 @@ if (spotlightImagesContainer) {
             gsap.set(wipeEl, {
               clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
             });
-            if (heartEl) {
-              gsap.set(heartEl, { scale: 0, opacity: 0 });
+            if (storyImgEl) {
+              gsap.set(storyImgEl, { scale: 0, opacity: 0 });
             }
             ScrollTrigger.refresh();
           },
@@ -1258,11 +1263,14 @@ if (spotlightImagesContainer) {
           isSectionTransitioning = false;
         }, 1050);
       } else {
-        // Wipe transition overlay with beating heart when scrolling down to wedding ceremony sections
+        transitionStoryCounter++;
+        const storyNum = targetIdx >= 2 ? targetIdx - 1 : transitionStoryCounter;
+
+        // Wipe transition overlay with numerical story image (1.png to 6.png)
         triggerWipeOverlay(() => {
           window.scrollTo({ top: targetY, behavior: "instant" });
           lenis.scrollTo(targetY, { immediate: true });
-        });
+        }, storyNum);
 
         setTimeout(() => {
           isSectionTransitioning = false;
