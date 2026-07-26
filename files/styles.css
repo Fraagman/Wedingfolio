@@ -582,7 +582,7 @@ section.spotlight {
   pointer-events: none;
   z-index: 1;
   transform: translateZ(5px);
-  animation: weddingSunbeamPulse 4.4s ease-in-out infinite alternate;
+  animation: weddingSunbeamPulse 2.8s ease-in-out infinite alternate;
 }
 
 @keyframes weddingSunbeamPulse {
@@ -644,8 +644,108 @@ section.spotlight {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 20px rgba(235, 175, 110, 0.15);
 }
 
+/* RECEPTION CEREMONY SCENIC LAYERED BACKGROUND & 3D PARALLAX */
 .function-section#reception {
-  background: linear-gradient(180deg, #eaede8 0%, #dbded7 100%);
+  position: relative;
+  width: 100%;
+  min-height: 125vh;
+  min-height: 125dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 1.25rem;
+  overflow: hidden;
+  background: #0b101d;
+  border-bottom: none;
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
+
+.reception-scene-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Starlight & Fairy Light Glow Overlay */
+.reception-sunbeam {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120vw;
+  height: 70vh;
+  background: radial-gradient(circle at 50% 30%, rgba(235, 205, 130, 0.35) 0%, rgba(160, 130, 210, 0.14) 45%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+  transform: translateZ(5px);
+  animation: receptionSunbeamPulse 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes receptionSunbeamPulse {
+  0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1.06); }
+}
+
+/* Floating Starlight Sparkles & Champagne Particles Canvas Layer */
+.reception-particles-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  transform: translateZ(35px);
+}
+
+.reception-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Strict 3D TranslateZ Stacking Contexts for Zero GPU Z-Fighting Flickering */
+.reception-layer.layer-base { z-index: 0; opacity: 0.95; transform-origin: center center; transform: translateZ(0px); }
+.reception-layer.layer-arch-left { z-index: 1; transform-origin: bottom left; transform: translateZ(10px); }
+.reception-layer.layer-birdcage-right { z-index: 2; transform-origin: bottom right; transform: translateZ(18px); }
+.reception-layer.layer-couch-lounge { z-index: 2; transform-origin: center bottom; transform: translateZ(25px); }
+.reception-layer.layer-canopy-left { z-index: 4; transform-origin: top left; transform: translateZ(40px); }
+.reception-layer.layer-canopy-right { z-index: 4; transform-origin: top right; transform: translateZ(42px); }
+.reception-layer.layer-lanterns-left { z-index: 5; transform-origin: top left; transform: translateZ(48px); }
+.reception-layer.layer-flowers-right { z-index: 5; transform-origin: top right; transform: translateZ(50px); }
+.reception-layer.layer-fg-bushes { z-index: 5; transform-origin: bottom left; transform: translateZ(55px); }
+
+/* Reception Invitation Card Layering & Translucent Midnight Glassmorphism */
+.function-section#reception .function-badge,
+.function-section#reception .spotlight-image,
+.function-section#reception .spotlight-text.invitation-card {
+  position: relative;
+  z-index: 3;
+  transform: translateZ(30px);
+}
+
+.function-section#reception .spotlight-text.invitation-card {
+  background: rgba(10, 16, 28, 0.42);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(235, 205, 130, 0.45);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45), 0 0 20px rgba(235, 205, 130, 0.15);
 }
 
 .function-badge {
@@ -849,7 +949,8 @@ section.spotlight {
   .function-section#haldi,
   .function-section#mehendi,
   .function-section#sangeet,
-  .function-section#wedding {
+  .function-section#wedding,
+  .function-section#reception {
     min-height: 125vh;
     min-height: 125dvh;
     padding: 5rem 1rem;
@@ -859,7 +960,8 @@ section.spotlight {
   .haldi-layer,
   .mehendi-layer,
   .sangeet-layer,
-  .wedding-layer {
+  .wedding-layer,
+  .reception-layer {
     object-fit: cover;
     object-position: center center;
   }

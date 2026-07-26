@@ -231,7 +231,7 @@ const FUNCTIONS_DATA = [
   },
   {
     id: "reception",
-    badge: "05 — GRAND RECEPTION",
+    badge: "",
     title: "Reception",
     tagline: "An enchanting evening of fine dining, music & toasts",
     day: "FRI",
@@ -344,6 +344,26 @@ if (spotlightImagesContainer) {
         <img src="/wedding-bg/9.png" class="wedding-layer layer-canopy-right" alt="" />
         <img src="/wedding-bg/6.png" class="wedding-layer layer-flowers-left" alt="" />
         <img src="/wedding-bg/11.png" class="wedding-layer layer-fg-flowers" alt="" />
+      `;
+      sectionEl.appendChild(bgScene);
+    }
+
+    // Inject Reception Scenic Layered Background for Reception Section
+    if (func.id === "reception") {
+      const bgScene = document.createElement("div");
+      bgScene.classList.add("reception-scene-bg");
+      bgScene.innerHTML = `
+        <img src="/reception-bg/2.png" class="reception-layer layer-base" alt="" />
+        <div class="reception-sunbeam"></div>
+        <img src="/reception-bg/3.png" class="reception-layer layer-arch-left" alt="" />
+        <img src="/reception-bg/5.png" class="reception-layer layer-birdcage-right" alt="" />
+        <img src="/reception-bg/10.png" class="reception-layer layer-couch-lounge" alt="" />
+        <canvas id="reception-particles-canvas" class="reception-particles-layer"></canvas>
+        <img src="/reception-bg/8.png" class="reception-layer layer-canopy-left" alt="" />
+        <img src="/reception-bg/9.png" class="reception-layer layer-canopy-right" alt="" />
+        <img src="/reception-bg/7.png" class="reception-layer layer-lanterns-left" alt="" />
+        <img src="/reception-bg/6.png" class="reception-layer layer-flowers-right" alt="" />
+        <img src="/reception-bg/4.png" class="reception-layer layer-fg-bushes" alt="" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -1155,52 +1175,66 @@ if (spotlightImagesContainer) {
     }
   }
 
-  // --- WEDDING SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
+  // --- WEDDING SCENE DYNAMIC ORGANIC WIND & HIGH-MOTION 3D PARALLAX ANIMATION ---
   const weddingSection = document.querySelector("#wedding");
   if (weddingSection) {
-    // 1. CONTINUOUS IDLE BREEZE (TEMPLE BELLS, CANOPY & FLORAL PARASOL SWAYING IN THE WIND)
+    // 1. CONTINUOUS EXPRESSIVE IDLE BREEZE (TEMPLE BELLS, CANOPY & FLORAL PARASOL SWAYING)
+    // Top Left Branch with Temple Bells: Wide pendulum sway
     gsap.to("#wedding .layer-canopy-left", {
-      rotation: 2.5,
-      xPercent: 1.5,
-      duration: 3.8,
+      rotation: 6.0,
+      xPercent: 3.2,
+      duration: 3.2,
       yoyo: true,
       repeat: -1,
       ease: "sine.inOut",
     });
 
+    // Top Right Crimson Royal Umbrella / Chatri: Flutter sway
     gsap.to("#wedding .layer-canopy-right", {
-      rotation: -2.8,
-      xPercent: -1.8,
-      duration: 4.2,
+      rotation: -4.5,
+      yPercent: 2.5,
+      duration: 3.8,
       delay: 0.2,
       yoyo: true,
       repeat: -1,
       ease: "sine.inOut",
     });
 
+    // Royal Floral Parasol & Brass Lamp: Floating sway
     gsap.to("#wedding .layer-parasol-right", {
-      rotation: -1.8,
-      xPercent: -1.2,
-      duration: 4.5,
+      rotation: -4.0,
+      xPercent: -2.5,
+      duration: 4.2,
       delay: 0.3,
       yoyo: true,
       repeat: -1,
       ease: "sine.inOut",
     });
 
+    // Right Tropical Banana Tree Leaves: Leaf rustle
     gsap.to("#wedding .layer-banana-leaves", {
-      rotation: 2.2,
-      xPercent: 1.5,
-      duration: 4.0,
+      rotation: 4.5,
+      xPercent: 2.5,
+      duration: 3.6,
       yoyo: true,
       repeat: -1,
       ease: "sine.inOut",
     });
 
-    // 2. SCROLL-DRIVEN MOTION (LOCKED IN POSITION WITH ORGANIC ROTATION & FRAMING)
-    // Base Scenic Background: Subtle scale zoom inside container
+    // Left Floral Bushes & Brass Diya: Foliage rustle
+    gsap.to("#wedding .layer-flowers-left", {
+      rotation: -3.0,
+      xPercent: -1.8,
+      duration: 4.5,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 2. HIGH-MOTION SCROLL-DRIVEN MULTI-AXIS PARALLAX
+    // Base Sacred Ivory Scene: Zoom depth on scroll
     gsap.to("#wedding .layer-base", {
-      scale: 1.05,
+      scale: 1.08,
       ease: "none",
       scrollTrigger: {
         trigger: weddingSection,
@@ -1210,32 +1244,9 @@ if (spotlightImagesContainer) {
       },
     });
 
-    // Carved Marble Mandap Arch: Subtle focal framing
+    // Carved Marble Mandap Arch: Focal depth expansion
     gsap.to("#wedding .layer-mandap-arch", {
-      scale: 1.03,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Mandap Altar Platform: Grounded foreground presentation
-    gsap.to("#wedding .layer-mandap-platform", {
-      scale: 1.02,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Top Left Branch with Temple Bells: Tilts inward on scroll
-    gsap.to("#wedding .layer-canopy-left", {
+      scale: 1.06,
       rotation: 4,
       xPercent: 2.5,
       ease: "none",
@@ -1247,10 +1258,10 @@ if (spotlightImagesContainer) {
       },
     });
 
-    // Top Right Crimson Royal Umbrella: Tilts inward on scroll
-    gsap.to("#wedding .layer-canopy-right", {
-      rotation: -4,
-      xPercent: -2.5,
+    // Mandap Altar Platform: Grounded foreground presentation
+    gsap.to("#wedding .layer-mandap-platform", {
+      scale: 1.04,
+      yPercent: -2,
       ease: "none",
       scrollTrigger: {
         trigger: weddingSection,
@@ -1260,9 +1271,75 @@ if (spotlightImagesContainer) {
       },
     });
 
-    // Foreground Marigold Garlands: Grounded foreground presentation
+    // Top Left Branch with Temple Bells: Wide sway on scroll
+    gsap.to("#wedding .layer-canopy-left", {
+      rotation: -8,
+      xPercent: -5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Top Right Crimson Royal Umbrella: Reaches inward on scroll
+    gsap.to("#wedding .layer-canopy-right", {
+      rotation: 7,
+      xPercent: 4.5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Royal Floral Parasol & Brass Lamp: Opens outward on scroll
+    gsap.to("#wedding .layer-parasol-right", {
+      rotation: 6.5,
+      xPercent: 3.5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Right Tropical Banana Tree Leaves: Tilts outward on scroll
+    gsap.to("#wedding .layer-banana-leaves", {
+      rotation: -7,
+      xPercent: -4,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Left Floral Bushes & Brass Diya: Tilts outward on scroll
+    gsap.to("#wedding .layer-flowers-left", {
+      rotation: -5,
+      xPercent: -3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: weddingSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Foreground Marigold Garlands: Foreground depth slide
     gsap.to("#wedding .layer-fg-flowers", {
-      scale: 1.03,
+      scale: 1.08,
+      yPercent: -4,
       ease: "none",
       scrollTrigger: {
         trigger: weddingSection,
@@ -1275,7 +1352,7 @@ if (spotlightImagesContainer) {
     // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
     gsap.fromTo(
       "#wedding .spotlight-text.invitation-card",
-      { y: 35, opacity: 0.85, scale: 0.96 },
+      { y: 40, opacity: 0.85, scale: 0.94 },
       {
         y: 0,
         opacity: 1,
@@ -1291,14 +1368,14 @@ if (spotlightImagesContainer) {
     );
 
     gsap.to("#wedding .spotlight-text.invitation-card", {
-      y: -6,
-      duration: 3,
+      y: -8,
+      duration: 2.8,
       yoyo: true,
       repeat: -1,
       ease: "sine.inOut",
     });
 
-    // 4. FLOATING SACRED RICE & ROSE PETAL PARTICLES
+    // 4. FLOATING SACRED RICE & ROSE PETAL PARTICLES (HIGH DENSITY)
     const wCanvas = document.getElementById("wedding-particles-canvas");
     if (wCanvas) {
       const ctx = wCanvas.getContext("2d");
@@ -1314,18 +1391,18 @@ if (spotlightImagesContainer) {
       window.addEventListener("resize", updateCanvasSize);
 
       const particles = [];
-      const particleCount = 28;
+      const particleCount = 42;
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: Math.random() * 2.5 + 0.8,
-          color: Math.random() > 0.4 ? "rgba(240, 160, 140, " : "rgba(255, 215, 120, ",
-          alpha: Math.random() * 0.55 + 0.25,
-          speedY: -(Math.random() * 0.45 + 0.2),
-          speedX: Math.random() * 0.4 - 0.2,
-          oscillationSpeed: Math.random() * 0.03 + 0.01,
+          radius: Math.random() * 2.8 + 0.8,
+          color: Math.random() > 0.35 ? "rgba(240, 160, 140, " : "rgba(255, 215, 120, ",
+          alpha: Math.random() * 0.65 + 0.25,
+          speedY: -(Math.random() * 0.7 + 0.3),
+          speedX: Math.random() * 0.8 - 0.4,
+          oscillationSpeed: Math.random() * 0.04 + 0.015,
           angle: Math.random() * Math.PI * 2,
         });
       }
@@ -1334,7 +1411,7 @@ if (spotlightImagesContainer) {
         ctx.clearRect(0, 0, width, height);
         particles.forEach((p) => {
           p.angle += p.oscillationSpeed;
-          p.x += Math.sin(p.angle) * 0.35 + p.speedX;
+          p.x += Math.sin(p.angle) * 0.55 + p.speedX;
           p.y += p.speedY;
 
           if (p.y < -10) {
@@ -1345,13 +1422,280 @@ if (spotlightImagesContainer) {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
           ctx.fillStyle = p.color + p.alpha + ")";
-          ctx.shadowBlur = 6;
-          ctx.shadowColor = "rgba(240, 160, 140, 0.7)";
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = "rgba(240, 160, 140, 0.85)";
           ctx.fill();
         });
         requestAnimationFrame(renderWeddingParticles);
       }
       renderWeddingParticles();
+    }
+  }
+
+  // --- RECEPTION SCENE DYNAMIC ORGANIC WIND & HIGH-MOTION 3D PARALLAX ANIMATION ---
+  const receptionSection = document.querySelector("#reception");
+  if (receptionSection) {
+    // 1. CONTINUOUS EXPRESSIVE IDLE BREEZE & LANTERN SWAYING
+    // Left Hanging Moroccan Lanterns: Wide pendulum swing
+    gsap.to("#reception .layer-lanterns-left", {
+      rotation: 6.5,
+      xPercent: 3.5,
+      duration: 3.2,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // Top Left Tree Branch & Fairy Lights: Continuous wind sway
+    gsap.to("#reception .layer-canopy-left", {
+      rotation: -5.0,
+      xPercent: -3.0,
+      duration: 3.8,
+      delay: 0.2,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // Top Right Silk Drapes & String Lights: Gentle flutter sway
+    gsap.to("#reception .layer-canopy-right", {
+      rotation: 4.0,
+      yPercent: 3.0,
+      duration: 3.5,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // Right Hanging Floral Cluster & Crystals: Dangling shimmer motion
+    gsap.to("#reception .layer-flowers-right", {
+      rotation: -4.5,
+      yPercent: 2.5,
+      duration: 4.2,
+      delay: 0.1,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // Right Golden Birdcage Structure: Floating sway
+    gsap.to("#reception .layer-birdcage-right", {
+      rotation: 3.5,
+      xPercent: 2.0,
+      duration: 4.5,
+      delay: 0.3,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // Left Archway Screen & Potted Tree: Subtle foliage rustle
+    gsap.to("#reception .layer-arch-left", {
+      rotation: -2.8,
+      xPercent: -1.5,
+      duration: 4.6,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 2. HIGH-MOTION SCROLL-DRIVEN MULTI-AXIS PARALLAX
+    // Base Midnight Sky: Zoom depth on scroll
+    gsap.to("#reception .layer-base", {
+      scale: 1.08,
+      ease: "none",
+      scrollTrigger: {
+        trigger: receptionSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Royal Velvet Couch & Floor Mandala: Grounded focal presentation
+    gsap.to("#reception .layer-couch-lounge", {
+      scale: 1.05,
+      yPercent: -2,
+      ease: "none",
+      scrollTrigger: {
+        trigger: receptionSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Left Golden Arch Screen & Potted Tree: Opens outward on scroll
+    gsap.to("#reception .layer-arch-left", {
+      rotation: 5,
+      xPercent: 3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: receptionSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Golden Birdcage Structure: Opens outward on scroll
+    gsap.to("#reception .layer-birdcage-right", {
+      rotation: -6,
+      xPercent: -4,
+      ease: "none",
+      scrollTrigger: {
+        trigger: receptionSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Top Left Tree Branch & Fairy Lights: Reaches inward on scroll
+    gsap.to("#reception .layer-canopy-left", {
+      rotation: 8,
+      xPercent: 5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: receptionSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Top Right Silk Drapes & String Lights: Reaches inward on scroll
+    gsap.to("#reception .layer-canopy-right", {
+      rotation: -7,
+      xPercent: -4,
+      ease: "none",
+      scrollTrigger: {
+        trigger: receptionSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Left Moroccan Lanterns: Wide pendulum sway on scroll
+    gsap.to("#reception .layer-lanterns-left", {
+      rotation: -8,
+      xPercent: -5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: receptionSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Right Hanging Floral Cluster & Crystals: Dangles on scroll
+    gsap.to("#reception .layer-flowers-right", {
+      rotation: 6,
+      xPercent: 4,
+      ease: "none",
+      scrollTrigger: {
+        trigger: receptionSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // Foreground Bushes & Candelabras: Foreground depth slide
+    gsap.to("#reception .layer-fg-bushes", {
+      scale: 1.08,
+      yPercent: -4,
+      ease: "none",
+      scrollTrigger: {
+        trigger: receptionSection,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
+    gsap.fromTo(
+      "#reception .spotlight-text.invitation-card",
+      { y: 40, opacity: 0.85, scale: 0.94 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: receptionSection,
+          start: "top 80%",
+          end: "top 35%",
+          scrub: 1,
+        },
+      },
+    );
+
+    gsap.to("#reception .spotlight-text.invitation-card", {
+      y: -8,
+      duration: 2.8,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // 4. FLOATING STARLIGHT SPARKLES & CHAMPAGNE DUST PARTICLES (HIGH DENSITY)
+    const rCanvas = document.getElementById("reception-particles-canvas");
+    if (rCanvas) {
+      const ctx = rCanvas.getContext("2d");
+      let width = (rCanvas.width = receptionSection.offsetWidth);
+      let height = (rCanvas.height = receptionSection.offsetHeight);
+
+      const updateCanvasSize = () => {
+        if (rCanvas && receptionSection) {
+          width = rCanvas.width = receptionSection.offsetWidth;
+          height = rCanvas.height = receptionSection.offsetHeight;
+        }
+      };
+      window.addEventListener("resize", updateCanvasSize);
+
+      const particles = [];
+      const particleCount = 42;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 2.8 + 0.8,
+          color: Math.random() > 0.3 ? "rgba(235, 205, 130, " : "rgba(255, 245, 220, ",
+          alpha: Math.random() * 0.65 + 0.25,
+          speedY: -(Math.random() * 0.7 + 0.3),
+          speedX: Math.random() * 0.8 - 0.4,
+          oscillationSpeed: Math.random() * 0.04 + 0.015,
+          angle: Math.random() * Math.PI * 2,
+        });
+      }
+
+      function renderReceptionParticles() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach((p) => {
+          p.angle += p.oscillationSpeed;
+          p.x += Math.sin(p.angle) * 0.55 + p.speedX;
+          p.y += p.speedY;
+
+          if (p.y < -10) {
+            p.y = height + 10;
+            p.x = Math.random() * width;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ")";
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = "rgba(235, 205, 130, 0.85)";
+          ctx.fill();
+        });
+        requestAnimationFrame(renderReceptionParticles);
+      }
+      renderReceptionParticles();
     }
   }
 
