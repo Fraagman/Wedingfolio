@@ -34,7 +34,7 @@ const splitText = (selector, type, className, mask = true) => {
 
 splitText(".preloader-header h1", "chars", "char");
 splitText("nav a", "words", "word");
-splitText(".header h1", "chars", "char", false);
+splitText(".header h1", "words", "word", false);
 splitText(".hero-footer p", "words", "word");
 
 const preloaderImgInitRotations = [7.5, -2.5, -10, 12.5, -5, 5];
@@ -143,12 +143,12 @@ tl.to(
 );
 
 tl.to(
-  ".header h1 .char",
+  ".header h1 .word",
   {
     y: "0%",
     duration: 1,
     ease: "hop",
-    stagger: { each: 0.075, from: "random" },
+    stagger: 0.1,
   },
   4.65,
 );
@@ -1821,17 +1821,18 @@ if (spotlightImagesContainer) {
         }
       );
 
-      const introH1 = introSection.querySelector("h1");
+      const introH1 = introSection.querySelector(".intro-welcome-title");
       if (introH1) {
-        splitText(introH1, "chars", "char");
+        splitText(introH1, "words", "word", false);
         gsap.fromTo(
-          introH1.querySelectorAll(".char"),
-          { y: "150%" },
+          introH1.querySelectorAll(".word"),
+          { y: "120%", opacity: 0 },
           {
             y: "0%",
+            opacity: 1,
             duration: 1,
-            stagger: 0.04,
-            ease: "power4.out",
+            stagger: 0.1,
+            ease: "power3.out",
             scrollTrigger: {
               trigger: ".intro",
               start: "top 75%",

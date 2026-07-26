@@ -270,15 +270,17 @@ section.intro {
 
 .intro-welcome-title {
   font-family: "Great Vibes", cursive;
-  font-size: clamp(2.1rem, 5vw, 4.2rem);
+  font-size: clamp(1.8rem, 4.5vw, 3.8rem);
   font-weight: 400;
   color: #4a121a;
-  line-height: 1.35;
+  line-height: 1.45;
   margin-bottom: 1.25rem;
   text-transform: none;
-  word-break: normal;
-  overflow-wrap: break-word;
-  padding: 0.2rem 0;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  white-space: normal;
+  padding: 0.4rem 0.5rem;
+  overflow: visible;
 }
 
 .intro-welcome-text {
@@ -1220,6 +1222,15 @@ section.spotlight {
     width: calc(100vw - 2.5rem);
     max-width: 325px;
     padding: 2rem 1.35rem;
+  }
+
+  .intro-welcome-card {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .intro-welcome-title {
+    font-size: clamp(1.7rem, 6.5vw, 2.5rem);
+    line-height: 1.45;
   }
 }
 
