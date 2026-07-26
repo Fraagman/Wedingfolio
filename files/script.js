@@ -180,10 +180,10 @@ const FUNCTIONS_DATA = [
   {
     id: "haldi",
     badge: "",
-    title: "Haldi",
-    tagline: "A golden splash of turmeric, laughter & family blessings",
+    title: "Haldi Ceremony",
+    tagline: "A golden splash of turmeric, laughter & family blessings for Maheen & Tanvi",
     day: "MON",
-    date: "June 2 2026",
+    date: "June 2 2027",
     time: "10:00 AM onwards",
     venue: "Courtyard Villa Lawn",
     dressSub: "Shades of Sun & Gold",
@@ -193,10 +193,10 @@ const FUNCTIONS_DATA = [
   {
     id: "mehendi",
     badge: "",
-    title: "Mehendi",
-    tagline: "An afternoon of intricate henna, music & vibrant color",
+    title: "Mehendi Night",
+    tagline: "An afternoon of intricate henna, music & vibrant colors celebrating Maheen & Tanvi",
     day: "TUE",
-    date: "June 3 2026",
+    date: "June 3 2027",
     time: "03:00 PM onwards",
     venue: "Mango Grove Garden",
     dressSub: "Vibrant Festive Shades",
@@ -206,23 +206,23 @@ const FUNCTIONS_DATA = [
   {
     id: "sangeet",
     badge: "",
-    title: "Sangeet",
-    tagline: "A playful night of sangeet and cultural festivities",
+    title: "Sangeet Night",
+    tagline: "A magical night of dance, music & celebration with Maheen & Tanvi",
     day: "WED",
-    date: "June 4 2026",
+    date: "June 4 2027",
     time: "07:30 PM onwards",
     venue: "Uttar Garden Lawn",
-    dressSub: "Embracing the charm of Gujarati heritage",
-    dressDetail: "Bandhani, Patola, Leheriya or Kutchi Mirrorwork",
+    dressSub: "Embracing Heritage & Glamour",
+    dressDetail: "Bandhani, Patola, Leheriya or Mirrorwork Ethnic Wear",
     images: [],
   },
   {
     id: "wedding",
     badge: "",
-    title: "Wedding",
-    tagline: "A sacred union under divine blessings & holy fire",
+    title: "Wedding Ceremony",
+    tagline: "The sacred union of Maheen & Tanvi under divine blessings & holy fire",
     day: "THU",
-    date: "June 5 2026",
+    date: "June 5 2027",
     time: "05:00 PM onwards",
     venue: "The Royal Palace Mandap",
     dressSub: "Traditional Royal Elegance",
@@ -232,13 +232,13 @@ const FUNCTIONS_DATA = [
   {
     id: "reception",
     badge: "",
-    title: "Reception",
-    tagline: "An enchanting evening of fine dining, music & toasts",
+    title: "Grand Reception",
+    tagline: "An enchanting evening celebrating the new journey of Maheen & Tanvi",
     day: "FRI",
-    date: "June 6 2026",
+    date: "June 6 2027",
     time: "08:00 PM onwards",
     venue: "Grand Imperial Ballroom",
-    dressSub: "Black Tie & Glamour",
+    dressSub: "Black Tie & Royal Glamour",
     dressDetail: "Tuxedos, Evening Gowns or Designer Lehengas",
     images: [],
   },
@@ -1858,27 +1858,44 @@ if (spotlightImagesContainer) {
           },
         }
       );
+    }
 
-      const outroH1 = outroSection.querySelector("h1");
-      if (outroH1) {
-        splitText(outroH1, "chars", "char");
-        gsap.fromTo(
-          outroH1.querySelectorAll(".char"),
-          { y: "150%" },
-          {
-            y: "0%",
-            duration: 1,
-            stagger: 0.04,
-            ease: "power4.out",
-            scrollTrigger: {
-              trigger: ".outro",
-              start: "top 75%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
+    // --- REAL-TIME WEDDING COUNTDOWN TIMER (June 2, 2027 10:00:00) ---
+    const weddingDate = new Date("2027-06-02T10:00:00+05:30").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      const daysEl = document.getElementById("countdown-days");
+      const hoursEl = document.getElementById("countdown-hours");
+      const minsEl = document.getElementById("countdown-mins");
+      const secsEl = document.getElementById("countdown-secs");
+
+      if (distance > 0) {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        if (daysEl) daysEl.textContent = String(days).padStart(2, "0");
+        if (hoursEl) hoursEl.textContent = String(hours).padStart(2, "0");
+        if (minsEl) minsEl.textContent = String(minutes).padStart(2, "0");
+        if (secsEl) secsEl.textContent = String(seconds).padStart(2, "0");
+      } else {
+        if (daysEl) {
+          const titleEl = document.querySelector(".outro-title");
+          if (titleEl) titleEl.textContent = "The Big Day Is Here!";
+          if (daysEl) daysEl.textContent = "00";
+          if (hoursEl) hoursEl.textContent = "00";
+          if (minsEl) minsEl.textContent = "00";
+          if (secsEl) secsEl.textContent = "00";
+        }
       }
     }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
     let transitionStoryCounter = 0;
 
