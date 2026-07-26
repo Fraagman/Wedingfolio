@@ -234,12 +234,11 @@ section.intro {
   max-width: 720px;
   width: 100%;
   padding: 3.5rem 2rem;
-  background: rgba(255, 252, 247, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(212, 175, 55, 0.45);
-  border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(74, 18, 26, 0.08), 0 0 25px rgba(212, 175, 55, 0.15);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -329,12 +328,11 @@ section.outro {
   max-width: 800px;
   width: 100%;
   padding: 3.5rem 2.5rem;
-  background: rgba(255, 252, 247, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(212, 175, 55, 0.45);
-  border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(74, 18, 26, 0.08), 0 0 25px rgba(212, 175, 55, 0.15);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -377,11 +375,10 @@ section.outro {
   align-items: center;
   justify-content: center;
   min-width: 80px;
-  padding: 0.9rem 0.8rem;
-  background: rgba(74, 18, 26, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 16px;
-  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.1);
+  padding: 0.5rem 0.6rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .countdown-number {
@@ -553,19 +550,21 @@ section.spotlight {
 
 /* Haldi Section Content Layering */
 .function-section#haldi .function-badge,
-.function-section#haldi .spotlight-image,
-.function-section#haldi .spotlight-text.invitation-card {
+.function-section#haldi .spotlight-image {
   position: relative;
   z-index: 3;
   transform: translateZ(30px);
 }
 
 .function-section#haldi .spotlight-text.invitation-card {
-  background: rgba(12, 16, 22, 0.28);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1.5px solid rgba(245, 215, 110, 0.45);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 20px rgba(245, 215, 110, 0.15);
+  position: relative;
+  z-index: 10;
+  transform: none;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
 }
 
 /* MEHENDI CEREMONY SCENIC LAYERED BACKGROUND & 3D PARALLAX */
@@ -661,21 +660,23 @@ section.spotlight {
 .mehendi-layer.layer-fg-grass { z-index: 5; transform-origin: bottom center; transform: translateZ(50px); }
 .mehendi-layer.layer-floor-mandala { z-index: 5; transform-origin: bottom center; transform: translateZ(55px); }
 
-/* Mehendi Invitation Card Layering & Translucent Glassmorphism */
+/* Mehendi Invitation Card Layering */
 .function-section#mehendi .function-badge,
-.function-section#mehendi .spotlight-image,
-.function-section#mehendi .spotlight-text.invitation-card {
+.function-section#mehendi .spotlight-image {
   position: relative;
   z-index: 3;
   transform: translateZ(30px);
 }
 
 .function-section#mehendi .spotlight-text.invitation-card {
-  background: rgba(14, 28, 20, 0.32);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1.5px solid rgba(160, 215, 140, 0.45);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 20px rgba(160, 215, 140, 0.15);
+  position: relative;
+  z-index: 10;
+  transform: none;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
 }
 
 /* SANGEET CEREMONY SCENIC LAYERED BACKGROUND & 3D PARALLAX */
@@ -766,21 +767,23 @@ section.spotlight {
 .sangeet-layer.layer-tabla { z-index: 5; transform-origin: bottom center; transform: translateZ(52px); }
 .sangeet-layer.layer-mic { z-index: 5; transform-origin: bottom right; transform: translateZ(54px); }
 
-/* Sangeet Invitation Card Layering & Translucent Royal Glassmorphism */
+/* Sangeet Invitation Card Layering */
 .function-section#sangeet .function-badge,
-.function-section#sangeet .spotlight-image,
-.function-section#sangeet .spotlight-text.invitation-card {
+.function-section#sangeet .spotlight-image {
   position: relative;
   z-index: 3;
   transform: translateZ(30px);
 }
 
 .function-section#sangeet .spotlight-text.invitation-card {
-  background: rgba(30, 16, 24, 0.32);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1.5px solid rgba(245, 195, 120, 0.45);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 20px rgba(245, 195, 120, 0.15);
+  position: relative;
+  z-index: 10;
+  transform: none;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
 }
 
 /* WEDDING CEREMONY SCENIC LAYERED BACKGROUND & 3D PARALLAX */
@@ -870,21 +873,23 @@ section.spotlight {
 .wedding-layer.layer-flowers-left { z-index: 5; transform-origin: bottom left; transform: translateZ(50px); }
 .wedding-layer.layer-fg-flowers { z-index: 5; transform-origin: bottom center; transform: translateZ(55px); }
 
-/* Wedding Invitation Card Layering & Translucent Royal Glassmorphism */
+/* Wedding Invitation Card Layering */
 .function-section#wedding .function-badge,
-.function-section#wedding .spotlight-image,
-.function-section#wedding .spotlight-text.invitation-card {
+.function-section#wedding .spotlight-image {
   position: relative;
   z-index: 3;
   transform: translateZ(30px);
 }
 
 .function-section#wedding .spotlight-text.invitation-card {
-  background: rgba(36, 12, 16, 0.35);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1.5px solid rgba(235, 175, 110, 0.45);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 20px rgba(235, 175, 110, 0.15);
+  position: relative;
+  z-index: 10;
+  transform: none;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
 }
 
 /* RECEPTION CEREMONY SCENIC LAYERED BACKGROUND & 3D PARALLAX */
@@ -974,21 +979,23 @@ section.spotlight {
 .reception-layer.layer-flowers-right { z-index: 5; transform-origin: top right; transform: translateZ(50px); }
 .reception-layer.layer-fg-bushes { z-index: 5; transform-origin: bottom left; transform: translateZ(55px); }
 
-/* Reception Invitation Card Layering & Translucent Midnight Glassmorphism */
+/* Reception Invitation Card Layering */
 .function-section#reception .function-badge,
-.function-section#reception .spotlight-image,
-.function-section#reception .spotlight-text.invitation-card {
+.function-section#reception .spotlight-image {
   position: relative;
   z-index: 3;
   transform: translateZ(30px);
 }
 
 .function-section#reception .spotlight-text.invitation-card {
-  background: rgba(10, 16, 28, 0.42);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1.5px solid rgba(235, 205, 130, 0.45);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45), 0 0 20px rgba(235, 205, 130, 0.15);
+  position: relative;
+  z-index: 10;
+  transform: none;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
 }
 
 .function-badge {
@@ -1049,41 +1056,43 @@ section.spotlight {
   align-items: center;
   text-align: center;
   width: calc(100vw - 2.5rem);
-  max-width: 325px;
+  max-width: 360px;
   flex-shrink: 0;
-  padding: 2.25rem 1.75rem;
-  background: rgba(10, 14, 20, 0.30);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  padding: 2rem 1rem 2.5rem 1rem;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
   color: #ffffff;
   box-sizing: border-box;
   margin: 0 auto;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
+  overflow: visible;
 }
 
 .card-function-title {
   font-family: "Great Vibes", cursive;
-  font-size: clamp(2.6rem, 5vw, 3.25rem);
+  font-size: clamp(2.8rem, 5.5vw, 3.6rem);
   font-weight: 400;
   color: #ffffff;
-  line-height: 1.25;
+  line-height: 1.35;
   margin-bottom: 0.75rem;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  padding: 0.25em 0.15em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55), 0 4px 25px rgba(0, 0, 0, 0.3);
+  overflow: visible;
 }
 
 .card-tagline {
   font-family: "Cormorant Garamond", serif;
-  font-size: 1.05rem;
-  font-weight: 400;
-  color: #ded8cb;
-  line-height: 1.35;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.5;
   margin-bottom: 1.35rem;
   max-width: 95%;
+  padding: 0.1em 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 4px 20px rgba(0, 0, 0, 0.25);
+  overflow: visible;
 }
 
 .card-event-details {
@@ -1097,33 +1106,37 @@ section.spotlight {
 
 .card-day {
   font-family: "Cormorant Garamond", serif;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #e0dad0;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .card-date {
   font-family: "Cormorant Garamond", serif;
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-weight: 600;
   color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .card-time {
   font-family: "Cormorant Garamond", serif;
-  font-size: 1.05rem;
-  font-weight: 400;
-  color: #dcd6c8;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .card-venue {
   font-family: "Cormorant Garamond", serif;
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #ffffff;
   margin-top: 0.15rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .card-dress-code {
@@ -1131,9 +1144,12 @@ section.spotlight {
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 4px 20px rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
   padding-top: 1.15rem;
+  padding-bottom: 0.5rem;
   width: 100%;
+  overflow: visible;
 }
 
 .dress-code-header {
@@ -1271,7 +1287,6 @@ section.spotlight {
 }
 
 /* Text Masking & Clip Paths for Smooth Reveal Transitions */
-.card-function-title,
 .intro h1,
 .outro h1,
 .nav-links a {

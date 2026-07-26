@@ -273,16 +273,16 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("haldi-scene-bg");
       bgScene.innerHTML = `
-        <img src="/haldi-bg/10.png" class="haldi-layer layer-base" alt="" />
+        <img src="/haldi-bg/10.webp" class="haldi-layer layer-base" alt="" />
         <div class="haldi-sunbeam"></div>
-        <img src="/haldi-bg/6.png" class="haldi-layer layer-tree-left" alt="" />
-        <img src="/haldi-bg/7.png" class="haldi-layer layer-arch" alt="" />
+        <img src="/haldi-bg/6.webp" class="haldi-layer layer-tree-left" alt="" />
+        <img src="/haldi-bg/7.webp" class="haldi-layer layer-arch" alt="" />
         <canvas id="haldi-particles-canvas" class="haldi-particles-layer"></canvas>
-        <img src="/haldi-bg/9.png" class="haldi-layer layer-branch-left" alt="" />
-        <img src="/haldi-bg/8.png" class="haldi-layer layer-branch-right" alt="" />
-        <img src="/haldi-bg/5.png" class="haldi-layer layer-leaves-left" alt="" />
-        <img src="/haldi-bg/4.png" class="haldi-layer layer-leaves-right" alt="" />
-        <img src="/haldi-bg/3.png" class="haldi-layer layer-haldi-bowl" alt="" />
+        <img src="/haldi-bg/9.webp" class="haldi-layer layer-branch-left" alt="" />
+        <img src="/haldi-bg/8.webp" class="haldi-layer layer-branch-right" alt="" />
+        <img src="/haldi-bg/5.webp" class="haldi-layer layer-leaves-left" alt="" />
+        <img src="/haldi-bg/4.webp" class="haldi-layer layer-leaves-right" alt="" />
+        <img src="/haldi-bg/3.webp" class="haldi-layer layer-haldi-bowl" alt="" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -292,17 +292,17 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("mehendi-scene-bg");
       bgScene.innerHTML = `
-        <img src="/mehendi-bg/2.png" class="mehendi-layer layer-base" alt="" />
+        <img src="/mehendi-bg/2.webp" class="mehendi-layer layer-base" alt="" />
         <div class="mehendi-sunbeam"></div>
-        <img src="/mehendi-bg/10.png" class="mehendi-layer layer-gazebo" alt="" />
-        <img src="/mehendi-bg/7.png" class="mehendi-layer layer-flowers-left" alt="" />
-        <img src="/mehendi-bg/6.png" class="mehendi-layer layer-foliage-right" alt="" />
+        <img src="/mehendi-bg/10.webp" class="mehendi-layer layer-gazebo" alt="" />
+        <img src="/mehendi-bg/7.webp" class="mehendi-layer layer-flowers-left" alt="" />
+        <img src="/mehendi-bg/6.webp" class="mehendi-layer layer-foliage-right" alt="" />
         <canvas id="mehendi-particles-canvas" class="mehendi-particles-layer"></canvas>
-        <img src="/mehendi-bg/5.png" class="mehendi-layer layer-canopy-left" alt="" />
-        <img src="/mehendi-bg/4.png" class="mehendi-layer layer-canopy-right" alt="" />
-        <img src="/mehendi-bg/3.png" class="mehendi-layer layer-canopy-center" alt="" />
-        <img src="/mehendi-bg/8.png" class="mehendi-layer layer-fg-grass" alt="" />
-        <img src="/mehendi-bg/9.png" class="mehendi-layer layer-floor-mandala" alt="" />
+        <img src="/mehendi-bg/5.webp" class="mehendi-layer layer-canopy-left" alt="" />
+        <img src="/mehendi-bg/4.webp" class="mehendi-layer layer-canopy-right" alt="" />
+        <img src="/mehendi-bg/3.webp" class="mehendi-layer layer-canopy-center" alt="" />
+        <img src="/mehendi-bg/8.webp" class="mehendi-layer layer-fg-grass" alt="" />
+        <img src="/mehendi-bg/9.webp" class="mehendi-layer layer-floor-mandala" alt="" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -312,18 +312,18 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("sangeet-scene-bg");
       bgScene.innerHTML = `
-        <img src="/sangeet-bg/2.png" class="sangeet-layer layer-base" alt="" />
+        <img src="/sangeet-bg/2.webp" class="sangeet-layer layer-base" alt="" />
         <div class="sangeet-sunbeam"></div>
-        <img src="/sangeet-bg/10.png" class="sangeet-layer layer-gazebo" alt="" />
-        <img src="/sangeet-bg/8.png" class="sangeet-layer layer-trees-left" alt="" />
-        <img src="/sangeet-bg/9.png" class="sangeet-layer layer-trees-right" alt="" />
-        <img src="/sangeet-bg/7.png" class="sangeet-layer layer-stage-arch" alt="" />
-        <img src="/sangeet-bg/4.png" class="sangeet-layer layer-stage-cushions" alt="" />
+        <img src="/sangeet-bg/10.webp" class="sangeet-layer layer-gazebo" alt="" />
+        <img src="/sangeet-bg/8.webp" class="sangeet-layer layer-trees-left" alt="" />
+        <img src="/sangeet-bg/9.webp" class="sangeet-layer layer-trees-right" alt="" />
+        <img src="/sangeet-bg/7.webp" class="sangeet-layer layer-stage-arch" alt="" />
+        <img src="/sangeet-bg/4.webp" class="sangeet-layer layer-stage-cushions" alt="" />
         <canvas id="sangeet-particles-canvas" class="sangeet-particles-layer"></canvas>
-        <img src="/sangeet-bg/11.png" class="sangeet-layer layer-hanging-canopy" alt="" />
-        <img src="/sangeet-bg/6.png" class="sangeet-layer layer-sitar" alt="" />
-        <img src="/sangeet-bg/3.png" class="sangeet-layer layer-tabla" alt="" />
-        <img src="/sangeet-bg/5.png" class="sangeet-layer layer-mic" alt="" />
+        <img src="/sangeet-bg/11.webp" class="sangeet-layer layer-hanging-canopy" alt="" />
+        <img src="/sangeet-bg/6.webp" class="sangeet-layer layer-sitar" alt="" />
+        <img src="/sangeet-bg/3.webp" class="sangeet-layer layer-tabla" alt="" />
+        <img src="/sangeet-bg/5.webp" class="sangeet-layer layer-mic" alt="" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -333,17 +333,17 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("wedding-scene-bg");
       bgScene.innerHTML = `
-        <img src="/wedding-bg/2.png" class="wedding-layer layer-base" alt="" />
+        <img src="/wedding-bg/2.webp" class="wedding-layer layer-base" alt="" />
         <div class="wedding-sunbeam"></div>
-        <img src="/wedding-bg/10.png" class="wedding-layer layer-mandap-platform" alt="" />
-        <img src="/wedding-bg/7.png" class="wedding-layer layer-mandap-arch" alt="" />
-        <img src="/wedding-bg/8.png" class="wedding-layer layer-parasol-right" alt="" />
-        <img src="/wedding-bg/5.png" class="wedding-layer layer-banana-leaves" alt="" />
+        <img src="/wedding-bg/10.webp" class="wedding-layer layer-mandap-platform" alt="" />
+        <img src="/wedding-bg/7.webp" class="wedding-layer layer-mandap-arch" alt="" />
+        <img src="/wedding-bg/8.webp" class="wedding-layer layer-parasol-right" alt="" />
+        <img src="/wedding-bg/5.webp" class="wedding-layer layer-banana-leaves" alt="" />
         <canvas id="wedding-particles-canvas" class="wedding-particles-layer"></canvas>
-        <img src="/wedding-bg/3.png" class="wedding-layer layer-canopy-left" alt="" />
-        <img src="/wedding-bg/9.png" class="wedding-layer layer-canopy-right" alt="" />
-        <img src="/wedding-bg/6.png" class="wedding-layer layer-flowers-left" alt="" />
-        <img src="/wedding-bg/11.png" class="wedding-layer layer-fg-flowers" alt="" />
+        <img src="/wedding-bg/3.webp" class="wedding-layer layer-canopy-left" alt="" />
+        <img src="/wedding-bg/9.webp" class="wedding-layer layer-canopy-right" alt="" />
+        <img src="/wedding-bg/6.webp" class="wedding-layer layer-flowers-left" alt="" />
+        <img src="/wedding-bg/11.webp" class="wedding-layer layer-fg-flowers" alt="" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -353,17 +353,17 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("reception-scene-bg");
       bgScene.innerHTML = `
-        <img src="/reception-bg/2.png" class="reception-layer layer-base" alt="" />
+        <img src="/reception-bg/2.webp" class="reception-layer layer-base" alt="" />
         <div class="reception-sunbeam"></div>
-        <img src="/reception-bg/3.png" class="reception-layer layer-arch-left" alt="" />
-        <img src="/reception-bg/5.png" class="reception-layer layer-birdcage-right" alt="" />
-        <img src="/reception-bg/10.png" class="reception-layer layer-couch-lounge" alt="" />
+        <img src="/reception-bg/3.webp" class="reception-layer layer-arch-left" alt="" />
+        <img src="/reception-bg/5.webp" class="reception-layer layer-birdcage-right" alt="" />
+        <img src="/reception-bg/10.webp" class="reception-layer layer-couch-lounge" alt="" />
         <canvas id="reception-particles-canvas" class="reception-particles-layer"></canvas>
-        <img src="/reception-bg/8.png" class="reception-layer layer-canopy-left" alt="" />
-        <img src="/reception-bg/9.png" class="reception-layer layer-canopy-right" alt="" />
-        <img src="/reception-bg/7.png" class="reception-layer layer-lanterns-left" alt="" />
-        <img src="/reception-bg/6.png" class="reception-layer layer-flowers-right" alt="" />
-        <img src="/reception-bg/4.png" class="reception-layer layer-fg-bushes" alt="" />
+        <img src="/reception-bg/8.webp" class="reception-layer layer-canopy-left" alt="" />
+        <img src="/reception-bg/9.webp" class="reception-layer layer-canopy-right" alt="" />
+        <img src="/reception-bg/7.webp" class="reception-layer layer-lanterns-left" alt="" />
+        <img src="/reception-bg/6.webp" class="reception-layer layer-flowers-right" alt="" />
+        <img src="/reception-bg/4.webp" class="reception-layer layer-fg-bushes" alt="" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -681,31 +681,42 @@ if (spotlightImagesContainer) {
       },
     });
 
-    // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
+    // 3. ELEGANT STABLE TEXT REVEAL (ZERO UP/DOWN BOBBING)
+    gsap.set("#haldi .spotlight-text.invitation-card", { y: 0 });
+
     gsap.fromTo(
-      "#haldi .spotlight-text.invitation-card",
-      { y: 35, opacity: 0.85, scale: 0.96 },
+      "#haldi .card-function-title",
+      { opacity: 0, scale: 0.94, y: 15 },
       {
-        y: 0,
         opacity: 1,
         scale: 1,
-        ease: "power2.out",
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: haldiSection,
-          start: "top 80%",
-          end: "top 35%",
-          scrub: 1,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
         },
-      },
+      }
     );
 
-    gsap.to("#haldi .spotlight-text.invitation-card", {
-      y: -6,
-      duration: 3,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    gsap.fromTo(
+      "#haldi .card-tagline, #haldi .card-event-details, #haldi .card-dress-code",
+      { opacity: 0, y: 12 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: haldiSection,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
+        },
+      }
+    );
 
     // 4. FLOATING GOLDEN TURMERIC DUST & MARIGOLD PETALS PARTICLES
     const canvas = document.getElementById("haldi-particles-canvas");
@@ -904,31 +915,42 @@ if (spotlightImagesContainer) {
       },
     });
 
-    // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
+    // 3. ELEGANT STABLE TEXT REVEAL (ZERO UP/DOWN BOBBING)
+    gsap.set("#mehendi .spotlight-text.invitation-card", { y: 0 });
+
     gsap.fromTo(
-      "#mehendi .spotlight-text.invitation-card",
-      { y: 35, opacity: 0.85, scale: 0.96 },
+      "#mehendi .card-function-title",
+      { opacity: 0, scale: 0.94, y: 15 },
       {
-        y: 0,
         opacity: 1,
         scale: 1,
-        ease: "power2.out",
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: mehendiSection,
-          start: "top 80%",
-          end: "top 35%",
-          scrub: 1,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
         },
-      },
+      }
     );
 
-    gsap.to("#mehendi .spotlight-text.invitation-card", {
-      y: -6,
-      duration: 3,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    gsap.fromTo(
+      "#mehendi .card-tagline, #mehendi .card-event-details, #mehendi .card-dress-code",
+      { opacity: 0, y: 12 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: mehendiSection,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
+        },
+      }
+    );
 
     // 4. FLOATING HENNA LEAVES & GOLDEN SPARKLES PARTICLES
     const mCanvas = document.getElementById("mehendi-particles-canvas");
@@ -1093,30 +1115,42 @@ if (spotlightImagesContainer) {
     });
 
     // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
+    // 3. ELEGANT STABLE TEXT REVEAL (ZERO UP/DOWN BOBBING)
+    gsap.set("#sangeet .spotlight-text.invitation-card", { y: 0 });
+
     gsap.fromTo(
-      "#sangeet .spotlight-text.invitation-card",
-      { y: 35, opacity: 0.85, scale: 0.96 },
+      "#sangeet .card-function-title",
+      { opacity: 0, scale: 0.94, y: 15 },
       {
-        y: 0,
         opacity: 1,
         scale: 1,
-        ease: "power2.out",
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: sangeetSection,
-          start: "top 80%",
-          end: "top 35%",
-          scrub: 1,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
         },
-      },
+      }
     );
 
-    gsap.to("#sangeet .spotlight-text.invitation-card", {
-      y: -6,
-      duration: 3,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    gsap.fromTo(
+      "#sangeet .card-tagline, #sangeet .card-event-details, #sangeet .card-dress-code",
+      { opacity: 0, y: 12 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sangeetSection,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
+        },
+      }
+    );
 
     // 4. FLOATING MUSICAL SPARKLE & GOLDEN TWILIGHT DUST PARTICLES
     const sCanvas = document.getElementById("sangeet-particles-canvas");
@@ -1349,31 +1383,42 @@ if (spotlightImagesContainer) {
       },
     });
 
-    // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
+    // 3. ELEGANT STABLE TEXT REVEAL (ZERO UP/DOWN BOBBING)
+    gsap.set("#wedding .spotlight-text.invitation-card", { y: 0 });
+
     gsap.fromTo(
-      "#wedding .spotlight-text.invitation-card",
-      { y: 40, opacity: 0.85, scale: 0.94 },
+      "#wedding .card-function-title",
+      { opacity: 0, scale: 0.94, y: 15 },
       {
-        y: 0,
         opacity: 1,
         scale: 1,
-        ease: "power2.out",
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: weddingSection,
-          start: "top 80%",
-          end: "top 35%",
-          scrub: 1,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
         },
-      },
+      }
     );
 
-    gsap.to("#wedding .spotlight-text.invitation-card", {
-      y: -8,
-      duration: 2.8,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    gsap.fromTo(
+      "#wedding .card-tagline, #wedding .card-event-details, #wedding .card-dress-code",
+      { opacity: 0, y: 12 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: weddingSection,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
+        },
+      }
+    );
 
     // 4. FLOATING SACRED RICE & ROSE PETAL PARTICLES (HIGH DENSITY)
     const wCanvas = document.getElementById("wedding-particles-canvas");
@@ -1616,31 +1661,42 @@ if (spotlightImagesContainer) {
       },
     });
 
-    // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
+    // 3. ELEGANT STABLE TEXT REVEAL (ZERO UP/DOWN BOBBING)
+    gsap.set("#reception .spotlight-text.invitation-card", { y: 0 });
+
     gsap.fromTo(
-      "#reception .spotlight-text.invitation-card",
-      { y: 40, opacity: 0.85, scale: 0.94 },
+      "#reception .card-function-title",
+      { opacity: 0, scale: 0.94, y: 15 },
       {
-        y: 0,
         opacity: 1,
         scale: 1,
-        ease: "power2.out",
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: receptionSection,
-          start: "top 80%",
-          end: "top 35%",
-          scrub: 1,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
         },
-      },
+      }
     );
 
-    gsap.to("#reception .spotlight-text.invitation-card", {
-      y: -8,
-      duration: 2.8,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    gsap.fromTo(
+      "#reception .card-tagline, #reception .card-event-details, #reception .card-dress-code",
+      { opacity: 0, y: 12 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: receptionSection,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
+        },
+      }
+    );
 
     // 4. FLOATING STARLIGHT SPARKLES & CHAMPAGNE DUST PARTICLES (HIGH DENSITY)
     const rCanvas = document.getElementById("reception-particles-canvas");
@@ -1728,7 +1784,7 @@ if (spotlightImagesContainer) {
       );
 
       if (cardTitle) {
-        splitText(cardTitle, "chars", "char");
+        splitText(cardTitle, "chars", "char", false);
         gsap.fromTo(
           cardTitle.querySelectorAll(".char"),
           { y: "150%" },
@@ -1747,7 +1803,7 @@ if (spotlightImagesContainer) {
       }
 
       if (cardTagline) {
-        splitText(cardTagline, "words", "word");
+        splitText(cardTagline, "words", "word", false);
         gsap.fromTo(
           cardTagline.querySelectorAll(".word"),
           { y: "120%" },
@@ -1909,10 +1965,10 @@ if (spotlightImagesContainer) {
         return;
       }
 
-      // Format numerical image index (1.png to 6.png)
+      // Format numerical image index (1.webp to 6.webp)
       const validStoryNum = ((storyNum - 1) % 6) + 1;
       if (storyImgEl) {
-        storyImgEl.src = `/transitionstory/${validStoryNum}.png`;
+        storyImgEl.src = `/transitionstory/${validStoryNum}.webp`;
         gsap.set(storyImgEl, { scale: 0.7, opacity: 0 });
       }
 
