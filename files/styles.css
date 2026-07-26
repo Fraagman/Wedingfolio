@@ -193,13 +193,24 @@ section.spotlight {
 .function-section {
   position: relative;
   width: 100%;
-  padding: 4.5rem 1rem 5.5rem 1rem;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+  padding: 4rem 1.25rem 2rem 1.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem;
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.12);
+  justify-content: center;
+  gap: 2rem;
+  border-bottom: none;
   box-sizing: border-box;
+  overflow: hidden;
+  will-change: clip-path;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: translate3d(0, 0, 0);
@@ -208,17 +219,23 @@ section.spotlight {
 .function-section#haldi {
   position: relative;
   width: 100%;
-  min-height: 125vh;
-  min-height: 125dvh;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 5rem 1.25rem;
+  padding: 4rem 1.25rem 2rem 1.25rem;
   overflow: hidden;
   background: #ede6d3;
   border-bottom: none;
   box-sizing: border-box;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   transform-style: preserve-3d;
 }
 
@@ -312,17 +329,23 @@ section.spotlight {
 .function-section#mehendi {
   position: relative;
   width: 100%;
-  min-height: 125vh;
-  min-height: 125dvh;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 5rem 1.25rem;
+  padding: 4rem 1.25rem 2rem 1.25rem;
   overflow: hidden;
   background: #eef3e8;
   border-bottom: none;
   box-sizing: border-box;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   transform-style: preserve-3d;
 }
 
@@ -607,12 +630,19 @@ section.spotlight {
 }
 
 @media (max-width: 768px) {
-  .function-section#haldi,
-  .function-section#mehendi {
-    min-height: 125vh;
-    min-height: 125dvh;
-    padding: 5rem 1rem;
+  .hero,
+  .intro,
+  .outro,
+  .function-section {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    padding: 3.5rem 1rem 1.5rem 1rem;
     border-bottom: none;
+    overflow: hidden;
   }
 
   .haldi-layer,
@@ -636,3 +666,73 @@ section.spotlight {
     padding: 2rem 1.35rem;
   }
 }
+
+/* --- PAGE & SECTION TRANSITIONS (from pagetransition) --- */
+
+/* View Transitions API Animations */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.8s;
+}
+
+@keyframes move-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0.4;
+    transform: translateY(-35%);
+  }
+}
+
+@keyframes move-in {
+  from {
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+  }
+  to {
+    clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+  }
+}
+
+::view-transition-old(root) {
+  animation: 1.2s cubic-bezier(0.87, 0, 0.13, 1) both move-out;
+}
+
+::view-transition-new(root) {
+  animation: 1.2s cubic-bezier(0.87, 0, 0.13, 1) both move-in;
+}
+
+/* Text Masking & Clip Paths for Smooth Reveal Transitions */
+.card-function-title,
+.intro h1,
+.outro h1,
+.nav-links a {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.card-function-title .char,
+.intro h1 .char,
+.outro h1 .char,
+.card-tagline .word,
+.nav-links a .word {
+  position: relative;
+  will-change: transform;
+}
+
+/* Page Transition Wipe Curtain Overlay (from pagetransition) */
+.page-transition-wipe {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  background-color: var(--base-300);
+  z-index: 9999;
+  pointer-events: none;
+  clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+  will-change: clip-path;
+}
+
+

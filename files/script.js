@@ -214,7 +214,7 @@ const FUNCTIONS_DATA = [
     venue: "Uttar Garden Lawn",
     dressSub: "Embracing the charm of Gujarati heritage",
     dressDetail: "Bandhani, Patola, Leheriya or Kutchi Mirrorwork",
-    images: [7, 8, 9],
+    images: [],
   },
   {
     id: "wedding",
@@ -227,7 +227,7 @@ const FUNCTIONS_DATA = [
     venue: "The Royal Palace Mandap",
     dressSub: "Traditional Royal Elegance",
     dressDetail: "Classic Sherwanis, Kanjeevarams or Regal Silks",
-    images: [10, 11, 12],
+    images: [],
   },
   {
     id: "reception",
@@ -240,7 +240,7 @@ const FUNCTIONS_DATA = [
     venue: "Grand Imperial Ballroom",
     dressSub: "Black Tie & Glamour",
     dressDetail: "Tuxedos, Evening Gowns or Designer Lehengas",
-    images: [1, 2, 3, 4],
+    images: [],
   },
 ];
 
@@ -925,5 +925,412 @@ if (spotlightImagesContainer) {
       renderMehendiParticles();
     }
   }
+
+  // --- SECTION VIEW TRANSITIONS & REVEAL ANIMATIONS (from pagetransition) ---
+  function setupSectionTransitions() {
+    const sections = document.querySelectorAll(".function-section");
+
+    sections.forEach((section) => {
+      // Scroll-driven section clip-path wipe (move-in keyframe from pagetransition)
+      gsap.fromTo(
+        section,
+        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 85%",
+            end: "top 20%",
+            scrub: 0.8,
+          },
+        }
+      );
+
+      const cardTitle = section.querySelector(".card-function-title");
+      const cardTagline = section.querySelector(".card-tagline");
+      const badge = section.querySelector(".function-badge");
+      const details = section.querySelectorAll(
+        ".card-event-details span, .card-dress-code h4, .card-dress-code p"
+      );
+
+      if (cardTitle) {
+        splitText(cardTitle, "chars", "char");
+        gsap.fromTo(
+          cardTitle.querySelectorAll(".char"),
+          { y: "150%" },
+          {
+            y: "0%",
+            duration: 1,
+            stagger: 0.035,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+
+      if (cardTagline) {
+        splitText(cardTagline, "words", "word");
+        gsap.fromTo(
+          cardTagline.querySelectorAll(".word"),
+          { y: "120%" },
+          {
+            y: "0%",
+            duration: 0.9,
+            stagger: 0.025,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+
+      if (badge) {
+        gsap.fromTo(
+          badge,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+
+      if (details.length > 0) {
+        gsap.fromTo(
+          details,
+          { y: 35, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.05,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+    });
+
+    // Intro & Outro Section Wipe & Text Animations
+    const introSection = document.querySelector("section.intro");
+    if (introSection) {
+      gsap.fromTo(
+        introSection,
+        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: introSection,
+            start: "top 85%",
+            end: "top 20%",
+            scrub: 0.8,
+          },
+        }
+      );
+
+      const introH1 = introSection.querySelector("h1");
+      if (introH1) {
+        splitText(introH1, "chars", "char");
+        gsap.fromTo(
+          introH1.querySelectorAll(".char"),
+          { y: "150%" },
+          {
+            y: "0%",
+            duration: 1,
+            stagger: 0.04,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: ".intro",
+              start: "top 75%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+    }
+
+    const outroSection = document.querySelector("section.outro");
+    if (outroSection) {
+      gsap.fromTo(
+        outroSection,
+        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: outroSection,
+            start: "top 85%",
+            end: "top 20%",
+            scrub: 0.8,
+          },
+        }
+      );
+
+      const outroH1 = outroSection.querySelector("h1");
+      if (outroH1) {
+        splitText(outroH1, "chars", "char");
+        gsap.fromTo(
+          outroH1.querySelectorAll(".char"),
+          { y: "150%" },
+          {
+            y: "0%",
+            duration: 1,
+            stagger: 0.04,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: ".outro",
+              start: "top 75%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+    }
+
+    // Function to trigger full-screen wipe transition curtain (from pagetransition keyframes)
+    const triggerWipeOverlay = (onMidpoint) => {
+      const wipeEl = document.querySelector(".page-transition-wipe");
+      if (!wipeEl) {
+        if (onMidpoint) onMidpoint();
+        return;
+      }
+
+      gsap.killTweensOf(wipeEl);
+      const tl = gsap.timeline();
+
+      // Wipe IN: clip-path expands vertically from bottom (0% 100%) to full screen (0% 0%)
+      tl.fromTo(
+        wipeEl,
+        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          duration: 0.55,
+          ease: "power4.inOut",
+          onComplete: () => {
+            if (onMidpoint) onMidpoint();
+          },
+        }
+      );
+
+      // Wipe OUT: clip-path collapses upward out of screen (0% 0% to top)
+      tl.to(wipeEl, {
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+        duration: 0.55,
+        ease: "power4.inOut",
+        onComplete: () => {
+          gsap.set(wipeEl, {
+            clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+          });
+          ScrollTrigger.refresh();
+        },
+      });
+    };
+
+    // --- FULL SECTION SNAP & WIPE TRANSITION CONTROLLER ---
+    const allSnapSections = Array.from(
+      document.querySelectorAll(".hero, .intro, .function-section, .outro")
+    );
+
+    const getElementPageTop = (el) => {
+      let top = 0;
+      let curr = el;
+      while (curr) {
+        top += curr.offsetTop;
+        curr = curr.offsetParent;
+      }
+      return top;
+    };
+
+    let currentSectionIdx = 0;
+    let isSectionTransitioning = false;
+    let touchStartYPos = 0;
+
+    const findCurrentSectionIndex = () => {
+      const scrollY = window.scrollY;
+      let closestIdx = 0;
+      let minDistance = Infinity;
+
+      allSnapSections.forEach((sec, idx) => {
+        const secTop = getElementPageTop(sec);
+        const dist = Math.abs(secTop - scrollY);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestIdx = idx;
+        }
+      });
+
+      currentSectionIdx = closestIdx;
+    };
+
+    window.addEventListener("scroll", findCurrentSectionIndex, { passive: true });
+    findCurrentSectionIndex();
+
+    const goToSnapSection = (targetIdx) => {
+      if (
+        targetIdx < 0 ||
+        targetIdx >= allSnapSections.length ||
+        isSectionTransitioning
+      )
+        return;
+
+      isSectionTransitioning = true;
+      currentSectionIdx = targetIdx;
+      const targetSec = allSnapSections[targetIdx];
+
+      triggerWipeOverlay(() => {
+        const secTop = getElementPageTop(targetSec);
+        const targetY =
+          secTop + Math.max(0, (targetSec.offsetHeight - window.innerHeight) / 2);
+        window.scrollTo({ top: targetY, behavior: "instant" });
+        lenis.scrollTo(targetY, { immediate: true });
+      });
+
+      setTimeout(() => {
+        isSectionTransitioning = false;
+      }, 1150);
+    };
+
+    // Wheel Scroll Snap Intercept
+    window.addEventListener(
+      "wheel",
+      (e) => {
+        if (isSectionTransitioning) {
+          e.preventDefault();
+          return;
+        }
+
+        if (Math.abs(e.deltaY) > 20) {
+          if (e.deltaY > 0 && currentSectionIdx < allSnapSections.length - 1) {
+            e.preventDefault();
+            goToSnapSection(currentSectionIdx + 1);
+          } else if (e.deltaY < 0 && currentSectionIdx > 0) {
+            e.preventDefault();
+            goToSnapSection(currentSectionIdx - 1);
+          }
+        }
+      },
+      { passive: false }
+    );
+
+    // Touch Swipe Snap Intercept for Mobile
+    window.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartYPos = e.touches[0].clientY;
+      },
+      { passive: true }
+    );
+
+    window.addEventListener(
+      "touchend",
+      (e) => {
+        if (isSectionTransitioning) return;
+        const touchEndY = e.changedTouches[0].clientY;
+        const diffY = touchStartYPos - touchEndY;
+
+        if (Math.abs(diffY) > 40) {
+          if (diffY > 0 && currentSectionIdx < allSnapSections.length - 1) {
+            goToSnapSection(currentSectionIdx + 1);
+          } else if (diffY < 0 && currentSectionIdx > 0) {
+            goToSnapSection(currentSectionIdx - 1);
+          }
+        }
+      },
+      { passive: true }
+    );
+
+    // Keyboard Arrow Snap Intercept
+    window.addEventListener("keydown", (e) => {
+      if (isSectionTransitioning) return;
+      if (["ArrowDown", "PageDown"].includes(e.code)) {
+        if (currentSectionIdx < allSnapSections.length - 1) {
+          e.preventDefault();
+          goToSnapSection(currentSectionIdx + 1);
+        }
+      } else if (["ArrowUp", "PageUp"].includes(e.code)) {
+        if (currentSectionIdx > 0) {
+          e.preventDefault();
+          goToSnapSection(currentSectionIdx - 1);
+        }
+      }
+    });
+
+    // Intercept Nav Link Clicks to use goToSnapSection
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const targetId = link.getAttribute("href");
+        if (!targetId || targetId === "#") return;
+
+        const targetEl = document.querySelector(targetId);
+        if (!targetEl) return;
+
+        e.preventDefault();
+        const targetIdx = allSnapSections.indexOf(targetEl);
+        if (targetIdx !== -1) {
+          goToSnapSection(targetIdx);
+        } else {
+          triggerWipeOverlay(() => {
+            lenis.scrollTo(targetEl, { immediate: true });
+          });
+        }
+      });
+    });
+  }
+
+  setupSectionTransitions();
 }
+
+// Global HTML View Transitions Intercept (from pagetransition app.js)
+if (typeof navigation !== "undefined" && navigation?.addEventListener) {
+  navigation.addEventListener("navigate", (event) => {
+    if (
+      !event.destination.url.includes(location.origin) ||
+      !event.destination.url.endsWith(".html")
+    )
+      return;
+
+    event.intercept({
+      handler: async () => {
+        const response = await fetch(event.destination.url);
+        const text = await response.text();
+
+        const transition = document.startViewTransition(() => {
+          const body = text.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1];
+          if (body) document.body.innerHTML = body;
+
+          const title = text.match(/<title[^>]*>(.*?)<\/title>/i)?.[1];
+          if (title) document.title = title;
+        });
+
+        transition.ready.then(() => {
+          window.scrollTo(0, 0);
+          ScrollTrigger.refresh();
+        });
+      },
+      scroll: "manual",
+    });
+  });
+}
+
 
