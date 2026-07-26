@@ -1107,16 +1107,21 @@ if (spotlightImagesContainer) {
       }
     }
 
-    // Function to trigger full-screen wipe transition curtain (from pagetransition keyframes)
+    // Function to trigger full-screen wipe transition curtain (with beating heart animation)
     const triggerWipeOverlay = (onMidpoint) => {
       const wipeEl = document.querySelector(".page-transition-wipe");
+      const heartEl = document.querySelector(".wipe-heart");
       if (!wipeEl) {
         if (onMidpoint) onMidpoint();
         return;
       }
 
-      gsap.killTweensOf(wipeEl);
+      gsap.killTweensOf([wipeEl, heartEl]);
       const tl = gsap.timeline();
+
+      if (heartEl) {
+        gsap.set(heartEl, { scale: 0, opacity: 0 });
+      }
 
       // Wipe IN: clip-path expands vertically from bottom (0% 100%) to full screen (0% 0%)
       tl.fromTo(
@@ -1124,7 +1129,7 @@ if (spotlightImagesContainer) {
         { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
         {
           clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-          duration: 0.55,
+          duration: 0.5,
           ease: "power4.inOut",
           onComplete: () => {
             if (onMidpoint) onMidpoint();
@@ -1132,18 +1137,53 @@ if (spotlightImagesContainer) {
         }
       );
 
+      // Pop beating heart into center
+      if (heartEl) {
+        tl.to(
+          heartEl,
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.35,
+            ease: "back.out(2)",
+          },
+          "-=0.25"
+        );
+      }
+
+      // Hide heart before wipe out completes
+      if (heartEl) {
+        tl.to(
+          heartEl,
+          {
+            scale: 0,
+            opacity: 0,
+            duration: 0.25,
+            ease: "power2.in",
+          },
+          "+=0.1"
+        );
+      }
+
       // Wipe OUT: clip-path collapses upward out of screen (0% 0% to top)
-      tl.to(wipeEl, {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-        duration: 0.55,
-        ease: "power4.inOut",
-        onComplete: () => {
-          gsap.set(wipeEl, {
-            clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
-          });
-          ScrollTrigger.refresh();
+      tl.to(
+        wipeEl,
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+          duration: 0.5,
+          ease: "power4.inOut",
+          onComplete: () => {
+            gsap.set(wipeEl, {
+              clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+            });
+            if (heartEl) {
+              gsap.set(heartEl, { scale: 0, opacity: 0 });
+            }
+            ScrollTrigger.refresh();
+          },
         },
-      });
+        "-=0.2"
+      );
     };
 
     // --- FULL SECTION SNAP & WIPE TRANSITION CONTROLLER ---
@@ -1185,7 +1225,7 @@ if (spotlightImagesContainer) {
     window.addEventListener("scroll", findCurrentSectionIndex, { passive: true });
     findCurrentSectionIndex();
 
-    const goToSnapSection = (targetIdx) => {
+    const goToSnapSection = (targetIdx, isScrollUp = false) => {
       if (
         targetIdx < 0 ||
         targetIdx >= allSnapSections.length ||
@@ -1194,20 +1234,40 @@ if (spotlightImagesContainer) {
         return;
 
       isSectionTransitioning = true;
+      const prevIdx = currentSectionIdx;
       currentSectionIdx = targetIdx;
       const targetSec = allSnapSections[targetIdx];
+      const secTop = getElementPageTop(targetSec);
+      const targetY =
+        secTop + Math.max(0, (targetSec.offsetHeight - window.innerHeight) / 2);
 
-      triggerWipeOverlay(() => {
-        const secTop = getElementPageTop(targetSec);
-        const targetY =
-          secTop + Math.max(0, (targetSec.offsetHeight - window.innerHeight) / 2);
-        window.scrollTo({ top: targetY, behavior: "instant" });
-        lenis.scrollTo(targetY, { immediate: true });
-      });
+      // Skip wipe effect if scrolling up OR traveling between Archive (idx 0) and Loose Structure (idx 1)
+      const isHeroToIntro = (prevIdx === 0 && targetIdx === 1) || (prevIdx === 1 && targetIdx === 0);
+      const skipWipe = isScrollUp || isHeroToIntro;
 
-      setTimeout(() => {
-        isSectionTransitioning = false;
-      }, 1150);
+      if (skipWipe) {
+        // Smooth scroll without wipe transition effect
+        lenis.scrollTo(targetY, {
+          duration: 1.0,
+          onComplete: () => {
+            isSectionTransitioning = false;
+            ScrollTrigger.refresh();
+          },
+        });
+        setTimeout(() => {
+          isSectionTransitioning = false;
+        }, 1050);
+      } else {
+        // Wipe transition overlay with beating heart when scrolling down to wedding ceremony sections
+        triggerWipeOverlay(() => {
+          window.scrollTo({ top: targetY, behavior: "instant" });
+          lenis.scrollTo(targetY, { immediate: true });
+        });
+
+        setTimeout(() => {
+          isSectionTransitioning = false;
+        }, 1150);
+      }
     };
 
     // Wheel Scroll Snap Intercept
@@ -1222,10 +1282,10 @@ if (spotlightImagesContainer) {
         if (Math.abs(e.deltaY) > 20) {
           if (e.deltaY > 0 && currentSectionIdx < allSnapSections.length - 1) {
             e.preventDefault();
-            goToSnapSection(currentSectionIdx + 1);
+            goToSnapSection(currentSectionIdx + 1, false);
           } else if (e.deltaY < 0 && currentSectionIdx > 0) {
             e.preventDefault();
-            goToSnapSection(currentSectionIdx - 1);
+            goToSnapSection(currentSectionIdx - 1, true);
           }
         }
       },
@@ -1250,9 +1310,11 @@ if (spotlightImagesContainer) {
 
         if (Math.abs(diffY) > 40) {
           if (diffY > 0 && currentSectionIdx < allSnapSections.length - 1) {
-            goToSnapSection(currentSectionIdx + 1);
+            // Swiping UP (scrolling DOWN) -> Wipe Transition Effect
+            goToSnapSection(currentSectionIdx + 1, false);
           } else if (diffY < 0 && currentSectionIdx > 0) {
-            goToSnapSection(currentSectionIdx - 1);
+            // Swiping DOWN (scrolling UP) -> Simply scroll up without wipe effect
+            goToSnapSection(currentSectionIdx - 1, true);
           }
         }
       },
@@ -1265,12 +1327,12 @@ if (spotlightImagesContainer) {
       if (["ArrowDown", "PageDown"].includes(e.code)) {
         if (currentSectionIdx < allSnapSections.length - 1) {
           e.preventDefault();
-          goToSnapSection(currentSectionIdx + 1);
+          goToSnapSection(currentSectionIdx + 1, false);
         }
       } else if (["ArrowUp", "PageUp"].includes(e.code)) {
         if (currentSectionIdx > 0) {
           e.preventDefault();
-          goToSnapSection(currentSectionIdx - 1);
+          goToSnapSection(currentSectionIdx - 1, true);
         }
       }
     });
@@ -1288,11 +1350,10 @@ if (spotlightImagesContainer) {
         e.preventDefault();
         const targetIdx = allSnapSections.indexOf(targetEl);
         if (targetIdx !== -1) {
-          goToSnapSection(targetIdx);
+          const isScrollUp = targetIdx < currentSectionIdx;
+          goToSnapSection(targetIdx, isScrollUp);
         } else {
-          triggerWipeOverlay(() => {
-            lenis.scrollTo(targetEl, { immediate: true });
-          });
+          lenis.scrollTo(targetEl);
         }
       });
     });

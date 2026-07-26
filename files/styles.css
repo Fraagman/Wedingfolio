@@ -723,16 +723,55 @@ section.spotlight {
 /* Page Transition Wipe Curtain Overlay (from pagetransition) */
 .page-transition-wipe {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100svh;
+  top: -10vh;
+  left: -5vw;
+  width: 110vw;
+  height: 125vh;
+  height: 125dvh;
   background-color: var(--base-300);
-  z-index: 9999;
+  z-index: 99999;
   pointer-events: none;
   clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
   will-change: clip-path;
 }
+
+/* Beating Heart Icon inside Transition Screen */
+.wipe-heart-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.wipe-heart {
+  width: 4.5rem;
+  height: 4.5rem;
+  transform: scale(0);
+  opacity: 0;
+  filter: drop-shadow(0 0 15px rgba(255, 75, 114, 0.6));
+  animation: heartPulse 0.55s ease-in-out infinite alternate;
+  transform-origin: center center;
+  will-change: transform, filter;
+}
+
+@keyframes heartPulse {
+  0% {
+    transform: scale(0.92);
+    filter: drop-shadow(0 0 10px rgba(255, 75, 114, 0.4));
+  }
+  50% {
+    transform: scale(1.22);
+    filter: drop-shadow(0 0 25px rgba(255, 75, 114, 0.85));
+  }
+  100% {
+    transform: scale(0.98);
+    filter: drop-shadow(0 0 14px rgba(255, 75, 114, 0.5));
+  }
+}
+
 
 
