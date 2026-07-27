@@ -175,6 +175,31 @@ tl.to(
   4.75,
 );
 
+// --- SWIRLING IMAGE COSMOS LAYOUT INIT ---
+const initCosmos = () => {
+  const container = document.querySelector(".hero-cosmos-container");
+  if (!container) return;
+
+  const cosmosRings = container.querySelectorAll(".cosmos");
+  const totalRings = cosmosRings.length;
+  const cycleDuration = 24.0;
+
+  cosmosRings.forEach((ring, rIndex) => {
+    const baseAngle = (360 / totalRings) * rIndex;
+    ring.style.transform = `rotate(${baseAngle}deg)`;
+
+    const items = ring.querySelectorAll(".cosmos-item");
+    const totalItems = items.length;
+
+    items.forEach((item, iIndex) => {
+      const delay = (iIndex * (cycleDuration / totalItems)) + (rIndex * 0.3);
+      item.style.animationDelay = `${delay}s`;
+    });
+  });
+};
+
+initCosmos();
+
 // --- SCROLL WAVE IMAGE GALLERY — 5 WEDDING FUNCTION SECTIONS ---
 const FUNCTIONS_DATA = [
   {
