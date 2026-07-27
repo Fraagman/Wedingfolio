@@ -175,18 +175,25 @@ tl.to(
   4.75,
 );
 
-// --- CIRCULAR IMAGE COSMOS LAYOUT INIT ---
+// --- SWIRLING IMAGE COSMOS LAYOUT INIT ---
 const initCosmos = () => {
-  const cosmosRings = document.querySelectorAll(".hero-cosmos-container .cosmos");
-  const total = cosmosRings.length;
+  const container = document.querySelector(".hero-cosmos-container");
+  if (!container) return;
 
-  cosmosRings.forEach((ring, i) => {
-    const angle = (360 / total) * i;
-    ring.style.transform = `rotate(${angle}deg) translate(28vh)`;
+  const cosmosRings = container.querySelectorAll(".cosmos");
+  const totalRings = cosmosRings.length;
+  const cycleDuration = 24.0;
+
+  cosmosRings.forEach((ring, rIndex) => {
+    const baseAngle = (360 / totalRings) * rIndex;
+    ring.style.transform = `rotate(${baseAngle}deg)`;
 
     const items = ring.querySelectorAll(".cosmos-item");
-    items.forEach((item, j) => {
-      item.style.animationDelay = `${j * 0.5}s`;
+    const totalItems = items.length;
+
+    items.forEach((item, iIndex) => {
+      const delay = (iIndex * (cycleDuration / totalItems)) + (rIndex * 0.3);
+      item.style.animationDelay = `${delay}s`;
     });
   });
 };
