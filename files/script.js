@@ -175,6 +175,24 @@ tl.to(
   4.75,
 );
 
+// --- CIRCULAR IMAGE COSMOS LAYOUT INIT ---
+const initCosmos = () => {
+  const cosmosRings = document.querySelectorAll(".hero-cosmos-container .cosmos");
+  const total = cosmosRings.length;
+
+  cosmosRings.forEach((ring, i) => {
+    const angle = (360 / total) * i;
+    ring.style.transform = `rotate(${angle}deg) translate(28vh)`;
+
+    const items = ring.querySelectorAll(".cosmos-item");
+    items.forEach((item, j) => {
+      item.style.animationDelay = `${j * 0.5}s`;
+    });
+  });
+};
+
+initCosmos();
+
 // --- SCROLL WAVE IMAGE GALLERY — 5 WEDDING FUNCTION SECTIONS ---
 const FUNCTIONS_DATA = [
   {
