@@ -393,16 +393,16 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("haldi-scene-bg");
       bgScene.innerHTML = `
-        <img src="/haldi-bg/10.webp" class="haldi-layer layer-base" alt="" loading="lazy" decoding="async" />
+        <img src="/haldi-bg/10.webp" class="haldi-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="haldi-sunbeam"></div>
-        <img src="/haldi-bg/6.webp" class="haldi-layer layer-tree-left" alt="" loading="lazy" decoding="async" />
-        <img src="/haldi-bg/7.webp" class="haldi-layer layer-arch" alt="" loading="lazy" decoding="async" />
+        <img src="/haldi-bg/6.webp" class="haldi-layer layer-tree-left" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/7.webp" class="haldi-layer layer-arch" alt="" loading="eager" decoding="async" />
         <canvas id="haldi-particles-canvas" class="haldi-particles-layer"></canvas>
-        <img src="/haldi-bg/9.webp" class="haldi-layer layer-branch-left" alt="" loading="lazy" decoding="async" />
-        <img src="/haldi-bg/8.webp" class="haldi-layer layer-branch-right" alt="" loading="lazy" decoding="async" />
-        <img src="/haldi-bg/5.webp" class="haldi-layer layer-leaves-left" alt="" loading="lazy" decoding="async" />
-        <img src="/haldi-bg/4.webp" class="haldi-layer layer-leaves-right" alt="" loading="lazy" decoding="async" />
-        <img src="/haldi-bg/3.webp" class="haldi-layer layer-haldi-bowl" alt="" loading="lazy" decoding="async" />
+        <img src="/haldi-bg/9.webp" class="haldi-layer layer-branch-left" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/8.webp" class="haldi-layer layer-branch-right" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/5.webp" class="haldi-layer layer-leaves-left" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/4.webp" class="haldi-layer layer-leaves-right" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/3.webp" class="haldi-layer layer-haldi-bowl" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -411,17 +411,17 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("mehendi-scene-bg");
       bgScene.innerHTML = `
-        <img src="/mehendi-bg/2.webp" class="mehendi-layer layer-base" alt="" loading="lazy" decoding="async" />
+        <img src="/mehendi-bg/2.webp" class="mehendi-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="mehendi-sunbeam"></div>
-        <img src="/mehendi-bg/10.webp" class="mehendi-layer layer-gazebo" alt="" loading="lazy" decoding="async" />
-        <img src="/mehendi-bg/7.webp" class="mehendi-layer layer-flowers-left" alt="" loading="lazy" decoding="async" />
-        <img src="/mehendi-bg/6.webp" class="mehendi-layer layer-foliage-right" alt="" loading="lazy" decoding="async" />
+        <img src="/mehendi-bg/10.webp" class="mehendi-layer layer-gazebo" alt="" loading="eager" decoding="async" />
+        <img src="/mehendi-bg/7.webp" class="mehendi-layer layer-flowers-left" alt="" loading="eager" decoding="async" />
+        <img src="/mehendi-bg/6.webp" class="mehendi-layer layer-foliage-right" alt="" loading="eager" decoding="async" />
         <canvas id="mehendi-particles-canvas" class="mehendi-particles-layer"></canvas>
-        <img src="/mehendi-bg/5.webp" class="mehendi-layer layer-canopy-left" alt="" loading="lazy" decoding="async" />
-        <img src="/mehendi-bg/4.webp" class="mehendi-layer layer-canopy-right" alt="" loading="lazy" decoding="async" />
-        <img src="/mehendi-bg/3.webp" class="mehendi-layer layer-canopy-center" alt="" loading="lazy" decoding="async" />
-        <img src="/mehendi-bg/8.webp" class="mehendi-layer layer-fg-grass" alt="" loading="lazy" decoding="async" />
-        <img src="/mehendi-bg/9.webp" class="mehendi-layer layer-floor-mandala" alt="" loading="lazy" decoding="async" />
+        <img src="/mehendi-bg/5.webp" class="mehendi-layer layer-canopy-left" alt="" loading="eager" decoding="async" />
+        <img src="/mehendi-bg/4.webp" class="mehendi-layer layer-canopy-right" alt="" loading="eager" decoding="async" />
+        <img src="/mehendi-bg/3.webp" class="mehendi-layer layer-canopy-center" alt="" loading="eager" decoding="async" />
+        <img src="/mehendi-bg/8.webp" class="mehendi-layer layer-fg-grass" alt="" loading="eager" decoding="async" />
+        <img src="/mehendi-bg/9.webp" class="mehendi-layer layer-floor-mandala" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -430,18 +430,18 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("sangeet-scene-bg");
       bgScene.innerHTML = `
-        <img src="/sangeet-bg/2.webp" class="sangeet-layer layer-base" alt="" loading="lazy" decoding="async" />
+        <img src="/sangeet-bg/2.webp" class="sangeet-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="sangeet-sunbeam"></div>
-        <img src="/sangeet-bg/10.webp" class="sangeet-layer layer-gazebo" alt="" loading="lazy" decoding="async" />
-        <img src="/sangeet-bg/8.webp" class="sangeet-layer layer-trees-left" alt="" loading="lazy" decoding="async" />
-        <img src="/sangeet-bg/9.webp" class="sangeet-layer layer-trees-right" alt="" loading="lazy" decoding="async" />
-        <img src="/sangeet-bg/7.webp" class="sangeet-layer layer-stage-arch" alt="" loading="lazy" decoding="async" />
-        <img src="/sangeet-bg/4.webp" class="sangeet-layer layer-stage-cushions" alt="" loading="lazy" decoding="async" />
+        <img src="/sangeet-bg/10.webp" class="sangeet-layer layer-gazebo" alt="" loading="eager" decoding="async" />
+        <img src="/sangeet-bg/8.webp" class="sangeet-layer layer-trees-left" alt="" loading="eager" decoding="async" />
+        <img src="/sangeet-bg/9.webp" class="sangeet-layer layer-trees-right" alt="" loading="eager" decoding="async" />
+        <img src="/sangeet-bg/7.webp" class="sangeet-layer layer-stage-arch" alt="" loading="eager" decoding="async" />
+        <img src="/sangeet-bg/4.webp" class="sangeet-layer layer-stage-cushions" alt="" loading="eager" decoding="async" />
         <canvas id="sangeet-particles-canvas" class="sangeet-particles-layer"></canvas>
-        <img src="/sangeet-bg/11.webp" class="sangeet-layer layer-hanging-canopy" alt="" loading="lazy" decoding="async" />
-        <img src="/sangeet-bg/6.webp" class="sangeet-layer layer-sitar" alt="" loading="lazy" decoding="async" />
-        <img src="/sangeet-bg/3.webp" class="sangeet-layer layer-tabla" alt="" loading="lazy" decoding="async" />
-        <img src="/sangeet-bg/5.webp" class="sangeet-layer layer-mic" alt="" loading="lazy" decoding="async" />
+        <img src="/sangeet-bg/11.webp" class="sangeet-layer layer-hanging-canopy" alt="" loading="eager" decoding="async" />
+        <img src="/sangeet-bg/6.webp" class="sangeet-layer layer-sitar" alt="" loading="eager" decoding="async" />
+        <img src="/sangeet-bg/3.webp" class="sangeet-layer layer-tabla" alt="" loading="eager" decoding="async" />
+        <img src="/sangeet-bg/5.webp" class="sangeet-layer layer-mic" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -450,17 +450,17 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("wedding-scene-bg");
       bgScene.innerHTML = `
-        <img src="/wedding-bg/2.webp" class="wedding-layer layer-base" alt="" loading="lazy" decoding="async" />
+        <img src="/wedding-bg/2.webp" class="wedding-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="wedding-sunbeam"></div>
-        <img src="/wedding-bg/10.webp" class="wedding-layer layer-mandap-platform" alt="" loading="lazy" decoding="async" />
-        <img src="/wedding-bg/7.webp" class="wedding-layer layer-mandap-arch" alt="" loading="lazy" decoding="async" />
-        <img src="/wedding-bg/8.webp" class="wedding-layer layer-parasol-right" alt="" loading="lazy" decoding="async" />
-        <img src="/wedding-bg/5.webp" class="wedding-layer layer-banana-leaves" alt="" loading="lazy" decoding="async" />
+        <img src="/wedding-bg/10.webp" class="wedding-layer layer-mandap-platform" alt="" loading="eager" decoding="async" />
+        <img src="/wedding-bg/7.webp" class="wedding-layer layer-mandap-arch" alt="" loading="eager" decoding="async" />
+        <img src="/wedding-bg/8.webp" class="wedding-layer layer-parasol-right" alt="" loading="eager" decoding="async" />
+        <img src="/wedding-bg/5.webp" class="wedding-layer layer-banana-leaves" alt="" loading="eager" decoding="async" />
         <canvas id="wedding-particles-canvas" class="wedding-particles-layer"></canvas>
-        <img src="/wedding-bg/3.webp" class="wedding-layer layer-canopy-left" alt="" loading="lazy" decoding="async" />
-        <img src="/wedding-bg/9.webp" class="wedding-layer layer-canopy-right" alt="" loading="lazy" decoding="async" />
-        <img src="/wedding-bg/6.webp" class="wedding-layer layer-flowers-left" alt="" loading="lazy" decoding="async" />
-        <img src="/wedding-bg/11.webp" class="wedding-layer layer-fg-flowers" alt="" loading="lazy" decoding="async" />
+        <img src="/wedding-bg/3.webp" class="wedding-layer layer-canopy-left" alt="" loading="eager" decoding="async" />
+        <img src="/wedding-bg/9.webp" class="wedding-layer layer-canopy-right" alt="" loading="eager" decoding="async" />
+        <img src="/wedding-bg/6.webp" class="wedding-layer layer-flowers-left" alt="" loading="eager" decoding="async" />
+        <img src="/wedding-bg/11.webp" class="wedding-layer layer-fg-flowers" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -469,17 +469,17 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("reception-scene-bg");
       bgScene.innerHTML = `
-        <img src="/reception-bg/2.webp" class="reception-layer layer-base" alt="" loading="lazy" decoding="async" />
+        <img src="/reception-bg/2.webp" class="reception-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="reception-sunbeam"></div>
-        <img src="/reception-bg/3.webp" class="reception-layer layer-arch-left" alt="" loading="lazy" decoding="async" />
-        <img src="/reception-bg/5.webp" class="reception-layer layer-birdcage-right" alt="" loading="lazy" decoding="async" />
-        <img src="/reception-bg/10.webp" class="reception-layer layer-couch-lounge" alt="" loading="lazy" decoding="async" />
+        <img src="/reception-bg/3.webp" class="reception-layer layer-arch-left" alt="" loading="eager" decoding="async" />
+        <img src="/reception-bg/5.webp" class="reception-layer layer-birdcage-right" alt="" loading="eager" decoding="async" />
+        <img src="/reception-bg/10.webp" class="reception-layer layer-couch-lounge" alt="" loading="eager" decoding="async" />
         <canvas id="reception-particles-canvas" class="reception-particles-layer"></canvas>
-        <img src="/reception-bg/8.webp" class="reception-layer layer-canopy-left" alt="" loading="lazy" decoding="async" />
-        <img src="/reception-bg/9.webp" class="reception-layer layer-canopy-right" alt="" loading="lazy" decoding="async" />
-        <img src="/reception-bg/7.webp" class="reception-layer layer-lanterns-left" alt="" loading="lazy" decoding="async" />
-        <img src="/reception-bg/6.webp" class="reception-layer layer-flowers-right" alt="" loading="lazy" decoding="async" />
-        <img src="/reception-bg/4.webp" class="reception-layer layer-fg-bushes" alt="" loading="lazy" decoding="async" />
+        <img src="/reception-bg/8.webp" class="reception-layer layer-canopy-left" alt="" loading="eager" decoding="async" />
+        <img src="/reception-bg/9.webp" class="reception-layer layer-canopy-right" alt="" loading="eager" decoding="async" />
+        <img src="/reception-bg/7.webp" class="reception-layer layer-lanterns-left" alt="" loading="eager" decoding="async" />
+        <img src="/reception-bg/6.webp" class="reception-layer layer-flowers-right" alt="" loading="eager" decoding="async" />
+        <img src="/reception-bg/4.webp" class="reception-layer layer-fg-bushes" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -804,11 +804,18 @@ if (spotlightImagesContainer) {
 
   // --- TRANSITION STORY ANIMATED STICKER WIPE OVERLAY ---
   let currentWipeStoryNum = 0;
+  let isWipePlaying = false;
 
   const triggerWipeOverlay = (storyNum = 1) => {
+    if (isWipePlaying) return;
+    isWipePlaying = true;
+
     const wipeEl = document.querySelector(".page-transition-wipe");
     const storyImgEl = document.querySelector(".wipe-story-img");
-    if (!wipeEl) return;
+    if (!wipeEl) {
+      isWipePlaying = false;
+      return;
+    }
 
     const validStoryNum = ((storyNum - 1) % 6) + 1;
     if (storyImgEl) {
@@ -817,7 +824,11 @@ if (spotlightImagesContainer) {
     }
 
     gsap.killTweensOf([wipeEl, storyImgEl]);
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({
+      onComplete: () => {
+        isWipePlaying = false;
+      },
+    });
 
     tl.fromTo(
       wipeEl,
@@ -1036,18 +1047,10 @@ if (spotlightImagesContainer) {
       if (secEl) {
         ScrollTrigger.create({
           trigger: secEl,
-          start: "top 65%",
+          start: "top 50%",
+          once: true,
           onEnter: () => {
-            if (currentWipeStoryNum !== storyNum) {
-              currentWipeStoryNum = storyNum;
-              triggerWipeOverlay(storyNum);
-            }
-          },
-          onEnterBack: () => {
-            if (currentWipeStoryNum !== storyNum) {
-              currentWipeStoryNum = storyNum;
-              triggerWipeOverlay(storyNum);
-            }
+            triggerWipeOverlay(storyNum);
           },
         });
       }
@@ -1123,17 +1126,9 @@ const sectionObserver = new IntersectionObserver(
       if (entry.isIntersecting) {
         if (ps) ps.start();
         if (tweens) tweens.forEach((t) => t.resume());
-        if (entry.target.classList.contains("hero")) {
-          const cosmos = entry.target.querySelector(".hero-cosmos-container");
-          if (cosmos) cosmos.style.display = "flex";
-        }
       } else {
         if (ps) ps.stop();
         if (tweens) tweens.forEach((t) => t.pause());
-        if (entry.target.classList.contains("hero")) {
-          const cosmos = entry.target.querySelector(".hero-cosmos-container");
-          if (cosmos) cosmos.style.display = "none";
-        }
       }
     });
   },
@@ -1142,7 +1137,7 @@ const sectionObserver = new IntersectionObserver(
 
 setTimeout(() => {
   document
-    .querySelectorAll(".hero, section.intro, .function-section, section.outro")
+    .querySelectorAll(".function-section")
     .forEach((sec) => {
       sectionObserver.observe(sec);
     });
