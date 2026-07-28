@@ -517,8 +517,6 @@ section.spotlight {
   border-bottom: none;
   box-sizing: border-box;
   overflow: hidden;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 .function-section#haldi {
@@ -539,8 +537,6 @@ section.spotlight {
   background: #ede6d3;
   border-bottom: none;
   box-sizing: border-box;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   transform-style: preserve-3d;
 }
 
@@ -1420,6 +1416,49 @@ section.spotlight {
   opacity: 0;
   will-change: transform, opacity;
 }
+
+/* MOBILE & HARDWARE ACCELERATION OPTIMIZATIONS FOR ZERO FLICKER */
+.page-transition-wipe,
+.wipe-story-img,
+.haldi-particles-layer,
+.mehendi-particles-layer,
+.sangeet-particles-layer,
+.wedding-particles-layer,
+.reception-particles-layer,
+.haldi-layer,
+.mehendi-layer,
+.sangeet-layer,
+.wedding-layer,
+.reception-layer {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+  .hero-date-tag,
+  nav {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+/* HIGH PERFORMANCE & INP OPTIMIZATIONS */
+.function-section,
+section.intro,
+section.outro {
+  content-visibility: auto;
+  contain-intrinsic-size: 100vh;
+}
+
+.spotlight-img-wrapper,
+.function-section,
+section.intro,
+section.outro,
+section.hero {
+  contain: layout style paint;
+}
+
 
 
 

@@ -12,13 +12,13 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 // Initialize Lenis Smooth Scroll
 const lenis = new Lenis({
   smoothWheel: true,
-  syncTouch: true,
+  syncTouch: false,
 });
 lenis.on("scroll", ScrollTrigger.update);
 gsap.ticker.add((time) => {
   lenis.raf(time * 1000);
 });
-gsap.ticker.lagSmoothing(0);
+gsap.ticker.lagSmoothing(1000, 16);
 
 // --- PRELOADER & HERO REVEAL ---
 CustomEase.create("hop", "0.8, 0, 0.2, 1");
@@ -200,6 +200,100 @@ const initCosmos = () => {
 
 initCosmos();
 
+// --- OPTIMIZED CANVASES & SECTION STATE MANAGEMENT ---
+const sectionIdleTweens = {};
+const particleSystems = {};
+
+function createParticleSystem(canvasId, sectionEl, options = {}) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas || !sectionEl) return null;
+
+  const ctx = canvas.getContext("2d");
+  let width = (canvas.width = sectionEl.offsetWidth || window.innerWidth);
+  let height = (canvas.height = sectionEl.offsetHeight || window.innerHeight);
+
+  // Pre-render glow particle sprite onto 32x32 offscreen canvas (Zero CPU shadowBlur per frame!)
+  const spriteCanvas = document.createElement("canvas");
+  spriteCanvas.width = 32;
+  spriteCanvas.height = 32;
+  const sCtx = spriteCanvas.getContext("2d");
+  const grad = sCtx.createRadialGradient(16, 16, 0, 16, 16, 16);
+  grad.addColorStop(0, options.centerColor || "rgba(255, 235, 150, 1)");
+  grad.addColorStop(0.4, options.glowColor || "rgba(255, 215, 0, 0.6)");
+  grad.addColorStop(1, "rgba(255, 215, 0, 0)");
+  sCtx.fillStyle = grad;
+  sCtx.fillRect(0, 0, 32, 32);
+
+  const particleCount = options.count || 24;
+  const particles = [];
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 2.5 + 1.5,
+      speedY: -(Math.random() * (options.speedYMax || 0.5) + (options.speedYMin || 0.2)),
+      speedX: Math.random() * 0.4 - 0.2,
+      oscillationSpeed: Math.random() * 0.03 + 0.01,
+      angle: Math.random() * Math.PI * 2,
+      alpha: Math.random() * 0.6 + 0.3,
+    });
+  }
+
+  let animFrameId = null;
+  let isRunning = false;
+
+  function render() {
+    if (!isRunning) return;
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.angle += p.oscillationSpeed;
+      p.x += Math.sin(p.angle) * 0.35 + p.speedX;
+      p.y += p.speedY;
+
+      if (p.y < -10) {
+        p.y = height + 10;
+        p.x = Math.random() * width;
+      }
+
+      ctx.globalAlpha = p.alpha;
+      const size = p.radius * 4;
+      ctx.drawImage(spriteCanvas, p.x - size / 2, p.y - size / 2, size, size);
+    }
+    ctx.globalAlpha = 1;
+
+    animFrameId = requestAnimationFrame(render);
+  }
+
+  let lastWinWidth = window.innerWidth;
+  const handleResize = () => {
+    if (window.innerWidth !== lastWinWidth) {
+      lastWinWidth = window.innerWidth;
+      width = canvas.width = sectionEl.offsetWidth || window.innerWidth;
+      height = canvas.height = sectionEl.offsetHeight || window.innerHeight;
+    }
+  };
+  window.addEventListener("resize", handleResize, { passive: true });
+
+  return {
+    start() {
+      if (!isRunning) {
+        isRunning = true;
+        render();
+      }
+    },
+    stop() {
+      isRunning = false;
+      if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
+      }
+    },
+  };
+}
+
 // --- SCROLL WAVE IMAGE GALLERY — 5 WEDDING FUNCTION SECTIONS ---
 const FUNCTIONS_DATA = [
   {
@@ -288,12 +382,10 @@ if (spotlightImagesContainer) {
   let globalImageIndex = 0;
 
   FUNCTIONS_DATA.forEach((func) => {
-    // Create Dedicated Function Section Container
     const sectionEl = document.createElement("section");
     sectionEl.classList.add("function-section");
     sectionEl.id = func.id;
 
-    // Inject Haldi Scenic Layered Background for Haldi Section
     if (func.id === "haldi") {
       const bgScene = document.createElement("div");
       bgScene.classList.add("haldi-scene-bg");
@@ -312,7 +404,6 @@ if (spotlightImagesContainer) {
       sectionEl.appendChild(bgScene);
     }
 
-    // Inject Mehendi Scenic Layered Background for Mehendi Section
     if (func.id === "mehendi") {
       const bgScene = document.createElement("div");
       bgScene.classList.add("mehendi-scene-bg");
@@ -332,7 +423,6 @@ if (spotlightImagesContainer) {
       sectionEl.appendChild(bgScene);
     }
 
-    // Inject Sangeet Scenic Layered Background for Sangeet Section
     if (func.id === "sangeet") {
       const bgScene = document.createElement("div");
       bgScene.classList.add("sangeet-scene-bg");
@@ -353,7 +443,6 @@ if (spotlightImagesContainer) {
       sectionEl.appendChild(bgScene);
     }
 
-    // Inject Wedding Scenic Layered Background for Wedding Section
     if (func.id === "wedding") {
       const bgScene = document.createElement("div");
       bgScene.classList.add("wedding-scene-bg");
@@ -373,7 +462,6 @@ if (spotlightImagesContainer) {
       sectionEl.appendChild(bgScene);
     }
 
-    // Inject Reception Scenic Layered Background for Reception Section
     if (func.id === "reception") {
       const bgScene = document.createElement("div");
       bgScene.classList.add("reception-scene-bg");
@@ -393,7 +481,6 @@ if (spotlightImagesContainer) {
       sectionEl.appendChild(bgScene);
     }
 
-    // Section Badge Header
     if (func.badge) {
       const badgeEl = document.createElement("div");
       badgeEl.classList.add("function-badge");
@@ -401,7 +488,6 @@ if (spotlightImagesContainer) {
       sectionEl.appendChild(badgeEl);
     }
 
-    // Split function images: 1 image on top, centered invitation card, remaining images below
     const topImages = func.images.slice(0, 1);
     const bottomImages = func.images.slice(1);
 
@@ -437,12 +523,10 @@ if (spotlightImagesContainer) {
       return imageItem;
     };
 
-    // Render Top Image
     topImages.forEach((imgNum) => {
       sectionEl.appendChild(createImageItem(imgNum));
     });
 
-    // Render Centered Invitation Text Card for this Function
     const textDiv = document.createElement("div");
     textDiv.classList.add("spotlight-text", "invitation-card");
     textDiv.innerHTML = `
@@ -464,7 +548,6 @@ if (spotlightImagesContainer) {
     `;
     sectionEl.appendChild(textDiv);
 
-    // Render Bottom Images
     bottomImages.forEach((imgNum) => {
       sectionEl.appendChild(createImageItem(imgNum));
     });
@@ -497,16 +580,22 @@ if (spotlightImagesContainer) {
 
   updateImageSizes();
 
-  imageItems.forEach((imageItem) => {
+  // Single global resize listener to update cached widths efficiently
+  const cachedWidths = new Array(imageItems.length).fill(0);
+  const updateCachedWidths = () => {
+    imageItems.forEach((imageItem, i) => {
+      const imgWrapper = imageItem.querySelector(".spotlight-img-wrapper");
+      if (imgWrapper) cachedWidths[i] = imgWrapper.offsetWidth;
+    });
+  };
+  updateCachedWidths();
+
+  window.addEventListener("resize", updateCachedWidths, { passive: true });
+
+  imageItems.forEach((imageItem, i) => {
     const idx = parseInt(imageItem.dataset.globalIndex || "0", 10);
     const normalizedIndex = idx / (16 - 1);
     const imgWrapper = imageItem.querySelector(".spotlight-img-wrapper");
-    let cachedWidth = imgWrapper ? imgWrapper.offsetWidth : 0;
-
-    // Cache width on resize instead of reading on every scroll tick
-    window.addEventListener("resize", () => {
-      if (imgWrapper) cachedWidth = imgWrapper.offsetWidth;
-    });
 
     ScrollTrigger.create({
       trigger: imageItem,
@@ -516,6 +605,7 @@ if (spotlightImagesContainer) {
       onUpdate: ({ progress }) => {
         const { base, flow, detail } = CONFIG.waves;
         const vw = window.innerWidth;
+        const cachedWidth = cachedWidths[i] || (imgWrapper ? imgWrapper.offsetWidth : 0);
 
         const baseWave = Math.sin(
           normalizedIndex * base.freq + (1 - progress) * base.speed + base.phase,
@@ -556,1244 +646,153 @@ if (spotlightImagesContainer) {
     });
   });
 
+  let lastWindowWidth = window.innerWidth;
   window.addEventListener("resize", () => {
-    updateImageSizes();
-    ScrollTrigger.refresh();
-  });
+    if (window.innerWidth !== lastWindowWidth) {
+      lastWindowWidth = window.innerWidth;
+      updateImageSizes();
+      ScrollTrigger.refresh();
+    }
+  }, { passive: true });
 
   // --- HALDI SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
   const haldiSection = document.querySelector("#haldi");
   if (haldiSection) {
-    // 1. CONTINUOUS IDLE BREEZE (BRANCHES & LEAVES SWAYING IN THE WIND)
-    gsap.to("#haldi .layer-branch-left", {
-      rotation: 3,
-      xPercent: 2,
-      duration: 3.5,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    sectionIdleTweens["haldi"] = [
+      gsap.to("#haldi .layer-branch-left", { rotation: 3, xPercent: 2, duration: 3.5, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#haldi .layer-branch-right", { rotation: -3.5, xPercent: -2.5, duration: 4.2, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#haldi .layer-tree-left", { rotation: 1.8, xPercent: 1, duration: 5, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#haldi .layer-leaves-left", { rotation: -2.5, scale: 1.02, duration: 3.8, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#haldi .layer-leaves-right", { rotation: 2.8, scale: 1.02, duration: 4.5, delay: 0.4, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+    ];
 
-    gsap.to("#haldi .layer-branch-right", {
-      rotation: -3.5,
-      xPercent: -2.5,
-      duration: 4.2,
-      delay: 0.3,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    gsap.to("#haldi .layer-base", { scale: 1.05, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#haldi .layer-tree-left", { rotation: -3, xPercent: -2, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#haldi .layer-arch", { scale: 1.03, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#haldi .layer-branch-left", { rotation: 5, xPercent: 3, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#haldi .layer-branch-right", { rotation: -6, xPercent: -3, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#haldi .layer-leaves-left", { rotation: -4, xPercent: -3, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#haldi .layer-leaves-right", { rotation: 4, xPercent: 3, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#haldi .layer-haldi-bowl", { scale: 1.03, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
 
-    gsap.to("#haldi .layer-tree-left", {
-      rotation: 1.8,
-      xPercent: 1,
-      duration: 5,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    gsap.to("#haldi .layer-leaves-left", {
-      rotation: -2.5,
-      scale: 1.02,
-      duration: 3.8,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    gsap.to("#haldi .layer-leaves-right", {
-      rotation: 2.8,
-      scale: 1.02,
-      duration: 4.5,
-      delay: 0.4,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    // 2. SCROLL-DRIVEN MOTION (LOCKED IN POSITION WITH ORGANIC ROTATION & FRAMING)
-    // Base Scenic Background: Subtle scale zoom inside container
-    gsap.to("#haldi .layer-base", {
-      scale: 1.05,
-      ease: "none",
-      scrollTrigger: {
-        trigger: haldiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Midground Lemon Tree: Organic tilt & sway
-    gsap.to("#haldi .layer-tree-left", {
-      rotation: -3,
-      xPercent: -2,
-      ease: "none",
-      scrollTrigger: {
-        trigger: haldiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Golden Archway: Subtle focal framing
-    gsap.to("#haldi .layer-arch", {
-      scale: 1.03,
-      ease: "none",
-      scrollTrigger: {
-        trigger: haldiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Top Left Branch: Locked at top, organic wind tilt on scroll
-    gsap.to("#haldi .layer-branch-left", {
-      rotation: 5,
-      xPercent: 3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: haldiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Top Right Branch: Locked at top, organic wind tilt on scroll
-    gsap.to("#haldi .layer-branch-right", {
-      rotation: -6,
-      xPercent: -3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: haldiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Bottom Left Leaves: Locked at bottom, opens outward on scroll
-    gsap.to("#haldi .layer-leaves-left", {
-      rotation: -4,
-      xPercent: -3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: haldiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Bottom Right Leaves: Locked at bottom, opens outward on scroll
-    gsap.to("#haldi .layer-leaves-right", {
-      rotation: 4,
-      xPercent: 3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: haldiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Haldi Bowl & Mandala Rug: Grounded in position
-    gsap.to("#haldi .layer-haldi-bowl", {
-      scale: 1.03,
-      ease: "none",
-      scrollTrigger: {
-        trigger: haldiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // 3. ELEGANT STABLE TEXT REVEAL (ZERO UP/DOWN BOBBING)
     gsap.set("#haldi .spotlight-text.invitation-card", { y: 0 });
+    gsap.fromTo("#haldi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: haldiSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#haldi .card-tagline, #haldi .card-event-details, #haldi .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: haldiSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    gsap.fromTo(
-      "#haldi .card-function-title",
-      { opacity: 0, scale: 0.94, y: 15 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: haldiSection,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    gsap.fromTo(
-      "#haldi .card-tagline, #haldi .card-event-details, #haldi .card-dress-code",
-      { opacity: 0, y: 12 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        stagger: 0.1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: haldiSection,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    // 4. FLOATING GOLDEN TURMERIC DUST & MARIGOLD PETALS PARTICLES
-    const canvas = document.getElementById("haldi-particles-canvas");
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      let width = (canvas.width = haldiSection.offsetWidth);
-      let height = (canvas.height = haldiSection.offsetHeight);
-
-      const updateCanvasSize = () => {
-        if (canvas && haldiSection) {
-          width = canvas.width = haldiSection.offsetWidth;
-          height = canvas.height = haldiSection.offsetHeight;
-        }
-      };
-      window.addEventListener("resize", updateCanvasSize);
-
-      const particles = [];
-      const particleCount = 28;
-
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: Math.random() * 2.2 + 0.8,
-          color: Math.random() > 0.4 ? "rgba(255, 215, 0, " : "rgba(245, 185, 50, ",
-          alpha: Math.random() * 0.55 + 0.25,
-          speedY: -(Math.random() * 0.5 + 0.2),
-          speedX: Math.random() * 0.4 - 0.2,
-          oscillationSpeed: Math.random() * 0.03 + 0.01,
-          angle: Math.random() * Math.PI * 2,
-        });
-      }
-
-      function renderParticles() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach((p) => {
-          p.angle += p.oscillationSpeed;
-          p.x += Math.sin(p.angle) * 0.35 + p.speedX;
-          p.y += p.speedY;
-
-          if (p.y < -10) {
-            p.y = height + 10;
-            p.x = Math.random() * width;
-          }
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color + p.alpha + ")";
-          ctx.shadowBlur = 6;
-          ctx.shadowColor = "rgba(255, 215, 0, 0.7)";
-          ctx.fill();
-        });
-        requestAnimationFrame(renderParticles);
-      }
-      renderParticles();
-    }
+    particleSystems["haldi"] = createParticleSystem("haldi-particles-canvas", haldiSection, { count: 24, centerColor: "rgba(255, 235, 150, 1)", glowColor: "rgba(255, 215, 0, 0.6)" });
   }
 
   // --- MEHENDI SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
   const mehendiSection = document.querySelector("#mehendi");
   if (mehendiSection) {
-    // 1. CONTINUOUS IDLE BREEZE (LEAVES & CANOPY SWAYING IN THE WIND)
-    gsap.to("#mehendi .layer-canopy-left", {
-      rotation: 3.2,
-      xPercent: 2.2,
-      duration: 3.6,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    sectionIdleTweens["mehendi"] = [
+      gsap.to("#mehendi .layer-canopy-left", { rotation: 3.2, xPercent: 2.2, duration: 3.6, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#mehendi .layer-canopy-right", { rotation: -3.6, xPercent: -2.5, duration: 4.3, delay: 0.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#mehendi .layer-canopy-center", { scale: 1.02, yPercent: 1.5, duration: 3.8, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#mehendi .layer-flowers-left", { rotation: -2.2, xPercent: -1.2, duration: 4.8, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#mehendi .layer-foliage-right", { rotation: 2.5, xPercent: 1.5, duration: 4.4, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+    ];
 
-    gsap.to("#mehendi .layer-canopy-right", {
-      rotation: -3.6,
-      xPercent: -2.5,
-      duration: 4.3,
-      delay: 0.2,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    gsap.to("#mehendi .layer-base", { scale: 1.05, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#mehendi .layer-gazebo", { scale: 1.03, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#mehendi .layer-flowers-left", { rotation: -4, xPercent: -3, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#mehendi .layer-foliage-right", { rotation: 4, xPercent: 3, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#mehendi .layer-canopy-left", { rotation: 5, xPercent: 3, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#mehendi .layer-canopy-right", { rotation: -6, xPercent: -3, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#mehendi .layer-floor-mandala", { scale: 1.03, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
 
-    gsap.to("#mehendi .layer-canopy-center", {
-      scale: 1.02,
-      yPercent: 1.5,
-      duration: 3.8,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    gsap.to("#mehendi .layer-flowers-left", {
-      rotation: -2.2,
-      xPercent: -1.2,
-      duration: 4.8,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    gsap.to("#mehendi .layer-foliage-right", {
-      rotation: 2.5,
-      xPercent: 1.5,
-      duration: 4.4,
-      delay: 0.3,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    // 2. SCROLL-DRIVEN MOTION (LOCKED IN POSITION WITH ORGANIC ROTATION & FRAMING)
-    // Base Scenic Background: Subtle scale zoom inside container
-    gsap.to("#mehendi .layer-base", {
-      scale: 1.05,
-      ease: "none",
-      scrollTrigger: {
-        trigger: mehendiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Green Marble Gazebo Mandap: Subtle focal framing
-    gsap.to("#mehendi .layer-gazebo", {
-      scale: 1.03,
-      ease: "none",
-      scrollTrigger: {
-        trigger: mehendiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Pink Flowering Bush Left: Opens outward on scroll
-    gsap.to("#mehendi .layer-flowers-left", {
-      rotation: -4,
-      xPercent: -3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: mehendiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Tropical Foliage Right: Opens outward on scroll
-    gsap.to("#mehendi .layer-foliage-right", {
-      rotation: 4,
-      xPercent: 3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: mehendiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Top Left Banana Canopy: Tilts inward on scroll
-    gsap.to("#mehendi .layer-canopy-left", {
-      rotation: 5,
-      xPercent: 3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: mehendiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Top Right Palm Canopy: Tilts inward on scroll
-    gsap.to("#mehendi .layer-canopy-right", {
-      rotation: -6,
-      xPercent: -3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: mehendiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Henna Floor Mandala Rug: Grounded foreground presentation
-    gsap.to("#mehendi .layer-floor-mandala", {
-      scale: 1.03,
-      ease: "none",
-      scrollTrigger: {
-        trigger: mehendiSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // 3. ELEGANT STABLE TEXT REVEAL (ZERO UP/DOWN BOBBING)
     gsap.set("#mehendi .spotlight-text.invitation-card", { y: 0 });
+    gsap.fromTo("#mehendi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: mehendiSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#mehendi .card-tagline, #mehendi .card-event-details, #mehendi .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: mehendiSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    gsap.fromTo(
-      "#mehendi .card-function-title",
-      { opacity: 0, scale: 0.94, y: 15 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: mehendiSection,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    gsap.fromTo(
-      "#mehendi .card-tagline, #mehendi .card-event-details, #mehendi .card-dress-code",
-      { opacity: 0, y: 12 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        stagger: 0.1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: mehendiSection,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    // 4. FLOATING HENNA LEAVES & GOLDEN SPARKLES PARTICLES
-    const mCanvas = document.getElementById("mehendi-particles-canvas");
-    if (mCanvas) {
-      const ctx = mCanvas.getContext("2d");
-      let width = (mCanvas.width = mehendiSection.offsetWidth);
-      let height = (mCanvas.height = mehendiSection.offsetHeight);
-
-      const updateCanvasSize = () => {
-        if (mCanvas && mehendiSection) {
-          width = mCanvas.width = mehendiSection.offsetWidth;
-          height = mCanvas.height = mehendiSection.offsetHeight;
-        }
-      };
-      window.addEventListener("resize", updateCanvasSize);
-
-      const particles = [];
-      const particleCount = 26;
-
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: Math.random() * 2.5 + 0.8,
-          color: Math.random() > 0.4 ? "rgba(160, 225, 140, " : "rgba(235, 215, 110, ",
-          alpha: Math.random() * 0.55 + 0.25,
-          speedY: -(Math.random() * 0.45 + 0.2),
-          speedX: Math.random() * 0.4 - 0.2,
-          oscillationSpeed: Math.random() * 0.03 + 0.01,
-          angle: Math.random() * Math.PI * 2,
-        });
-      }
-
-      function renderMehendiParticles() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach((p) => {
-          p.angle += p.oscillationSpeed;
-          p.x += Math.sin(p.angle) * 0.35 + p.speedX;
-          p.y += p.speedY;
-
-          if (p.y < -10) {
-            p.y = height + 10;
-            p.x = Math.random() * width;
-          }
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color + p.alpha + ")";
-          ctx.shadowBlur = 6;
-          ctx.shadowColor = "rgba(160, 225, 140, 0.7)";
-          ctx.fill();
-        });
-        requestAnimationFrame(renderMehendiParticles);
-      }
-      renderMehendiParticles();
-    }
+    particleSystems["mehendi"] = createParticleSystem("mehendi-particles-canvas", mehendiSection, { count: 24, centerColor: "rgba(180, 245, 160, 1)", glowColor: "rgba(160, 225, 140, 0.6)" });
   }
 
   // --- SANGEET SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
   const sangeetSection = document.querySelector("#sangeet");
   if (sangeetSection) {
-    // 1. CONTINUOUS IDLE BREEZE (LANTERNS, CANOPY & INSTRUMENTS SWAYING IN THE WIND)
-    gsap.to("#sangeet .layer-hanging-canopy", {
-      rotation: 2.8,
-      xPercent: 1.8,
-      duration: 3.8,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    sectionIdleTweens["sangeet"] = [
+      gsap.to("#sangeet .layer-hanging-canopy", { rotation: 2.8, xPercent: 1.8, duration: 3.8, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#sangeet .layer-sitar", { rotation: 1.5, xPercent: 1.0, duration: 4.5, delay: 0.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#sangeet .layer-trees-left", { rotation: -1.8, xPercent: -1.2, duration: 4.8, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#sangeet .layer-trees-right", { rotation: 2.2, xPercent: 1.4, duration: 4.2, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+    ];
 
-    gsap.to("#sangeet .layer-sitar", {
-      rotation: 1.5,
-      xPercent: 1.0,
-      duration: 4.5,
-      delay: 0.2,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    gsap.to("#sangeet .layer-base", { scale: 1.05, ease: "none", scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#sangeet .layer-stage-arch", { scale: 1.03, ease: "none", scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#sangeet .layer-hanging-canopy", { rotation: -5, xPercent: -3, ease: "none", scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#sangeet .layer-sitar", { rotation: 3, xPercent: 2, ease: "none", scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#sangeet .layer-tabla", { scale: 1.03, ease: "none", scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 1 } });
 
-    gsap.to("#sangeet .layer-trees-left", {
-      rotation: -1.8,
-      xPercent: -1.2,
-      duration: 4.8,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    gsap.to("#sangeet .layer-trees-right", {
-      rotation: 2.2,
-      xPercent: 1.4,
-      duration: 4.2,
-      delay: 0.3,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    // 2. SCROLL-DRIVEN MOTION (LOCKED IN POSITION WITH ORGANIC ROTATION & FRAMING)
-    // Base Scenic Background: Subtle scale zoom inside container
-    gsap.to("#sangeet .layer-base", {
-      scale: 1.05,
-      ease: "none",
-      scrollTrigger: {
-        trigger: sangeetSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Sangeet Stage & Pink Floral Arch: Subtle focal framing
-    gsap.to("#sangeet .layer-stage-arch", {
-      scale: 1.03,
-      ease: "none",
-      scrollTrigger: {
-        trigger: sangeetSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Top Hanging Canopy & Lanterns: Tilts inward on scroll
-    gsap.to("#sangeet .layer-hanging-canopy", {
-      rotation: -5,
-      xPercent: -3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: sangeetSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Sitar Instrument: Grounded foreground presentation
-    gsap.to("#sangeet .layer-sitar", {
-      rotation: 3,
-      xPercent: 2,
-      ease: "none",
-      scrollTrigger: {
-        trigger: sangeetSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Tabla Drums: Grounded foreground presentation
-    gsap.to("#sangeet .layer-tabla", {
-      scale: 1.03,
-      ease: "none",
-      scrollTrigger: {
-        trigger: sangeetSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // 3. INVITATION CARD WEIGHTLESS FLOAT & ENTRANCE
-    // 3. ELEGANT STABLE TEXT REVEAL (ZERO UP/DOWN BOBBING)
     gsap.set("#sangeet .spotlight-text.invitation-card", { y: 0 });
+    gsap.fromTo("#sangeet .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: sangeetSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#sangeet .card-tagline, #sangeet .card-event-details, #sangeet .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: sangeetSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    gsap.fromTo(
-      "#sangeet .card-function-title",
-      { opacity: 0, scale: 0.94, y: 15 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sangeetSection,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    gsap.fromTo(
-      "#sangeet .card-tagline, #sangeet .card-event-details, #sangeet .card-dress-code",
-      { opacity: 0, y: 12 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        stagger: 0.1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sangeetSection,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    // 4. FLOATING MUSICAL SPARKLE & GOLDEN TWILIGHT DUST PARTICLES
-    const sCanvas = document.getElementById("sangeet-particles-canvas");
-    if (sCanvas) {
-      const ctx = sCanvas.getContext("2d");
-      let width = (sCanvas.width = sangeetSection.offsetWidth);
-      let height = (sCanvas.height = sangeetSection.offsetHeight);
-
-      const updateCanvasSize = () => {
-        if (sCanvas && sangeetSection) {
-          width = sCanvas.width = sangeetSection.offsetWidth;
-          height = sCanvas.height = sangeetSection.offsetHeight;
-        }
-      };
-      window.addEventListener("resize", updateCanvasSize);
-
-      const particles = [];
-      const particleCount = 28;
-
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: Math.random() * 2.5 + 0.8,
-          color: Math.random() > 0.4 ? "rgba(255, 215, 120, " : "rgba(245, 175, 95, ",
-          alpha: Math.random() * 0.55 + 0.25,
-          speedY: -(Math.random() * 0.45 + 0.2),
-          speedX: Math.random() * 0.4 - 0.2,
-          oscillationSpeed: Math.random() * 0.03 + 0.01,
-          angle: Math.random() * Math.PI * 2,
-        });
-      }
-
-      function renderSangeetParticles() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach((p) => {
-          p.angle += p.oscillationSpeed;
-          p.x += Math.sin(p.angle) * 0.35 + p.speedX;
-          p.y += p.speedY;
-
-          if (p.y < -10) {
-            p.y = height + 10;
-            p.x = Math.random() * width;
-          }
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color + p.alpha + ")";
-          ctx.shadowBlur = 6;
-          ctx.shadowColor = "rgba(255, 215, 120, 0.7)";
-          ctx.fill();
-        });
-        requestAnimationFrame(renderSangeetParticles);
-      }
-      renderSangeetParticles();
-    }
+    particleSystems["sangeet"] = createParticleSystem("sangeet-particles-canvas", sangeetSection, { count: 24, centerColor: "rgba(255, 230, 150, 1)", glowColor: "rgba(255, 215, 120, 0.6)" });
   }
 
   // --- WEDDING SCENE DYNAMIC ORGANIC WIND & HIGH-MOTION 3D PARALLAX ANIMATION ---
   const weddingSection = document.querySelector("#wedding");
   if (weddingSection) {
-    // 1. CONTINUOUS EXPRESSIVE IDLE BREEZE (TEMPLE BELLS, CANOPY & FLORAL PARASOL SWAYING)
-    // Top Left Branch with Temple Bells: Wide pendulum sway
-    gsap.to("#wedding .layer-canopy-left", {
-      rotation: 6.0,
-      xPercent: 3.2,
-      duration: 3.2,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    sectionIdleTweens["wedding"] = [
+      gsap.to("#wedding .layer-canopy-left", { rotation: 6.0, xPercent: 3.2, duration: 3.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#wedding .layer-canopy-right", { rotation: -4.5, yPercent: 2.5, duration: 3.8, delay: 0.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#wedding .layer-parasol-right", { rotation: -4.0, xPercent: -2.5, duration: 4.2, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#wedding .layer-banana-leaves", { rotation: 4.5, xPercent: 2.5, duration: 3.6, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#wedding .layer-flowers-left", { rotation: -3.0, xPercent: -1.8, duration: 4.5, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+    ];
 
-    // Top Right Crimson Royal Umbrella / Chatri: Flutter sway
-    gsap.to("#wedding .layer-canopy-right", {
-      rotation: -4.5,
-      yPercent: 2.5,
-      duration: 3.8,
-      delay: 0.2,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    gsap.to("#wedding .layer-base", { scale: 1.08, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#wedding .layer-mandap-arch", { scale: 1.06, rotation: 4, xPercent: 2.5, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#wedding .layer-mandap-platform", { scale: 1.04, yPercent: -2, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#wedding .layer-canopy-left", { rotation: -8, xPercent: -5, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#wedding .layer-canopy-right", { rotation: 7, xPercent: 4.5, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#wedding .layer-parasol-right", { rotation: 6.5, xPercent: 3.5, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#wedding .layer-banana-leaves", { rotation: -7, xPercent: -4, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#wedding .layer-flowers-left", { rotation: -5, xPercent: -3, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#wedding .layer-fg-flowers", { scale: 1.08, yPercent: -4, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
 
-    // Royal Floral Parasol & Brass Lamp: Floating sway
-    gsap.to("#wedding .layer-parasol-right", {
-      rotation: -4.0,
-      xPercent: -2.5,
-      duration: 4.2,
-      delay: 0.3,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    // Right Tropical Banana Tree Leaves: Leaf rustle
-    gsap.to("#wedding .layer-banana-leaves", {
-      rotation: 4.5,
-      xPercent: 2.5,
-      duration: 3.6,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    // Left Floral Bushes & Brass Diya: Foliage rustle
-    gsap.to("#wedding .layer-flowers-left", {
-      rotation: -3.0,
-      xPercent: -1.8,
-      duration: 4.5,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    // 2. HIGH-MOTION SCROLL-DRIVEN MULTI-AXIS PARALLAX
-    // Base Sacred Ivory Scene: Zoom depth on scroll
-    gsap.to("#wedding .layer-base", {
-      scale: 1.08,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Carved Marble Mandap Arch: Focal depth expansion
-    gsap.to("#wedding .layer-mandap-arch", {
-      scale: 1.06,
-      rotation: 4,
-      xPercent: 2.5,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Mandap Altar Platform: Grounded foreground presentation
-    gsap.to("#wedding .layer-mandap-platform", {
-      scale: 1.04,
-      yPercent: -2,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Top Left Branch with Temple Bells: Wide sway on scroll
-    gsap.to("#wedding .layer-canopy-left", {
-      rotation: -8,
-      xPercent: -5,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Top Right Crimson Royal Umbrella: Reaches inward on scroll
-    gsap.to("#wedding .layer-canopy-right", {
-      rotation: 7,
-      xPercent: 4.5,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Royal Floral Parasol & Brass Lamp: Opens outward on scroll
-    gsap.to("#wedding .layer-parasol-right", {
-      rotation: 6.5,
-      xPercent: 3.5,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Right Tropical Banana Tree Leaves: Tilts outward on scroll
-    gsap.to("#wedding .layer-banana-leaves", {
-      rotation: -7,
-      xPercent: -4,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Left Floral Bushes & Brass Diya: Tilts outward on scroll
-    gsap.to("#wedding .layer-flowers-left", {
-      rotation: -5,
-      xPercent: -3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Foreground Marigold Garlands: Foreground depth slide
-    gsap.to("#wedding .layer-fg-flowers", {
-      scale: 1.08,
-      yPercent: -4,
-      ease: "none",
-      scrollTrigger: {
-        trigger: weddingSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // 3. ELEGANT STABLE TEXT REVEAL (ZERO UP/DOWN BOBBING)
     gsap.set("#wedding .spotlight-text.invitation-card", { y: 0 });
+    gsap.fromTo("#wedding .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: weddingSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#wedding .card-tagline, #wedding .card-event-details, #wedding .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: weddingSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    gsap.fromTo(
-      "#wedding .card-function-title",
-      { opacity: 0, scale: 0.94, y: 15 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: weddingSection,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    gsap.fromTo(
-      "#wedding .card-tagline, #wedding .card-event-details, #wedding .card-dress-code",
-      { opacity: 0, y: 12 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        stagger: 0.1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: weddingSection,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    // 4. FLOATING SACRED RICE & ROSE PETAL PARTICLES (HIGH DENSITY)
-    const wCanvas = document.getElementById("wedding-particles-canvas");
-    if (wCanvas) {
-      const ctx = wCanvas.getContext("2d");
-      let width = (wCanvas.width = weddingSection.offsetWidth);
-      let height = (wCanvas.height = weddingSection.offsetHeight);
-
-      const updateCanvasSize = () => {
-        if (wCanvas && weddingSection) {
-          width = wCanvas.width = weddingSection.offsetWidth;
-          height = wCanvas.height = weddingSection.offsetHeight;
-        }
-      };
-      window.addEventListener("resize", updateCanvasSize);
-
-      const particles = [];
-      const particleCount = 42;
-
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: Math.random() * 2.8 + 0.8,
-          color: Math.random() > 0.35 ? "rgba(240, 160, 140, " : "rgba(255, 215, 120, ",
-          alpha: Math.random() * 0.65 + 0.25,
-          speedY: -(Math.random() * 0.7 + 0.3),
-          speedX: Math.random() * 0.8 - 0.4,
-          oscillationSpeed: Math.random() * 0.04 + 0.015,
-          angle: Math.random() * Math.PI * 2,
-        });
-      }
-
-      function renderWeddingParticles() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach((p) => {
-          p.angle += p.oscillationSpeed;
-          p.x += Math.sin(p.angle) * 0.55 + p.speedX;
-          p.y += p.speedY;
-
-          if (p.y < -10) {
-            p.y = height + 10;
-            p.x = Math.random() * width;
-          }
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color + p.alpha + ")";
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = "rgba(240, 160, 140, 0.85)";
-          ctx.fill();
-        });
-        requestAnimationFrame(renderWeddingParticles);
-      }
-      renderWeddingParticles();
-    }
+    particleSystems["wedding"] = createParticleSystem("wedding-particles-canvas", weddingSection, { count: 30, centerColor: "rgba(255, 200, 180, 1)", glowColor: "rgba(240, 160, 140, 0.65)" });
   }
 
   // --- RECEPTION SCENE DYNAMIC ORGANIC WIND & HIGH-MOTION 3D PARALLAX ANIMATION ---
   const receptionSection = document.querySelector("#reception");
   if (receptionSection) {
-    // 1. CONTINUOUS EXPRESSIVE IDLE BREEZE & LANTERN SWAYING
-    // Left Hanging Moroccan Lanterns: Wide pendulum swing
-    gsap.to("#reception .layer-lanterns-left", {
-      rotation: 6.5,
-      xPercent: 3.5,
-      duration: 3.2,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    sectionIdleTweens["reception"] = [
+      gsap.to("#reception .layer-lanterns-left", { rotation: 6.5, xPercent: 3.5, duration: 3.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#reception .layer-canopy-left", { rotation: -5.0, xPercent: -3.0, duration: 3.8, delay: 0.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#reception .layer-canopy-right", { rotation: 4.0, yPercent: 3.0, duration: 3.5, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#reception .layer-flowers-right", { rotation: -4.5, yPercent: 2.5, duration: 4.2, delay: 0.1, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#reception .layer-birdcage-right", { rotation: 3.5, xPercent: 2.0, duration: 4.5, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+      gsap.to("#reception .layer-arch-left", { rotation: -2.8, xPercent: -1.5, duration: 4.6, yoyo: true, repeat: -1, ease: "sine.inOut" }),
+    ];
 
-    // Top Left Tree Branch & Fairy Lights: Continuous wind sway
-    gsap.to("#reception .layer-canopy-left", {
-      rotation: -5.0,
-      xPercent: -3.0,
-      duration: 3.8,
-      delay: 0.2,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+    gsap.to("#reception .layer-base", { scale: 1.08, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#reception .layer-couch-lounge", { scale: 1.05, yPercent: -2, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#reception .layer-arch-left", { rotation: 5, xPercent: 3, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#reception .layer-birdcage-right", { rotation: -6, xPercent: -4, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#reception .layer-canopy-left", { rotation: 8, xPercent: 5, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#reception .layer-canopy-right", { rotation: -7, xPercent: -4, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#reception .layer-lanterns-left", { rotation: -8, xPercent: -5, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#reception .layer-flowers-right", { rotation: 6, xPercent: 4, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    gsap.to("#reception .layer-fg-bushes", { scale: 1.08, yPercent: -4, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
 
-    // Top Right Silk Drapes & String Lights: Gentle flutter sway
-    gsap.to("#reception .layer-canopy-right", {
-      rotation: 4.0,
-      yPercent: 3.0,
-      duration: 3.5,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    // Right Hanging Floral Cluster & Crystals: Dangling shimmer motion
-    gsap.to("#reception .layer-flowers-right", {
-      rotation: -4.5,
-      yPercent: 2.5,
-      duration: 4.2,
-      delay: 0.1,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    // Right Golden Birdcage Structure: Floating sway
-    gsap.to("#reception .layer-birdcage-right", {
-      rotation: 3.5,
-      xPercent: 2.0,
-      duration: 4.5,
-      delay: 0.3,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    // Left Archway Screen & Potted Tree: Subtle foliage rustle
-    gsap.to("#reception .layer-arch-left", {
-      rotation: -2.8,
-      xPercent: -1.5,
-      duration: 4.6,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-
-    // 2. HIGH-MOTION SCROLL-DRIVEN MULTI-AXIS PARALLAX
-    // Base Midnight Sky: Zoom depth on scroll
-    gsap.to("#reception .layer-base", {
-      scale: 1.08,
-      ease: "none",
-      scrollTrigger: {
-        trigger: receptionSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Royal Velvet Couch & Floor Mandala: Grounded focal presentation
-    gsap.to("#reception .layer-couch-lounge", {
-      scale: 1.05,
-      yPercent: -2,
-      ease: "none",
-      scrollTrigger: {
-        trigger: receptionSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Left Golden Arch Screen & Potted Tree: Opens outward on scroll
-    gsap.to("#reception .layer-arch-left", {
-      rotation: 5,
-      xPercent: 3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: receptionSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Golden Birdcage Structure: Opens outward on scroll
-    gsap.to("#reception .layer-birdcage-right", {
-      rotation: -6,
-      xPercent: -4,
-      ease: "none",
-      scrollTrigger: {
-        trigger: receptionSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Top Left Tree Branch & Fairy Lights: Reaches inward on scroll
-    gsap.to("#reception .layer-canopy-left", {
-      rotation: 8,
-      xPercent: 5,
-      ease: "none",
-      scrollTrigger: {
-        trigger: receptionSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Top Right Silk Drapes & String Lights: Reaches inward on scroll
-    gsap.to("#reception .layer-canopy-right", {
-      rotation: -7,
-      xPercent: -4,
-      ease: "none",
-      scrollTrigger: {
-        trigger: receptionSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Left Moroccan Lanterns: Wide pendulum sway on scroll
-    gsap.to("#reception .layer-lanterns-left", {
-      rotation: -8,
-      xPercent: -5,
-      ease: "none",
-      scrollTrigger: {
-        trigger: receptionSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Right Hanging Floral Cluster & Crystals: Dangles on scroll
-    gsap.to("#reception .layer-flowers-right", {
-      rotation: 6,
-      xPercent: 4,
-      ease: "none",
-      scrollTrigger: {
-        trigger: receptionSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // Foreground Bushes & Candelabras: Foreground depth slide
-    gsap.to("#reception .layer-fg-bushes", {
-      scale: 1.08,
-      yPercent: -4,
-      ease: "none",
-      scrollTrigger: {
-        trigger: receptionSection,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // 3. ELEGANT STABLE TEXT REVEAL (ZERO UP/DOWN BOBBING)
     gsap.set("#reception .spotlight-text.invitation-card", { y: 0 });
+    gsap.fromTo("#reception .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: receptionSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#reception .card-tagline, #reception .card-event-details, #reception .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: receptionSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    gsap.fromTo(
-      "#reception .card-function-title",
-      { opacity: 0, scale: 0.94, y: 15 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: receptionSection,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    gsap.fromTo(
-      "#reception .card-tagline, #reception .card-event-details, #reception .card-dress-code",
-      { opacity: 0, y: 12 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        stagger: 0.1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: receptionSection,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    // 4. FLOATING STARLIGHT SPARKLES & CHAMPAGNE DUST PARTICLES (HIGH DENSITY)
-    const rCanvas = document.getElementById("reception-particles-canvas");
-    if (rCanvas) {
-      const ctx = rCanvas.getContext("2d");
-      let width = (rCanvas.width = receptionSection.offsetWidth);
-      let height = (rCanvas.height = receptionSection.offsetHeight);
-
-      const updateCanvasSize = () => {
-        if (rCanvas && receptionSection) {
-          width = rCanvas.width = receptionSection.offsetWidth;
-          height = rCanvas.height = receptionSection.offsetHeight;
-        }
-      };
-      window.addEventListener("resize", updateCanvasSize);
-
-      const particles = [];
-      const particleCount = 42;
-
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: Math.random() * 2.8 + 0.8,
-          color: Math.random() > 0.3 ? "rgba(235, 205, 130, " : "rgba(255, 245, 220, ",
-          alpha: Math.random() * 0.65 + 0.25,
-          speedY: -(Math.random() * 0.7 + 0.3),
-          speedX: Math.random() * 0.8 - 0.4,
-          oscillationSpeed: Math.random() * 0.04 + 0.015,
-          angle: Math.random() * Math.PI * 2,
-        });
-      }
-
-      function renderReceptionParticles() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach((p) => {
-          p.angle += p.oscillationSpeed;
-          p.x += Math.sin(p.angle) * 0.55 + p.speedX;
-          p.y += p.speedY;
-
-          if (p.y < -10) {
-            p.y = height + 10;
-            p.x = Math.random() * width;
-          }
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color + p.alpha + ")";
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = "rgba(235, 205, 130, 0.85)";
-          ctx.fill();
-        });
-        requestAnimationFrame(renderReceptionParticles);
-      }
-      renderReceptionParticles();
-    }
+    particleSystems["reception"] = createParticleSystem("reception-particles-canvas", receptionSection, { count: 30, centerColor: "rgba(255, 245, 210, 1)", glowColor: "rgba(235, 205, 130, 0.65)" });
   }
 
-  // --- SECTION VIEW TRANSITIONS & REVEAL ANIMATIONS (from pagetransition) ---
+  // --- SECTION VIEW TRANSITIONS & REVEAL ANIMATIONS ---
   function setupSectionTransitions() {
     const sections = document.querySelectorAll(".function-section");
 
     sections.forEach((section) => {
-      // Scroll-driven section clip-path wipe (move-in keyframe from pagetransition)
       gsap.fromTo(
         section,
         { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
@@ -1892,7 +891,6 @@ if (spotlightImagesContainer) {
       }
     });
 
-    // Intro & Outro Section Wipe & Text Animations
     const introSection = document.querySelector("section.intro");
     if (introSection) {
       gsap.fromTo(
@@ -1950,7 +948,7 @@ if (spotlightImagesContainer) {
       );
     }
 
-    // --- REAL-TIME WEDDING COUNTDOWN TIMER (June 2, 2027 10:00:00) ---
+    // --- REAL-TIME WEDDING COUNTDOWN TIMER ---
     const weddingDate = new Date("2027-06-02T10:00:00+05:30").getTime();
 
     function updateCountdown() {
@@ -1989,7 +987,6 @@ if (spotlightImagesContainer) {
 
     let transitionStoryCounter = 0;
 
-    // Function to trigger full-screen wipe transition curtain (displaying transitionstory 1.png to 6.png in numerical order)
     const triggerWipeOverlay = (onMidpoint, storyNum = 1) => {
       const wipeEl = document.querySelector(".page-transition-wipe");
       const storyImgEl = document.querySelector(".wipe-story-img");
@@ -1998,7 +995,6 @@ if (spotlightImagesContainer) {
         return;
       }
 
-      // Format numerical image index (1.webp to 6.webp)
       const validStoryNum = ((storyNum - 1) % 6) + 1;
       if (storyImgEl) {
         storyImgEl.src = `/transitionstory/${validStoryNum}.webp`;
@@ -2008,7 +1004,6 @@ if (spotlightImagesContainer) {
       gsap.killTweensOf([wipeEl, storyImgEl]);
       const tl = gsap.timeline();
 
-      // Wipe IN: clip-path expands vertically from bottom (0% 100%) to full screen (0% 0%)
       tl.fromTo(
         wipeEl,
         { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
@@ -2022,7 +1017,6 @@ if (spotlightImagesContainer) {
         }
       );
 
-      // Animate transition story image into view
       if (storyImgEl) {
         tl.to(
           storyImgEl,
@@ -2036,7 +1030,6 @@ if (spotlightImagesContainer) {
         );
       }
 
-      // Fade out story image before wipe curtain collapses away
       if (storyImgEl) {
         tl.to(
           storyImgEl,
@@ -2050,7 +1043,6 @@ if (spotlightImagesContainer) {
         );
       }
 
-      // Wipe OUT: clip-path collapses upward out of screen (0% 0% to top)
       tl.to(
         wipeEl,
         {
@@ -2126,12 +1118,10 @@ if (spotlightImagesContainer) {
       const targetY =
         secTop + Math.max(0, (targetSec.offsetHeight - window.innerHeight) / 2);
 
-      // Skip wipe effect if scrolling up OR traveling between Archive (idx 0) and Loose Structure (idx 1)
       const isHeroToIntro = (prevIdx === 0 && targetIdx === 1) || (prevIdx === 1 && targetIdx === 0);
       const skipWipe = isScrollUp || isHeroToIntro;
 
       if (skipWipe) {
-        // Smooth scroll without wipe transition effect
         lenis.scrollTo(targetY, {
           duration: 1.0,
           onComplete: () => {
@@ -2146,7 +1136,6 @@ if (spotlightImagesContainer) {
         transitionStoryCounter++;
         const storyNum = targetIdx >= 2 ? targetIdx - 1 : transitionStoryCounter;
 
-        // Wipe transition overlay with numerical story image (1.png to 6.png)
         triggerWipeOverlay(() => {
           window.scrollTo({ top: targetY, behavior: "instant" });
           lenis.scrollTo(targetY, { immediate: true });
@@ -2158,7 +1147,8 @@ if (spotlightImagesContainer) {
       }
     };
 
-    // Wheel Scroll Snap Intercept
+    // Wheel Scroll Snap Intercept (Deferred for immediate main-thread response)
+    let isWheelThrottled = false;
     window.addEventListener(
       "wheel",
       (e) => {
@@ -2167,65 +1157,71 @@ if (spotlightImagesContainer) {
           return;
         }
 
-        if (Math.abs(e.deltaY) > 20) {
-          if (e.deltaY > 0 && currentSectionIdx < allSnapSections.length - 1) {
-            e.preventDefault();
-            goToSnapSection(currentSectionIdx + 1, false);
-          } else if (e.deltaY < 0 && currentSectionIdx > 0) {
-            e.preventDefault();
-            goToSnapSection(currentSectionIdx - 1, true);
-          }
+        if (Math.abs(e.deltaY) > 20 && !isWheelThrottled) {
+          isWheelThrottled = true;
+          e.preventDefault();
+          const deltaY = e.deltaY;
+          requestAnimationFrame(() => {
+            if (deltaY > 0 && currentSectionIdx < allSnapSections.length - 1) {
+              goToSnapSection(currentSectionIdx + 1, false);
+            } else if (deltaY < 0 && currentSectionIdx > 0) {
+              goToSnapSection(currentSectionIdx - 1, true);
+            }
+            setTimeout(() => { isWheelThrottled = false; }, 250);
+          });
         }
       },
       { passive: false }
     );
 
-    // Touch Swipe Snap Intercept for Mobile
-    window.addEventListener(
-      "touchstart",
-      (e) => {
-        touchStartYPos = e.touches[0].clientY;
-      },
-      { passive: true }
-    );
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (!isTouchDevice) {
+      window.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartYPos = e.touches[0].clientY;
+        },
+        { passive: true }
+      );
 
-    window.addEventListener(
-      "touchend",
-      (e) => {
-        if (isSectionTransitioning) return;
-        const touchEndY = e.changedTouches[0].clientY;
-        const diffY = touchStartYPos - touchEndY;
+      window.addEventListener(
+        "touchend",
+        (e) => {
+          if (isSectionTransitioning) return;
+          const touchEndY = e.changedTouches[0].clientY;
+          const diffY = touchStartYPos - touchEndY;
 
-        if (Math.abs(diffY) > 40) {
-          if (diffY > 0 && currentSectionIdx < allSnapSections.length - 1) {
-            // Swiping UP (scrolling DOWN) -> Wipe Transition Effect
-            goToSnapSection(currentSectionIdx + 1, false);
-          } else if (diffY < 0 && currentSectionIdx > 0) {
-            // Swiping DOWN (scrolling UP) -> Simply scroll up without wipe effect
-            goToSnapSection(currentSectionIdx - 1, true);
+          if (Math.abs(diffY) > 40) {
+            requestAnimationFrame(() => {
+              if (diffY > 0 && currentSectionIdx < allSnapSections.length - 1) {
+                goToSnapSection(currentSectionIdx + 1, false);
+              } else if (diffY < 0 && currentSectionIdx > 0) {
+                goToSnapSection(currentSectionIdx - 1, true);
+              }
+            });
           }
-        }
-      },
-      { passive: true }
-    );
+        },
+        { passive: true }
+      );
+    }
 
-    // Keyboard Arrow Snap Intercept
+    // Keyboard Arrow Snap Intercept (Deferred for immediate main-thread response)
     window.addEventListener("keydown", (e) => {
       if (isSectionTransitioning) return;
       if (["ArrowDown", "PageDown"].includes(e.code)) {
         if (currentSectionIdx < allSnapSections.length - 1) {
           e.preventDefault();
-          goToSnapSection(currentSectionIdx + 1, false);
+          requestAnimationFrame(() => goToSnapSection(currentSectionIdx + 1, false));
         }
       } else if (["ArrowUp", "PageUp"].includes(e.code)) {
         if (currentSectionIdx > 0) {
           e.preventDefault();
-          goToSnapSection(currentSectionIdx - 1, true);
+          requestAnimationFrame(() => goToSnapSection(currentSectionIdx - 1, true));
         }
       }
     });
 
-    // Intercept Nav Link Clicks to use goToSnapSection
+    // Intercept Nav Link Clicks to use goToSnapSection (Deferred yielding for INP < 30ms)
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     navLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
@@ -2236,13 +1232,17 @@ if (spotlightImagesContainer) {
         if (!targetEl) return;
 
         e.preventDefault();
-        const targetIdx = allSnapSections.indexOf(targetEl);
-        if (targetIdx !== -1) {
-          const isScrollUp = targetIdx < currentSectionIdx;
-          goToSnapSection(targetIdx, isScrollUp);
-        } else {
-          lenis.scrollTo(targetEl);
-        }
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            const targetIdx = allSnapSections.indexOf(targetEl);
+            if (targetIdx !== -1) {
+              const isScrollUp = targetIdx < currentSectionIdx;
+              goToSnapSection(targetIdx, isScrollUp);
+            } else {
+              lenis.scrollTo(targetEl);
+            }
+          }, 0);
+        });
       });
     });
   }
@@ -2250,7 +1250,43 @@ if (spotlightImagesContainer) {
   setupSectionTransitions();
 }
 
-// Global HTML View Transitions Intercept (from pagetransition app.js)
+// --- SECTION VIEWPORT OBSERVER (PAUSE OFFSCREEN ANIMATIONS & PARTICLES FOR MAX INP SPEED) ---
+const sectionObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      const id = entry.target.id;
+      const ps = particleSystems[id];
+      const tweens = sectionIdleTweens[id];
+
+      if (entry.isIntersecting) {
+        if (ps) ps.start();
+        if (tweens) tweens.forEach((t) => t.resume());
+        if (entry.target.classList.contains("hero")) {
+          const cosmos = entry.target.querySelector(".hero-cosmos-container");
+          if (cosmos) cosmos.style.display = "flex";
+        }
+      } else {
+        if (ps) ps.stop();
+        if (tweens) tweens.forEach((t) => t.pause());
+        if (entry.target.classList.contains("hero")) {
+          const cosmos = entry.target.querySelector(".hero-cosmos-container");
+          if (cosmos) cosmos.style.display = "none";
+        }
+      }
+    });
+  },
+  { threshold: 0.05 }
+);
+
+setTimeout(() => {
+  document
+    .querySelectorAll(".hero, section.intro, .function-section, section.outro")
+    .forEach((sec) => {
+      sectionObserver.observe(sec);
+    });
+}, 100);
+
+// Global HTML View Transitions Intercept
 if (typeof navigation !== "undefined" && navigation?.addEventListener) {
   navigation.addEventListener("navigate", (event) => {
     if (
@@ -2281,5 +1317,3 @@ if (typeof navigation !== "undefined" && navigation?.addEventListener) {
     });
   });
 }
-
-
