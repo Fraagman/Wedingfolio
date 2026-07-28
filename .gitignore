@@ -3,9 +3,11 @@ node_modules/
 
 # Build Output
 dist/
+.vercel/
 
 # OS / Environment files
 .DS_Store
+Thumbs.db
 .env
 .env.local
 *.log
