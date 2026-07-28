@@ -659,27 +659,18 @@ if (spotlightImagesContainer) {
     }
   }, { passive: true });
 
-  // --- HALDI SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
+  // --- HALDI SCENIC LAYER PARALLAX ---
   const haldiSection = document.querySelector("#haldi");
   if (haldiSection) {
-    sectionIdleTweens["haldi"] = [
-      gsap.to("#haldi .layer-branch-left", { rotation: 3, xPercent: 2, duration: 3.5, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#haldi .layer-branch-right", { rotation: -3.5, xPercent: -2.5, duration: 4.2, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#haldi .layer-tree-left", { rotation: 1.8, xPercent: 1, duration: 5, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#haldi .layer-leaves-left", { rotation: -2.5, scale: 1.02, duration: 3.8, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#haldi .layer-leaves-right", { rotation: 2.8, scale: 1.02, duration: 4.5, delay: 0.4, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-    ];
-
     const haldiST = gsap.timeline({ scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
     haldiST
-      .to("#haldi .layer-base", { scale: 1.05, ease: "none" }, 0)
-      .to("#haldi .layer-tree-left", { rotation: -3, xPercent: -2, ease: "none" }, 0)
-      .to("#haldi .layer-arch", { scale: 1.03, ease: "none" }, 0)
-      .to("#haldi .layer-branch-left", { rotation: 5, xPercent: 3, ease: "none" }, 0)
-      .to("#haldi .layer-branch-right", { rotation: -6, xPercent: -3, ease: "none" }, 0)
-      .to("#haldi .layer-leaves-left", { rotation: -4, xPercent: -3, ease: "none" }, 0)
-      .to("#haldi .layer-leaves-right", { rotation: 4, xPercent: 3, ease: "none" }, 0)
-      .to("#haldi .layer-haldi-bowl", { scale: 1.03, ease: "none" }, 0);
+      .to("#haldi .layer-base", { scale: 1.04, ease: "none" }, 0)
+      .to("#haldi .layer-tree-left", { yPercent: -4, ease: "none" }, 0)
+      .to("#haldi .layer-arch", { scale: 1.02, ease: "none" }, 0)
+      .to("#haldi .layer-branch-left", { yPercent: -6, ease: "none" }, 0)
+      .to("#haldi .layer-branch-right", { yPercent: -6, ease: "none" }, 0)
+      .to("#haldi .layer-leaves-left", { yPercent: -8, ease: "none" }, 0)
+      .to("#haldi .layer-leaves-right", { yPercent: -8, ease: "none" }, 0);
 
     gsap.set("#haldi .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#haldi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: haldiSection, start: "top 70%", toggleActions: "play none none reverse" } });
@@ -688,26 +679,17 @@ if (spotlightImagesContainer) {
     particleSystems["haldi"] = createParticleSystem("haldi-particles-canvas", haldiSection, { count: 20, centerColor: "rgba(255, 235, 150, 1)", glowColor: "rgba(255, 215, 0, 0.6)" });
   }
 
-  // --- MEHENDI SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
+  // --- MEHENDI SCENIC LAYER PARALLAX ---
   const mehendiSection = document.querySelector("#mehendi");
   if (mehendiSection) {
-    sectionIdleTweens["mehendi"] = [
-      gsap.to("#mehendi .layer-canopy-left", { rotation: 3.2, xPercent: 2.2, duration: 3.6, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#mehendi .layer-canopy-right", { rotation: -3.6, xPercent: -2.5, duration: 4.3, delay: 0.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#mehendi .layer-canopy-center", { scale: 1.02, yPercent: 1.5, duration: 3.8, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#mehendi .layer-flowers-left", { rotation: -2.2, xPercent: -1.2, duration: 4.8, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#mehendi .layer-foliage-right", { rotation: 2.5, xPercent: 1.5, duration: 4.4, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-    ];
-
     const mehendiST = gsap.timeline({ scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
     mehendiST
-      .to("#mehendi .layer-base", { scale: 1.05, ease: "none" }, 0)
-      .to("#mehendi .layer-gazebo", { scale: 1.03, ease: "none" }, 0)
-      .to("#mehendi .layer-flowers-left", { rotation: -4, xPercent: -3, ease: "none" }, 0)
-      .to("#mehendi .layer-foliage-right", { rotation: 4, xPercent: 3, ease: "none" }, 0)
-      .to("#mehendi .layer-canopy-left", { rotation: 5, xPercent: 3, ease: "none" }, 0)
-      .to("#mehendi .layer-canopy-right", { rotation: -6, xPercent: -3, ease: "none" }, 0)
-      .to("#mehendi .layer-floor-mandala", { scale: 1.03, ease: "none" }, 0);
+      .to("#mehendi .layer-base", { scale: 1.04, ease: "none" }, 0)
+      .to("#mehendi .layer-gazebo", { scale: 1.02, ease: "none" }, 0)
+      .to("#mehendi .layer-flowers-left", { yPercent: -5, ease: "none" }, 0)
+      .to("#mehendi .layer-foliage-right", { yPercent: -5, ease: "none" }, 0)
+      .to("#mehendi .layer-canopy-left", { yPercent: -7, ease: "none" }, 0)
+      .to("#mehendi .layer-canopy-right", { yPercent: -7, ease: "none" }, 0);
 
     gsap.set("#mehendi .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#mehendi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: mehendiSection, start: "top 70%", toggleActions: "play none none reverse" } });
@@ -716,23 +698,16 @@ if (spotlightImagesContainer) {
     particleSystems["mehendi"] = createParticleSystem("mehendi-particles-canvas", mehendiSection, { count: 20, centerColor: "rgba(180, 245, 160, 1)", glowColor: "rgba(160, 225, 140, 0.6)" });
   }
 
-  // --- SANGEET SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
+  // --- SANGEET SCENIC LAYER PARALLAX ---
   const sangeetSection = document.querySelector("#sangeet");
   if (sangeetSection) {
-    sectionIdleTweens["sangeet"] = [
-      gsap.to("#sangeet .layer-hanging-canopy", { rotation: 2.8, xPercent: 1.8, duration: 3.8, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#sangeet .layer-sitar", { rotation: 1.5, xPercent: 1.0, duration: 4.5, delay: 0.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#sangeet .layer-trees-left", { rotation: -1.8, xPercent: -1.2, duration: 4.8, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#sangeet .layer-trees-right", { rotation: 2.2, xPercent: 1.4, duration: 4.2, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-    ];
-
     const sangeetST = gsap.timeline({ scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
     sangeetST
-      .to("#sangeet .layer-base", { scale: 1.05, ease: "none" }, 0)
-      .to("#sangeet .layer-stage-arch", { scale: 1.03, ease: "none" }, 0)
-      .to("#sangeet .layer-hanging-canopy", { rotation: -5, xPercent: -3, ease: "none" }, 0)
-      .to("#sangeet .layer-sitar", { rotation: 3, xPercent: 2, ease: "none" }, 0)
-      .to("#sangeet .layer-tabla", { scale: 1.03, ease: "none" }, 0);
+      .to("#sangeet .layer-base", { scale: 1.04, ease: "none" }, 0)
+      .to("#sangeet .layer-stage-arch", { scale: 1.02, ease: "none" }, 0)
+      .to("#sangeet .layer-hanging-canopy", { yPercent: -6, ease: "none" }, 0)
+      .to("#sangeet .layer-sitar", { yPercent: -8, ease: "none" }, 0)
+      .to("#sangeet .layer-tabla", { scale: 1.02, ease: "none" }, 0);
 
     gsap.set("#sangeet .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#sangeet .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: sangeetSection, start: "top 70%", toggleActions: "play none none reverse" } });
@@ -741,28 +716,17 @@ if (spotlightImagesContainer) {
     particleSystems["sangeet"] = createParticleSystem("sangeet-particles-canvas", sangeetSection, { count: 20, centerColor: "rgba(255, 230, 150, 1)", glowColor: "rgba(255, 215, 120, 0.6)" });
   }
 
-  // --- WEDDING SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
+  // --- WEDDING SCENIC LAYER PARALLAX ---
   const weddingSection = document.querySelector("#wedding");
   if (weddingSection) {
-    sectionIdleTweens["wedding"] = [
-      gsap.to("#wedding .layer-canopy-left", { rotation: 6.0, xPercent: 3.2, duration: 3.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#wedding .layer-canopy-right", { rotation: -4.5, yPercent: 2.5, duration: 3.8, delay: 0.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#wedding .layer-parasol-right", { rotation: -4.0, xPercent: -2.5, duration: 4.2, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#wedding .layer-banana-leaves", { rotation: 4.5, xPercent: 2.5, duration: 3.6, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#wedding .layer-flowers-left", { rotation: -3.0, xPercent: -1.8, duration: 4.5, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-    ];
-
     const weddingST = gsap.timeline({ scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
     weddingST
-      .to("#wedding .layer-base", { scale: 1.08, ease: "none" }, 0)
-      .to("#wedding .layer-mandap-arch", { scale: 1.06, rotation: 4, xPercent: 2.5, ease: "none" }, 0)
-      .to("#wedding .layer-mandap-platform", { scale: 1.04, yPercent: -2, ease: "none" }, 0)
-      .to("#wedding .layer-canopy-left", { rotation: -8, xPercent: -5, ease: "none" }, 0)
-      .to("#wedding .layer-canopy-right", { rotation: 7, xPercent: 4.5, ease: "none" }, 0)
-      .to("#wedding .layer-parasol-right", { rotation: 6.5, xPercent: 3.5, ease: "none" }, 0)
-      .to("#wedding .layer-banana-leaves", { rotation: -7, xPercent: -4, ease: "none" }, 0)
-      .to("#wedding .layer-flowers-left", { rotation: -5, xPercent: -3, ease: "none" }, 0)
-      .to("#wedding .layer-fg-flowers", { scale: 1.08, yPercent: -4, ease: "none" }, 0);
+      .to("#wedding .layer-base", { scale: 1.05, ease: "none" }, 0)
+      .to("#wedding .layer-mandap-arch", { scale: 1.03, ease: "none" }, 0)
+      .to("#wedding .layer-canopy-left", { yPercent: -6, ease: "none" }, 0)
+      .to("#wedding .layer-canopy-right", { yPercent: -6, ease: "none" }, 0)
+      .to("#wedding .layer-parasol-right", { yPercent: -5, ease: "none" }, 0)
+      .to("#wedding .layer-fg-flowers", { yPercent: -8, ease: "none" }, 0);
 
     gsap.set("#wedding .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#wedding .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: weddingSection, start: "top 70%", toggleActions: "play none none reverse" } });
@@ -771,29 +735,17 @@ if (spotlightImagesContainer) {
     particleSystems["wedding"] = createParticleSystem("wedding-particles-canvas", weddingSection, { count: 24, centerColor: "rgba(255, 200, 180, 1)", glowColor: "rgba(240, 160, 140, 0.65)" });
   }
 
-  // --- RECEPTION SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
+  // --- RECEPTION SCENIC LAYER PARALLAX ---
   const receptionSection = document.querySelector("#reception");
   if (receptionSection) {
-    sectionIdleTweens["reception"] = [
-      gsap.to("#reception .layer-lanterns-left", { rotation: 6.5, xPercent: 3.5, duration: 3.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#reception .layer-canopy-left", { rotation: -5.0, xPercent: -3.0, duration: 3.8, delay: 0.2, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#reception .layer-canopy-right", { rotation: 4.0, yPercent: 3.0, duration: 3.5, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#reception .layer-flowers-right", { rotation: -4.5, yPercent: 2.5, duration: 4.2, delay: 0.1, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#reception .layer-birdcage-right", { rotation: 3.5, xPercent: 2.0, duration: 4.5, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-      gsap.to("#reception .layer-arch-left", { rotation: -2.8, xPercent: -1.5, duration: 4.6, yoyo: true, repeat: -1, ease: "sine.inOut" }),
-    ];
-
     const receptionST = gsap.timeline({ scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
     receptionST
-      .to("#reception .layer-base", { scale: 1.08, ease: "none" }, 0)
-      .to("#reception .layer-couch-lounge", { scale: 1.05, yPercent: -2, ease: "none" }, 0)
-      .to("#reception .layer-arch-left", { rotation: 5, xPercent: 3, ease: "none" }, 0)
-      .to("#reception .layer-birdcage-right", { rotation: -6, xPercent: -4, ease: "none" }, 0)
-      .to("#reception .layer-canopy-left", { rotation: 8, xPercent: 5, ease: "none" }, 0)
-      .to("#reception .layer-canopy-right", { rotation: -7, xPercent: -4, ease: "none" }, 0)
-      .to("#reception .layer-lanterns-left", { rotation: -8, xPercent: -5, ease: "none" }, 0)
-      .to("#reception .layer-flowers-right", { rotation: 6, xPercent: 4, ease: "none" }, 0)
-      .to("#reception .layer-fg-bushes", { scale: 1.08, yPercent: -4, ease: "none" }, 0);
+      .to("#reception .layer-base", { scale: 1.05, ease: "none" }, 0)
+      .to("#reception .layer-couch-lounge", { scale: 1.03, ease: "none" }, 0)
+      .to("#reception .layer-canopy-left", { yPercent: -6, ease: "none" }, 0)
+      .to("#reception .layer-canopy-right", { yPercent: -6, ease: "none" }, 0)
+      .to("#reception .layer-lanterns-left", { yPercent: -8, ease: "none" }, 0)
+      .to("#reception .layer-fg-bushes", { yPercent: -7, ease: "none" }, 0);
 
     gsap.set("#reception .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#reception .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: receptionSection, start: "top 70%", toggleActions: "play none none reverse" } });
@@ -877,21 +829,6 @@ if (spotlightImagesContainer) {
     const sections = document.querySelectorAll(".function-section");
 
     sections.forEach((section) => {
-      gsap.fromTo(
-        section,
-        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
-        {
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 85%",
-            end: "top 20%",
-            scrub: 0.5,
-          },
-        }
-      );
-
       const cardTitle = section.querySelector(".card-function-title");
       const cardTagline = section.querySelector(".card-tagline");
       const badge = section.querySelector(".function-badge");
@@ -977,21 +914,6 @@ if (spotlightImagesContainer) {
 
     const introSection = document.querySelector("section.intro");
     if (introSection) {
-      gsap.fromTo(
-        introSection,
-        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
-        {
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: introSection,
-            start: "top 85%",
-            end: "top 20%",
-            scrub: 0.5,
-          },
-        }
-      );
-
       const introH1 = introSection.querySelector(".intro-welcome-title");
       if (introH1) {
         splitText(introH1, "words", "word", false);
@@ -1012,24 +934,6 @@ if (spotlightImagesContainer) {
           }
         );
       }
-    }
-
-    const outroSection = document.querySelector("section.outro");
-    if (outroSection) {
-      gsap.fromTo(
-        outroSection,
-        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
-        {
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: outroSection,
-            start: "top 85%",
-            end: "top 20%",
-            scrub: 0.5,
-          },
-        }
-      );
     }
 
     // --- AUTOMATIC STICKER WIPE OVERLAY ON SECTION SCROLL (MOBILE PHONE & DESKTOP) ---

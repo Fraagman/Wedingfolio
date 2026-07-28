@@ -552,7 +552,6 @@ section.spotlight {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  transform-style: preserve-3d;
   contain: layout style;
 }
 
@@ -567,7 +566,6 @@ section.spotlight {
   background: radial-gradient(circle at 50% 30%, rgba(255, 220, 110, 0.32) 0%, rgba(245, 195, 75, 0.12) 45%, transparent 75%);
   pointer-events: none;
   z-index: 1;
-  transform: translateZ(5px);
   animation: sunbeamPulse 4s ease-in-out infinite alternate;
 }
 
@@ -585,7 +583,6 @@ section.spotlight {
   height: 100%;
   pointer-events: none;
   z-index: 3;
-  transform: translateZ(35px);
 }
 
 .haldi-layer {
@@ -603,21 +600,20 @@ section.spotlight {
 }
 
 /* Strict 3D TranslateZ Stacking to Eliminate GPU Z-Fighting Flickering */
-.haldi-layer.layer-base { z-index: 0; opacity: 0.95; transform-origin: center center; transform: translateZ(0px); }
-.haldi-layer.layer-tree-left { z-index: 1; transform-origin: bottom left; transform: translateZ(10px); }
-.haldi-layer.layer-arch { z-index: 2; transform-origin: center center; transform: translateZ(20px); }
-.haldi-layer.layer-branch-left { z-index: 4; transform-origin: top left; transform: translateZ(40px); }
-.haldi-layer.layer-branch-right { z-index: 4; transform-origin: top right; transform: translateZ(40px); }
-.haldi-layer.layer-leaves-left { z-index: 5; transform-origin: bottom left; transform: translateZ(50px); }
-.haldi-layer.layer-leaves-right { z-index: 5; transform-origin: bottom right; transform: translateZ(50px); }
-.haldi-layer.layer-haldi-bowl { z-index: 5; transform-origin: bottom center; transform: translateZ(50px); }
+.haldi-layer.layer-base { z-index: 0; opacity: 0.95; }
+.haldi-layer.layer-tree-left { z-index: 1; transform-origin: bottom left; }
+.haldi-layer.layer-arch { z-index: 2; transform-origin: center center; }
+.haldi-layer.layer-branch-left { z-index: 4; transform-origin: top left; }
+.haldi-layer.layer-branch-right { z-index: 4; transform-origin: top right; }
+.haldi-layer.layer-leaves-left { z-index: 5; transform-origin: bottom left; }
+.haldi-layer.layer-leaves-right { z-index: 5; transform-origin: bottom right; }
+.haldi-layer.layer-haldi-bowl { z-index: 5; transform-origin: bottom center; }
 
 /* Haldi Section Content Layering */
 .function-section#haldi .function-badge,
 .function-section#haldi .spotlight-image {
   position: relative;
   z-index: 3;
-  transform: translateZ(30px);
 }
 
 .function-section#haldi .spotlight-text.invitation-card {
@@ -663,7 +659,6 @@ section.spotlight {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  transform-style: preserve-3d;
   contain: layout style;
 }
 
@@ -678,7 +673,6 @@ section.spotlight {
   background: radial-gradient(circle at 50% 30%, rgba(180, 235, 160, 0.32) 0%, rgba(110, 195, 125, 0.12) 45%, transparent 75%);
   pointer-events: none;
   z-index: 1;
-  transform: translateZ(5px);
   animation: mehendiSunbeamPulse 4s ease-in-out infinite alternate;
 }
 
@@ -696,7 +690,6 @@ section.spotlight {
   height: 100%;
   pointer-events: none;
   z-index: 3;
-  transform: translateZ(35px);
 }
 
 .mehendi-layer {
@@ -714,22 +707,21 @@ section.spotlight {
 }
 
 /* Strict 3D TranslateZ Stacking Contexts for Zero GPU Z-Fighting Flickering */
-.mehendi-layer.layer-base { z-index: 0; opacity: 0.95; transform-origin: center center; transform: translateZ(0px); }
-.mehendi-layer.layer-gazebo { z-index: 1; transform-origin: center bottom; transform: translateZ(12px); }
-.mehendi-layer.layer-flowers-left { z-index: 2; transform-origin: bottom left; transform: translateZ(20px); }
-.mehendi-layer.layer-foliage-right { z-index: 2; transform-origin: bottom right; transform: translateZ(20px); }
-.mehendi-layer.layer-canopy-left { z-index: 4; transform-origin: top left; transform: translateZ(42px); }
-.mehendi-layer.layer-canopy-right { z-index: 4; transform-origin: top right; transform: translateZ(42px); }
-.mehendi-layer.layer-canopy-center { z-index: 4; transform-origin: top center; transform: translateZ(45px); }
-.mehendi-layer.layer-fg-grass { z-index: 5; transform-origin: bottom center; transform: translateZ(50px); }
-.mehendi-layer.layer-floor-mandala { z-index: 5; transform-origin: bottom center; transform: translateZ(55px); }
+.mehendi-layer.layer-base { z-index: 0; opacity: 0.95; }
+.mehendi-layer.layer-gazebo { z-index: 1; transform-origin: center bottom; }
+.mehendi-layer.layer-flowers-left { z-index: 2; transform-origin: bottom left; }
+.mehendi-layer.layer-foliage-right { z-index: 2; transform-origin: bottom right; }
+.mehendi-layer.layer-canopy-left { z-index: 4; transform-origin: top left; }
+.mehendi-layer.layer-canopy-right { z-index: 4; transform-origin: top right; }
+.mehendi-layer.layer-canopy-center { z-index: 4; transform-origin: top center; }
+.mehendi-layer.layer-fg-grass { z-index: 5; transform-origin: bottom center; }
+.mehendi-layer.layer-floor-mandala { z-index: 5; transform-origin: bottom center; }
 
 /* Mehendi Invitation Card Layering */
 .function-section#mehendi .function-badge,
 .function-section#mehendi .spotlight-image {
   position: relative;
   z-index: 3;
-  transform: translateZ(30px);
 }
 
 .function-section#mehendi .spotlight-text.invitation-card {
@@ -769,7 +761,6 @@ section.spotlight {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  transform-style: preserve-3d;
   contain: layout style;
 }
 
@@ -784,7 +775,6 @@ section.spotlight {
   background: radial-gradient(circle at 50% 30%, rgba(255, 220, 150, 0.35) 0%, rgba(245, 175, 95, 0.14) 45%, transparent 75%);
   pointer-events: none;
   z-index: 1;
-  transform: translateZ(5px);
   animation: sangeetSunbeamPulse 4.2s ease-in-out infinite alternate;
 }
 
@@ -802,7 +792,6 @@ section.spotlight {
   height: 100%;
   pointer-events: none;
   z-index: 3;
-  transform: translateZ(35px);
 }
 
 .sangeet-layer {
@@ -820,23 +809,22 @@ section.spotlight {
 }
 
 /* Strict 3D TranslateZ Stacking Contexts for Zero GPU Z-Fighting Flickering */
-.sangeet-layer.layer-base { z-index: 0; opacity: 0.95; transform-origin: center center; transform: translateZ(0px); }
-.sangeet-layer.layer-gazebo { z-index: 1; transform-origin: bottom left; transform: translateZ(10px); }
-.sangeet-layer.layer-trees-left { z-index: 2; transform-origin: bottom left; transform: translateZ(18px); }
-.sangeet-layer.layer-trees-right { z-index: 2; transform-origin: bottom right; transform: translateZ(18px); }
-.sangeet-layer.layer-stage-arch { z-index: 2; transform-origin: center center; transform: translateZ(25px); }
-.sangeet-layer.layer-stage-cushions { z-index: 2; transform-origin: center center; transform: translateZ(28px); }
-.sangeet-layer.layer-hanging-canopy { z-index: 4; transform-origin: top right; transform: translateZ(42px); }
-.sangeet-layer.layer-sitar { z-index: 5; transform-origin: bottom left; transform: translateZ(50px); }
-.sangeet-layer.layer-tabla { z-index: 5; transform-origin: bottom center; transform: translateZ(52px); }
-.sangeet-layer.layer-mic { z-index: 5; transform-origin: bottom right; transform: translateZ(54px); }
+.sangeet-layer.layer-base { z-index: 0; opacity: 0.95; }
+.sangeet-layer.layer-gazebo { z-index: 1; transform-origin: bottom left; }
+.sangeet-layer.layer-trees-left { z-index: 2; transform-origin: bottom left; }
+.sangeet-layer.layer-trees-right { z-index: 2; transform-origin: bottom right; }
+.sangeet-layer.layer-stage-arch { z-index: 2; transform-origin: center center; }
+.sangeet-layer.layer-stage-cushions { z-index: 2; transform-origin: center center; }
+.sangeet-layer.layer-hanging-canopy { z-index: 4; transform-origin: top right; }
+.sangeet-layer.layer-sitar { z-index: 5; transform-origin: bottom left; }
+.sangeet-layer.layer-tabla { z-index: 5; transform-origin: bottom center; }
+.sangeet-layer.layer-mic { z-index: 5; transform-origin: bottom right; }
 
 /* Sangeet Invitation Card Layering */
 .function-section#sangeet .function-badge,
 .function-section#sangeet .spotlight-image {
   position: relative;
   z-index: 3;
-  transform: translateZ(30px);
 }
 
 .function-section#sangeet .spotlight-text.invitation-card {
@@ -876,7 +864,6 @@ section.spotlight {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  transform-style: preserve-3d;
   contain: layout style;
 }
 
@@ -891,7 +878,6 @@ section.spotlight {
   background: radial-gradient(circle at 50% 30%, rgba(255, 215, 140, 0.35) 0%, rgba(225, 145, 90, 0.14) 45%, transparent 75%);
   pointer-events: none;
   z-index: 1;
-  transform: translateZ(5px);
   animation: weddingSunbeamPulse 2.8s ease-in-out infinite alternate;
 }
 
@@ -909,7 +895,6 @@ section.spotlight {
   height: 100%;
   pointer-events: none;
   z-index: 3;
-  transform: translateZ(35px);
 }
 
 .wedding-layer {
@@ -927,22 +912,21 @@ section.spotlight {
 }
 
 /* Strict 3D TranslateZ Stacking Contexts for Zero GPU Z-Fighting Flickering */
-.wedding-layer.layer-base { z-index: 0; opacity: 0.95; transform-origin: center center; transform: translateZ(0px); }
-.wedding-layer.layer-mandap-platform { z-index: 1; transform-origin: center bottom; transform: translateZ(10px); }
-.wedding-layer.layer-mandap-arch { z-index: 2; transform-origin: bottom left; transform: translateZ(20px); }
-.wedding-layer.layer-parasol-right { z-index: 2; transform-origin: bottom right; transform: translateZ(25px); }
-.wedding-layer.layer-banana-leaves { z-index: 2; transform-origin: bottom right; transform: translateZ(28px); }
-.wedding-layer.layer-canopy-left { z-index: 4; transform-origin: top left; transform: translateZ(42px); }
-.wedding-layer.layer-canopy-right { z-index: 4; transform-origin: top right; transform: translateZ(45px); }
-.wedding-layer.layer-flowers-left { z-index: 5; transform-origin: bottom left; transform: translateZ(50px); }
-.wedding-layer.layer-fg-flowers { z-index: 5; transform-origin: bottom center; transform: translateZ(55px); }
+.wedding-layer.layer-base { z-index: 0; opacity: 0.95; }
+.wedding-layer.layer-mandap-platform { z-index: 1; transform-origin: center bottom; }
+.wedding-layer.layer-mandap-arch { z-index: 2; transform-origin: bottom left; }
+.wedding-layer.layer-parasol-right { z-index: 2; transform-origin: bottom right; }
+.wedding-layer.layer-banana-leaves { z-index: 2; transform-origin: bottom right; }
+.wedding-layer.layer-canopy-left { z-index: 4; transform-origin: top left; }
+.wedding-layer.layer-canopy-right { z-index: 4; transform-origin: top right; }
+.wedding-layer.layer-flowers-left { z-index: 5; transform-origin: bottom left; }
+.wedding-layer.layer-fg-flowers { z-index: 5; transform-origin: bottom center; }
 
 /* Wedding Invitation Card Layering */
 .function-section#wedding .function-badge,
 .function-section#wedding .spotlight-image {
   position: relative;
   z-index: 3;
-  transform: translateZ(30px);
 }
 
 .function-section#wedding .spotlight-text.invitation-card {
@@ -982,7 +966,6 @@ section.spotlight {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  transform-style: preserve-3d;
   contain: layout style;
 }
 
@@ -997,7 +980,6 @@ section.spotlight {
   background: radial-gradient(circle at 50% 30%, rgba(235, 205, 130, 0.35) 0%, rgba(160, 130, 210, 0.14) 45%, transparent 75%);
   pointer-events: none;
   z-index: 1;
-  transform: translateZ(5px);
   animation: receptionSunbeamPulse 2.8s ease-in-out infinite alternate;
 }
 
@@ -1015,7 +997,6 @@ section.spotlight {
   height: 100%;
   pointer-events: none;
   z-index: 3;
-  transform: translateZ(35px);
 }
 
 .reception-layer {
@@ -1033,22 +1014,21 @@ section.spotlight {
 }
 
 /* Strict 3D TranslateZ Stacking Contexts for Zero GPU Z-Fighting Flickering */
-.reception-layer.layer-base { z-index: 0; opacity: 0.95; transform-origin: center center; transform: translateZ(0px); }
-.reception-layer.layer-arch-left { z-index: 1; transform-origin: bottom left; transform: translateZ(10px); }
-.reception-layer.layer-birdcage-right { z-index: 2; transform-origin: bottom right; transform: translateZ(18px); }
-.reception-layer.layer-couch-lounge { z-index: 2; transform-origin: center bottom; transform: translateZ(25px); }
-.reception-layer.layer-canopy-left { z-index: 4; transform-origin: top left; transform: translateZ(40px); }
-.reception-layer.layer-canopy-right { z-index: 4; transform-origin: top right; transform: translateZ(42px); }
-.reception-layer.layer-lanterns-left { z-index: 5; transform-origin: top left; transform: translateZ(48px); }
-.reception-layer.layer-flowers-right { z-index: 5; transform-origin: top right; transform: translateZ(50px); }
-.reception-layer.layer-fg-bushes { z-index: 5; transform-origin: bottom left; transform: translateZ(55px); }
+.reception-layer.layer-base { z-index: 0; opacity: 0.95; }
+.reception-layer.layer-arch-left { z-index: 1; transform-origin: bottom left; }
+.reception-layer.layer-birdcage-right { z-index: 2; transform-origin: bottom right; }
+.reception-layer.layer-couch-lounge { z-index: 2; transform-origin: center bottom; }
+.reception-layer.layer-canopy-left { z-index: 4; transform-origin: top left; }
+.reception-layer.layer-canopy-right { z-index: 4; transform-origin: top right; }
+.reception-layer.layer-lanterns-left { z-index: 5; transform-origin: top left; }
+.reception-layer.layer-flowers-right { z-index: 5; transform-origin: top right; }
+.reception-layer.layer-fg-bushes { z-index: 5; transform-origin: bottom left; }
 
 /* Reception Invitation Card Layering */
 .function-section#reception .function-badge,
 .function-section#reception .spotlight-image {
   position: relative;
   z-index: 3;
-  transform: translateZ(30px);
 }
 
 .function-section#reception .spotlight-text.invitation-card {
