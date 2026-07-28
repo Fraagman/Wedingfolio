@@ -13,6 +13,8 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 const lenis = new Lenis({
   smoothWheel: true,
   syncTouch: false,
+  wheelMultiplier: 1.0,
+  touchMultiplier: 1.5,
 });
 lenis.on("scroll", ScrollTrigger.update);
 gsap.ticker.add((time) => {
@@ -20,7 +22,7 @@ gsap.ticker.add((time) => {
 });
 gsap.ticker.lagSmoothing(1000, 16);
 
-// --- PRELOADER & HERO REVEAL ---
+// --- FAST PRELOADER & HERO REVEAL (SUB-1S UNVEIL FOR FAST LCP) ---
 CustomEase.create("hop", "0.8, 0, 0.2, 1");
 CustomEase.create("hop2", "0.9, 0, 0.1, 1");
 
@@ -43,7 +45,7 @@ gsap.set(".preloader-img", {
 });
 
 const tl = gsap.timeline({
-  delay: 0.5,
+  delay: 0.1,
   onComplete: () => {
     ScrollTrigger.refresh();
   },
@@ -52,27 +54,27 @@ const tl = gsap.timeline({
 tl.to(".preloader-img", {
   scale: 1,
   clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-  duration: 1,
+  duration: 0.4,
   ease: "hop",
-  stagger: 0.2,
+  stagger: 0.04,
 });
 
 tl.to(
   ".preloader-header h1 .char",
   {
     y: "0%",
-    duration: 1,
+    duration: 0.4,
     ease: "hop2",
-    stagger: { each: 0.125, from: "random" },
+    stagger: { each: 0.025, from: "random" },
   },
-  "0.35",
+  "0.1",
 );
 
 tl.to(
   ".preloader-counter p",
   {
     y: "0%",
-    duration: 1,
+    duration: 0.3,
     ease: "hop2",
     onStart: () => {
       const counterEl = document.querySelector(".preloader-counter p");
@@ -80,14 +82,15 @@ tl.to(
 
       gsap.to(counter, {
         value: 100,
-        duration: 2,
-        delay: 0.5,
+        duration: 0.5,
         ease: "power2.inOut",
         onUpdate: () => {
-          counterEl.textContent = String(Math.round(counter.value)).padStart(
-            3,
-            "0",
-          );
+          if (counterEl) {
+            counterEl.textContent = String(Math.round(counter.value)).padStart(
+              3,
+              "0",
+            );
+          }
         },
       });
     },
@@ -99,21 +102,21 @@ tl.to(
   ".preloader-counter p",
   {
     y: "-100%",
-    duration: 0.75,
+    duration: 0.3,
     ease: "hop2",
   },
-  3.25,
+  0.65,
 );
 
 tl.to(
   ".preloader-header h1 .char",
   {
     y: "-100%",
-    duration: 0.75,
+    duration: 0.3,
     ease: "hop2",
-    stagger: { each: 0.125, from: "random" },
+    stagger: { each: 0.02, from: "random" },
   },
-  3.25,
+  0.65,
 );
 
 tl.to(
@@ -121,58 +124,59 @@ tl.to(
   {
     scale: 0,
     clipPath: "polygon(20% 20%, 80% 20%, 80% 80%, 20% 80%)",
-    duration: 1,
+    duration: 0.4,
     ease: "hop2",
-    stagger: -0.075,
+    stagger: -0.03,
   },
-  3.5,
+  0.75,
 );
 
 tl.to(
   ".preloader",
   {
     clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-    duration: 1,
+    duration: 0.4,
     ease: "hop2",
     onComplete: () => {
-      document.querySelector(".preloader").style.display = "none";
+      const preEl = document.querySelector(".preloader");
+      if (preEl) preEl.style.display = "none";
       ScrollTrigger.refresh();
     },
   },
-  4.35,
+  0.95,
 );
 
 tl.to(
   ".header h1 .word",
   {
     y: "0%",
-    duration: 1,
+    duration: 0.6,
     ease: "hop",
-    stagger: 0.1,
+    stagger: 0.05,
   },
-  4.65,
+  1.05,
 );
 
 tl.to(
   "nav a .word",
   {
     y: "0%",
-    duration: 1,
+    duration: 0.5,
     ease: "hop",
-    stagger: 0.075,
+    stagger: 0.03,
   },
-  4.75,
+  1.1,
 );
 
 tl.to(
   ".hero-footer p .word",
   {
     y: "0%",
-    duration: 1,
+    duration: 0.5,
     ease: "hop",
-    stagger: 0.075,
+    stagger: 0.03,
   },
-  4.75,
+  1.1,
 );
 
 // --- SWIRLING IMAGE COSMOS LAYOUT INIT ---
@@ -212,7 +216,6 @@ function createParticleSystem(canvasId, sectionEl, options = {}) {
   let width = (canvas.width = sectionEl.offsetWidth || window.innerWidth);
   let height = (canvas.height = sectionEl.offsetHeight || window.innerHeight);
 
-  // Pre-render glow particle sprite onto 32x32 offscreen canvas (Zero CPU shadowBlur per frame!)
   const spriteCanvas = document.createElement("canvas");
   spriteCanvas.width = 32;
   spriteCanvas.height = 32;
@@ -224,7 +227,7 @@ function createParticleSystem(canvasId, sectionEl, options = {}) {
   sCtx.fillStyle = grad;
   sCtx.fillRect(0, 0, 32, 32);
 
-  const particleCount = options.count || 24;
+  const particleCount = options.count || 20;
   const particles = [];
 
   for (let i = 0; i < particleCount; i++) {
@@ -390,16 +393,16 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("haldi-scene-bg");
       bgScene.innerHTML = `
-        <img src="/haldi-bg/10.webp" class="haldi-layer layer-base" alt="" />
+        <img src="/haldi-bg/10.webp" class="haldi-layer layer-base" alt="" loading="lazy" decoding="async" />
         <div class="haldi-sunbeam"></div>
-        <img src="/haldi-bg/6.webp" class="haldi-layer layer-tree-left" alt="" />
-        <img src="/haldi-bg/7.webp" class="haldi-layer layer-arch" alt="" />
+        <img src="/haldi-bg/6.webp" class="haldi-layer layer-tree-left" alt="" loading="lazy" decoding="async" />
+        <img src="/haldi-bg/7.webp" class="haldi-layer layer-arch" alt="" loading="lazy" decoding="async" />
         <canvas id="haldi-particles-canvas" class="haldi-particles-layer"></canvas>
-        <img src="/haldi-bg/9.webp" class="haldi-layer layer-branch-left" alt="" />
-        <img src="/haldi-bg/8.webp" class="haldi-layer layer-branch-right" alt="" />
-        <img src="/haldi-bg/5.webp" class="haldi-layer layer-leaves-left" alt="" />
-        <img src="/haldi-bg/4.webp" class="haldi-layer layer-leaves-right" alt="" />
-        <img src="/haldi-bg/3.webp" class="haldi-layer layer-haldi-bowl" alt="" />
+        <img src="/haldi-bg/9.webp" class="haldi-layer layer-branch-left" alt="" loading="lazy" decoding="async" />
+        <img src="/haldi-bg/8.webp" class="haldi-layer layer-branch-right" alt="" loading="lazy" decoding="async" />
+        <img src="/haldi-bg/5.webp" class="haldi-layer layer-leaves-left" alt="" loading="lazy" decoding="async" />
+        <img src="/haldi-bg/4.webp" class="haldi-layer layer-leaves-right" alt="" loading="lazy" decoding="async" />
+        <img src="/haldi-bg/3.webp" class="haldi-layer layer-haldi-bowl" alt="" loading="lazy" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -408,17 +411,17 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("mehendi-scene-bg");
       bgScene.innerHTML = `
-        <img src="/mehendi-bg/2.webp" class="mehendi-layer layer-base" alt="" />
+        <img src="/mehendi-bg/2.webp" class="mehendi-layer layer-base" alt="" loading="lazy" decoding="async" />
         <div class="mehendi-sunbeam"></div>
-        <img src="/mehendi-bg/10.webp" class="mehendi-layer layer-gazebo" alt="" />
-        <img src="/mehendi-bg/7.webp" class="mehendi-layer layer-flowers-left" alt="" />
-        <img src="/mehendi-bg/6.webp" class="mehendi-layer layer-foliage-right" alt="" />
+        <img src="/mehendi-bg/10.webp" class="mehendi-layer layer-gazebo" alt="" loading="lazy" decoding="async" />
+        <img src="/mehendi-bg/7.webp" class="mehendi-layer layer-flowers-left" alt="" loading="lazy" decoding="async" />
+        <img src="/mehendi-bg/6.webp" class="mehendi-layer layer-foliage-right" alt="" loading="lazy" decoding="async" />
         <canvas id="mehendi-particles-canvas" class="mehendi-particles-layer"></canvas>
-        <img src="/mehendi-bg/5.webp" class="mehendi-layer layer-canopy-left" alt="" />
-        <img src="/mehendi-bg/4.webp" class="mehendi-layer layer-canopy-right" alt="" />
-        <img src="/mehendi-bg/3.webp" class="mehendi-layer layer-canopy-center" alt="" />
-        <img src="/mehendi-bg/8.webp" class="mehendi-layer layer-fg-grass" alt="" />
-        <img src="/mehendi-bg/9.webp" class="mehendi-layer layer-floor-mandala" alt="" />
+        <img src="/mehendi-bg/5.webp" class="mehendi-layer layer-canopy-left" alt="" loading="lazy" decoding="async" />
+        <img src="/mehendi-bg/4.webp" class="mehendi-layer layer-canopy-right" alt="" loading="lazy" decoding="async" />
+        <img src="/mehendi-bg/3.webp" class="mehendi-layer layer-canopy-center" alt="" loading="lazy" decoding="async" />
+        <img src="/mehendi-bg/8.webp" class="mehendi-layer layer-fg-grass" alt="" loading="lazy" decoding="async" />
+        <img src="/mehendi-bg/9.webp" class="mehendi-layer layer-floor-mandala" alt="" loading="lazy" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -427,18 +430,18 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("sangeet-scene-bg");
       bgScene.innerHTML = `
-        <img src="/sangeet-bg/2.webp" class="sangeet-layer layer-base" alt="" />
+        <img src="/sangeet-bg/2.webp" class="sangeet-layer layer-base" alt="" loading="lazy" decoding="async" />
         <div class="sangeet-sunbeam"></div>
-        <img src="/sangeet-bg/10.webp" class="sangeet-layer layer-gazebo" alt="" />
-        <img src="/sangeet-bg/8.webp" class="sangeet-layer layer-trees-left" alt="" />
-        <img src="/sangeet-bg/9.webp" class="sangeet-layer layer-trees-right" alt="" />
-        <img src="/sangeet-bg/7.webp" class="sangeet-layer layer-stage-arch" alt="" />
-        <img src="/sangeet-bg/4.webp" class="sangeet-layer layer-stage-cushions" alt="" />
+        <img src="/sangeet-bg/10.webp" class="sangeet-layer layer-gazebo" alt="" loading="lazy" decoding="async" />
+        <img src="/sangeet-bg/8.webp" class="sangeet-layer layer-trees-left" alt="" loading="lazy" decoding="async" />
+        <img src="/sangeet-bg/9.webp" class="sangeet-layer layer-trees-right" alt="" loading="lazy" decoding="async" />
+        <img src="/sangeet-bg/7.webp" class="sangeet-layer layer-stage-arch" alt="" loading="lazy" decoding="async" />
+        <img src="/sangeet-bg/4.webp" class="sangeet-layer layer-stage-cushions" alt="" loading="lazy" decoding="async" />
         <canvas id="sangeet-particles-canvas" class="sangeet-particles-layer"></canvas>
-        <img src="/sangeet-bg/11.webp" class="sangeet-layer layer-hanging-canopy" alt="" />
-        <img src="/sangeet-bg/6.webp" class="sangeet-layer layer-sitar" alt="" />
-        <img src="/sangeet-bg/3.webp" class="sangeet-layer layer-tabla" alt="" />
-        <img src="/sangeet-bg/5.webp" class="sangeet-layer layer-mic" alt="" />
+        <img src="/sangeet-bg/11.webp" class="sangeet-layer layer-hanging-canopy" alt="" loading="lazy" decoding="async" />
+        <img src="/sangeet-bg/6.webp" class="sangeet-layer layer-sitar" alt="" loading="lazy" decoding="async" />
+        <img src="/sangeet-bg/3.webp" class="sangeet-layer layer-tabla" alt="" loading="lazy" decoding="async" />
+        <img src="/sangeet-bg/5.webp" class="sangeet-layer layer-mic" alt="" loading="lazy" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -447,17 +450,17 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("wedding-scene-bg");
       bgScene.innerHTML = `
-        <img src="/wedding-bg/2.webp" class="wedding-layer layer-base" alt="" />
+        <img src="/wedding-bg/2.webp" class="wedding-layer layer-base" alt="" loading="lazy" decoding="async" />
         <div class="wedding-sunbeam"></div>
-        <img src="/wedding-bg/10.webp" class="wedding-layer layer-mandap-platform" alt="" />
-        <img src="/wedding-bg/7.webp" class="wedding-layer layer-mandap-arch" alt="" />
-        <img src="/wedding-bg/8.webp" class="wedding-layer layer-parasol-right" alt="" />
-        <img src="/wedding-bg/5.webp" class="wedding-layer layer-banana-leaves" alt="" />
+        <img src="/wedding-bg/10.webp" class="wedding-layer layer-mandap-platform" alt="" loading="lazy" decoding="async" />
+        <img src="/wedding-bg/7.webp" class="wedding-layer layer-mandap-arch" alt="" loading="lazy" decoding="async" />
+        <img src="/wedding-bg/8.webp" class="wedding-layer layer-parasol-right" alt="" loading="lazy" decoding="async" />
+        <img src="/wedding-bg/5.webp" class="wedding-layer layer-banana-leaves" alt="" loading="lazy" decoding="async" />
         <canvas id="wedding-particles-canvas" class="wedding-particles-layer"></canvas>
-        <img src="/wedding-bg/3.webp" class="wedding-layer layer-canopy-left" alt="" />
-        <img src="/wedding-bg/9.webp" class="wedding-layer layer-canopy-right" alt="" />
-        <img src="/wedding-bg/6.webp" class="wedding-layer layer-flowers-left" alt="" />
-        <img src="/wedding-bg/11.webp" class="wedding-layer layer-fg-flowers" alt="" />
+        <img src="/wedding-bg/3.webp" class="wedding-layer layer-canopy-left" alt="" loading="lazy" decoding="async" />
+        <img src="/wedding-bg/9.webp" class="wedding-layer layer-canopy-right" alt="" loading="lazy" decoding="async" />
+        <img src="/wedding-bg/6.webp" class="wedding-layer layer-flowers-left" alt="" loading="lazy" decoding="async" />
+        <img src="/wedding-bg/11.webp" class="wedding-layer layer-fg-flowers" alt="" loading="lazy" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -466,17 +469,17 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("reception-scene-bg");
       bgScene.innerHTML = `
-        <img src="/reception-bg/2.webp" class="reception-layer layer-base" alt="" />
+        <img src="/reception-bg/2.webp" class="reception-layer layer-base" alt="" loading="lazy" decoding="async" />
         <div class="reception-sunbeam"></div>
-        <img src="/reception-bg/3.webp" class="reception-layer layer-arch-left" alt="" />
-        <img src="/reception-bg/5.webp" class="reception-layer layer-birdcage-right" alt="" />
-        <img src="/reception-bg/10.webp" class="reception-layer layer-couch-lounge" alt="" />
+        <img src="/reception-bg/3.webp" class="reception-layer layer-arch-left" alt="" loading="lazy" decoding="async" />
+        <img src="/reception-bg/5.webp" class="reception-layer layer-birdcage-right" alt="" loading="lazy" decoding="async" />
+        <img src="/reception-bg/10.webp" class="reception-layer layer-couch-lounge" alt="" loading="lazy" decoding="async" />
         <canvas id="reception-particles-canvas" class="reception-particles-layer"></canvas>
-        <img src="/reception-bg/8.webp" class="reception-layer layer-canopy-left" alt="" />
-        <img src="/reception-bg/9.webp" class="reception-layer layer-canopy-right" alt="" />
-        <img src="/reception-bg/7.webp" class="reception-layer layer-lanterns-left" alt="" />
-        <img src="/reception-bg/6.webp" class="reception-layer layer-flowers-right" alt="" />
-        <img src="/reception-bg/4.webp" class="reception-layer layer-fg-bushes" alt="" />
+        <img src="/reception-bg/8.webp" class="reception-layer layer-canopy-left" alt="" loading="lazy" decoding="async" />
+        <img src="/reception-bg/9.webp" class="reception-layer layer-canopy-right" alt="" loading="lazy" decoding="async" />
+        <img src="/reception-bg/7.webp" class="reception-layer layer-lanterns-left" alt="" loading="lazy" decoding="async" />
+        <img src="/reception-bg/6.webp" class="reception-layer layer-flowers-right" alt="" loading="lazy" decoding="async" />
+        <img src="/reception-bg/4.webp" class="reception-layer layer-fg-bushes" alt="" loading="lazy" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -515,6 +518,8 @@ if (spotlightImagesContainer) {
       const img = document.createElement("img");
       img.src = `/gallery/img${imgNum}.jpg`;
       img.alt = `${func.title} Photo`;
+      img.loading = "lazy";
+      img.decoding = "async";
 
       imgWrapper.appendChild(img);
       imageItem.appendChild(imgWrapper);
@@ -580,7 +585,6 @@ if (spotlightImagesContainer) {
 
   updateImageSizes();
 
-  // Single global resize listener to update cached widths efficiently
   const cachedWidths = new Array(imageItems.length).fill(0);
   const updateCachedWidths = () => {
     imageItems.forEach((imageItem, i) => {
@@ -655,7 +659,7 @@ if (spotlightImagesContainer) {
     }
   }, { passive: true });
 
-  // --- HALDI SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
+  // --- HALDI SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
   const haldiSection = document.querySelector("#haldi");
   if (haldiSection) {
     sectionIdleTweens["haldi"] = [
@@ -666,23 +670,25 @@ if (spotlightImagesContainer) {
       gsap.to("#haldi .layer-leaves-right", { rotation: 2.8, scale: 1.02, duration: 4.5, delay: 0.4, yoyo: true, repeat: -1, ease: "sine.inOut" }),
     ];
 
-    gsap.to("#haldi .layer-base", { scale: 1.05, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#haldi .layer-tree-left", { rotation: -3, xPercent: -2, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#haldi .layer-arch", { scale: 1.03, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#haldi .layer-branch-left", { rotation: 5, xPercent: 3, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#haldi .layer-branch-right", { rotation: -6, xPercent: -3, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#haldi .layer-leaves-left", { rotation: -4, xPercent: -3, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#haldi .layer-leaves-right", { rotation: 4, xPercent: 3, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#haldi .layer-haldi-bowl", { scale: 1.03, ease: "none", scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    const haldiST = gsap.timeline({ scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
+    haldiST
+      .to("#haldi .layer-base", { scale: 1.05, ease: "none" }, 0)
+      .to("#haldi .layer-tree-left", { rotation: -3, xPercent: -2, ease: "none" }, 0)
+      .to("#haldi .layer-arch", { scale: 1.03, ease: "none" }, 0)
+      .to("#haldi .layer-branch-left", { rotation: 5, xPercent: 3, ease: "none" }, 0)
+      .to("#haldi .layer-branch-right", { rotation: -6, xPercent: -3, ease: "none" }, 0)
+      .to("#haldi .layer-leaves-left", { rotation: -4, xPercent: -3, ease: "none" }, 0)
+      .to("#haldi .layer-leaves-right", { rotation: 4, xPercent: 3, ease: "none" }, 0)
+      .to("#haldi .layer-haldi-bowl", { scale: 1.03, ease: "none" }, 0);
 
     gsap.set("#haldi .spotlight-text.invitation-card", { y: 0 });
-    gsap.fromTo("#haldi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: haldiSection, start: "top 70%", toggleActions: "play none none reverse" } });
-    gsap.fromTo("#haldi .card-tagline, #haldi .card-event-details, #haldi .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: haldiSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#haldi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: haldiSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#haldi .card-tagline, #haldi .card-event-details, #haldi .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: haldiSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    particleSystems["haldi"] = createParticleSystem("haldi-particles-canvas", haldiSection, { count: 24, centerColor: "rgba(255, 235, 150, 1)", glowColor: "rgba(255, 215, 0, 0.6)" });
+    particleSystems["haldi"] = createParticleSystem("haldi-particles-canvas", haldiSection, { count: 20, centerColor: "rgba(255, 235, 150, 1)", glowColor: "rgba(255, 215, 0, 0.6)" });
   }
 
-  // --- MEHENDI SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
+  // --- MEHENDI SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
   const mehendiSection = document.querySelector("#mehendi");
   if (mehendiSection) {
     sectionIdleTweens["mehendi"] = [
@@ -693,22 +699,24 @@ if (spotlightImagesContainer) {
       gsap.to("#mehendi .layer-foliage-right", { rotation: 2.5, xPercent: 1.5, duration: 4.4, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
     ];
 
-    gsap.to("#mehendi .layer-base", { scale: 1.05, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#mehendi .layer-gazebo", { scale: 1.03, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#mehendi .layer-flowers-left", { rotation: -4, xPercent: -3, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#mehendi .layer-foliage-right", { rotation: 4, xPercent: 3, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#mehendi .layer-canopy-left", { rotation: 5, xPercent: 3, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#mehendi .layer-canopy-right", { rotation: -6, xPercent: -3, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#mehendi .layer-floor-mandala", { scale: 1.03, ease: "none", scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    const mehendiST = gsap.timeline({ scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
+    mehendiST
+      .to("#mehendi .layer-base", { scale: 1.05, ease: "none" }, 0)
+      .to("#mehendi .layer-gazebo", { scale: 1.03, ease: "none" }, 0)
+      .to("#mehendi .layer-flowers-left", { rotation: -4, xPercent: -3, ease: "none" }, 0)
+      .to("#mehendi .layer-foliage-right", { rotation: 4, xPercent: 3, ease: "none" }, 0)
+      .to("#mehendi .layer-canopy-left", { rotation: 5, xPercent: 3, ease: "none" }, 0)
+      .to("#mehendi .layer-canopy-right", { rotation: -6, xPercent: -3, ease: "none" }, 0)
+      .to("#mehendi .layer-floor-mandala", { scale: 1.03, ease: "none" }, 0);
 
     gsap.set("#mehendi .spotlight-text.invitation-card", { y: 0 });
-    gsap.fromTo("#mehendi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: mehendiSection, start: "top 70%", toggleActions: "play none none reverse" } });
-    gsap.fromTo("#mehendi .card-tagline, #mehendi .card-event-details, #mehendi .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: mehendiSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#mehendi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: mehendiSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#mehendi .card-tagline, #mehendi .card-event-details, #mehendi .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: mehendiSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    particleSystems["mehendi"] = createParticleSystem("mehendi-particles-canvas", mehendiSection, { count: 24, centerColor: "rgba(180, 245, 160, 1)", glowColor: "rgba(160, 225, 140, 0.6)" });
+    particleSystems["mehendi"] = createParticleSystem("mehendi-particles-canvas", mehendiSection, { count: 20, centerColor: "rgba(180, 245, 160, 1)", glowColor: "rgba(160, 225, 140, 0.6)" });
   }
 
-  // --- SANGEET SCENE ORGANIC WIND & 3D PARALLAX ANIMATION ---
+  // --- SANGEET SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
   const sangeetSection = document.querySelector("#sangeet");
   if (sangeetSection) {
     sectionIdleTweens["sangeet"] = [
@@ -718,20 +726,22 @@ if (spotlightImagesContainer) {
       gsap.to("#sangeet .layer-trees-right", { rotation: 2.2, xPercent: 1.4, duration: 4.2, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut" }),
     ];
 
-    gsap.to("#sangeet .layer-base", { scale: 1.05, ease: "none", scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#sangeet .layer-stage-arch", { scale: 1.03, ease: "none", scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#sangeet .layer-hanging-canopy", { rotation: -5, xPercent: -3, ease: "none", scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#sangeet .layer-sitar", { rotation: 3, xPercent: 2, ease: "none", scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#sangeet .layer-tabla", { scale: 1.03, ease: "none", scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    const sangeetST = gsap.timeline({ scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
+    sangeetST
+      .to("#sangeet .layer-base", { scale: 1.05, ease: "none" }, 0)
+      .to("#sangeet .layer-stage-arch", { scale: 1.03, ease: "none" }, 0)
+      .to("#sangeet .layer-hanging-canopy", { rotation: -5, xPercent: -3, ease: "none" }, 0)
+      .to("#sangeet .layer-sitar", { rotation: 3, xPercent: 2, ease: "none" }, 0)
+      .to("#sangeet .layer-tabla", { scale: 1.03, ease: "none" }, 0);
 
     gsap.set("#sangeet .spotlight-text.invitation-card", { y: 0 });
-    gsap.fromTo("#sangeet .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: sangeetSection, start: "top 70%", toggleActions: "play none none reverse" } });
-    gsap.fromTo("#sangeet .card-tagline, #sangeet .card-event-details, #sangeet .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: sangeetSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#sangeet .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: sangeetSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#sangeet .card-tagline, #sangeet .card-event-details, #sangeet .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: sangeetSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    particleSystems["sangeet"] = createParticleSystem("sangeet-particles-canvas", sangeetSection, { count: 24, centerColor: "rgba(255, 230, 150, 1)", glowColor: "rgba(255, 215, 120, 0.6)" });
+    particleSystems["sangeet"] = createParticleSystem("sangeet-particles-canvas", sangeetSection, { count: 20, centerColor: "rgba(255, 230, 150, 1)", glowColor: "rgba(255, 215, 120, 0.6)" });
   }
 
-  // --- WEDDING SCENE DYNAMIC ORGANIC WIND & HIGH-MOTION 3D PARALLAX ANIMATION ---
+  // --- WEDDING SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
   const weddingSection = document.querySelector("#wedding");
   if (weddingSection) {
     sectionIdleTweens["wedding"] = [
@@ -742,24 +752,26 @@ if (spotlightImagesContainer) {
       gsap.to("#wedding .layer-flowers-left", { rotation: -3.0, xPercent: -1.8, duration: 4.5, yoyo: true, repeat: -1, ease: "sine.inOut" }),
     ];
 
-    gsap.to("#wedding .layer-base", { scale: 1.08, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#wedding .layer-mandap-arch", { scale: 1.06, rotation: 4, xPercent: 2.5, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#wedding .layer-mandap-platform", { scale: 1.04, yPercent: -2, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#wedding .layer-canopy-left", { rotation: -8, xPercent: -5, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#wedding .layer-canopy-right", { rotation: 7, xPercent: 4.5, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#wedding .layer-parasol-right", { rotation: 6.5, xPercent: 3.5, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#wedding .layer-banana-leaves", { rotation: -7, xPercent: -4, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#wedding .layer-flowers-left", { rotation: -5, xPercent: -3, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#wedding .layer-fg-flowers", { scale: 1.08, yPercent: -4, ease: "none", scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    const weddingST = gsap.timeline({ scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
+    weddingST
+      .to("#wedding .layer-base", { scale: 1.08, ease: "none" }, 0)
+      .to("#wedding .layer-mandap-arch", { scale: 1.06, rotation: 4, xPercent: 2.5, ease: "none" }, 0)
+      .to("#wedding .layer-mandap-platform", { scale: 1.04, yPercent: -2, ease: "none" }, 0)
+      .to("#wedding .layer-canopy-left", { rotation: -8, xPercent: -5, ease: "none" }, 0)
+      .to("#wedding .layer-canopy-right", { rotation: 7, xPercent: 4.5, ease: "none" }, 0)
+      .to("#wedding .layer-parasol-right", { rotation: 6.5, xPercent: 3.5, ease: "none" }, 0)
+      .to("#wedding .layer-banana-leaves", { rotation: -7, xPercent: -4, ease: "none" }, 0)
+      .to("#wedding .layer-flowers-left", { rotation: -5, xPercent: -3, ease: "none" }, 0)
+      .to("#wedding .layer-fg-flowers", { scale: 1.08, yPercent: -4, ease: "none" }, 0);
 
     gsap.set("#wedding .spotlight-text.invitation-card", { y: 0 });
-    gsap.fromTo("#wedding .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: weddingSection, start: "top 70%", toggleActions: "play none none reverse" } });
-    gsap.fromTo("#wedding .card-tagline, #wedding .card-event-details, #wedding .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: weddingSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#wedding .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: weddingSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#wedding .card-tagline, #wedding .card-event-details, #wedding .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: weddingSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    particleSystems["wedding"] = createParticleSystem("wedding-particles-canvas", weddingSection, { count: 30, centerColor: "rgba(255, 200, 180, 1)", glowColor: "rgba(240, 160, 140, 0.65)" });
+    particleSystems["wedding"] = createParticleSystem("wedding-particles-canvas", weddingSection, { count: 24, centerColor: "rgba(255, 200, 180, 1)", glowColor: "rgba(240, 160, 140, 0.65)" });
   }
 
-  // --- RECEPTION SCENE DYNAMIC ORGANIC WIND & HIGH-MOTION 3D PARALLAX ANIMATION ---
+  // --- RECEPTION SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
   const receptionSection = document.querySelector("#reception");
   if (receptionSection) {
     sectionIdleTweens["reception"] = [
@@ -771,22 +783,83 @@ if (spotlightImagesContainer) {
       gsap.to("#reception .layer-arch-left", { rotation: -2.8, xPercent: -1.5, duration: 4.6, yoyo: true, repeat: -1, ease: "sine.inOut" }),
     ];
 
-    gsap.to("#reception .layer-base", { scale: 1.08, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#reception .layer-couch-lounge", { scale: 1.05, yPercent: -2, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#reception .layer-arch-left", { rotation: 5, xPercent: 3, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#reception .layer-birdcage-right", { rotation: -6, xPercent: -4, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#reception .layer-canopy-left", { rotation: 8, xPercent: 5, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#reception .layer-canopy-right", { rotation: -7, xPercent: -4, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#reception .layer-lanterns-left", { rotation: -8, xPercent: -5, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#reception .layer-flowers-right", { rotation: 6, xPercent: 4, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
-    gsap.to("#reception .layer-fg-bushes", { scale: 1.08, yPercent: -4, ease: "none", scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 1 } });
+    const receptionST = gsap.timeline({ scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
+    receptionST
+      .to("#reception .layer-base", { scale: 1.08, ease: "none" }, 0)
+      .to("#reception .layer-couch-lounge", { scale: 1.05, yPercent: -2, ease: "none" }, 0)
+      .to("#reception .layer-arch-left", { rotation: 5, xPercent: 3, ease: "none" }, 0)
+      .to("#reception .layer-birdcage-right", { rotation: -6, xPercent: -4, ease: "none" }, 0)
+      .to("#reception .layer-canopy-left", { rotation: 8, xPercent: 5, ease: "none" }, 0)
+      .to("#reception .layer-canopy-right", { rotation: -7, xPercent: -4, ease: "none" }, 0)
+      .to("#reception .layer-lanterns-left", { rotation: -8, xPercent: -5, ease: "none" }, 0)
+      .to("#reception .layer-flowers-right", { rotation: 6, xPercent: 4, ease: "none" }, 0)
+      .to("#reception .layer-fg-bushes", { scale: 1.08, yPercent: -4, ease: "none" }, 0);
 
     gsap.set("#reception .spotlight-text.invitation-card", { y: 0 });
-    gsap.fromTo("#reception .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: receptionSection, start: "top 70%", toggleActions: "play none none reverse" } });
-    gsap.fromTo("#reception .card-tagline, #reception .card-event-details, #reception .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: receptionSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#reception .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: receptionSection, start: "top 70%", toggleActions: "play none none reverse" } });
+    gsap.fromTo("#reception .card-tagline, #reception .card-event-details, #reception .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: receptionSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    particleSystems["reception"] = createParticleSystem("reception-particles-canvas", receptionSection, { count: 30, centerColor: "rgba(255, 245, 210, 1)", glowColor: "rgba(235, 205, 130, 0.65)" });
+    particleSystems["reception"] = createParticleSystem("reception-particles-canvas", receptionSection, { count: 24, centerColor: "rgba(255, 245, 210, 1)", glowColor: "rgba(235, 205, 130, 0.65)" });
   }
+
+  // --- TRANSITION STORY ANIMATED STICKER WIPE OVERLAY ---
+  let currentWipeStoryNum = 0;
+
+  const triggerWipeOverlay = (storyNum = 1) => {
+    const wipeEl = document.querySelector(".page-transition-wipe");
+    const storyImgEl = document.querySelector(".wipe-story-img");
+    if (!wipeEl) return;
+
+    const validStoryNum = ((storyNum - 1) % 6) + 1;
+    if (storyImgEl) {
+      storyImgEl.src = `/transitionstory/${validStoryNum}.webp`;
+      gsap.set(storyImgEl, { scale: 0.7, opacity: 0 });
+    }
+
+    gsap.killTweensOf([wipeEl, storyImgEl]);
+    const tl = gsap.timeline();
+
+    tl.fromTo(
+      wipeEl,
+      { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
+      {
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+        duration: 0.45,
+        ease: "power4.inOut",
+      }
+    );
+
+    if (storyImgEl) {
+      tl.to(
+        storyImgEl,
+        { scale: 1, opacity: 1, duration: 0.35, ease: "power3.out" },
+        "-=0.2"
+      );
+      tl.to(
+        storyImgEl,
+        { scale: 1.08, opacity: 0, duration: 0.25, ease: "power2.in" },
+        "+=0.1"
+      );
+    }
+
+    tl.to(
+      wipeEl,
+      {
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+        duration: 0.45,
+        ease: "power4.inOut",
+        onComplete: () => {
+          gsap.set(wipeEl, {
+            clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+          });
+          if (storyImgEl) {
+            gsap.set(storyImgEl, { scale: 0, opacity: 0 });
+          }
+        },
+      },
+      "-=0.15"
+    );
+  };
 
   // --- SECTION VIEW TRANSITIONS & REVEAL ANIMATIONS ---
   function setupSectionTransitions() {
@@ -803,7 +876,7 @@ if (spotlightImagesContainer) {
             trigger: section,
             start: "top 85%",
             end: "top 20%",
-            scrub: 0.8,
+            scrub: 0.5,
           },
         }
       );
@@ -822,8 +895,8 @@ if (spotlightImagesContainer) {
           { y: "150%" },
           {
             y: "0%",
-            duration: 1,
-            stagger: 0.035,
+            duration: 0.8,
+            stagger: 0.025,
             ease: "power4.out",
             scrollTrigger: {
               trigger: section,
@@ -841,8 +914,8 @@ if (spotlightImagesContainer) {
           { y: "120%" },
           {
             y: "0%",
-            duration: 0.9,
-            stagger: 0.025,
+            duration: 0.7,
+            stagger: 0.02,
             ease: "power4.out",
             scrollTrigger: {
               trigger: section,
@@ -860,7 +933,7 @@ if (spotlightImagesContainer) {
           {
             y: 0,
             opacity: 1,
-            duration: 0.8,
+            duration: 0.6,
             ease: "power3.out",
             scrollTrigger: {
               trigger: section,
@@ -878,8 +951,8 @@ if (spotlightImagesContainer) {
           {
             y: 0,
             opacity: 1,
-            duration: 0.8,
-            stagger: 0.05,
+            duration: 0.6,
+            stagger: 0.04,
             ease: "power3.out",
             scrollTrigger: {
               trigger: section,
@@ -903,7 +976,7 @@ if (spotlightImagesContainer) {
             trigger: introSection,
             start: "top 85%",
             end: "top 20%",
-            scrub: 0.8,
+            scrub: 0.5,
           },
         }
       );
@@ -917,8 +990,8 @@ if (spotlightImagesContainer) {
           {
             y: "0%",
             opacity: 1,
-            duration: 1,
-            stagger: 0.1,
+            duration: 0.8,
+            stagger: 0.08,
             ease: "power3.out",
             scrollTrigger: {
               trigger: ".intro",
@@ -942,11 +1015,43 @@ if (spotlightImagesContainer) {
             trigger: outroSection,
             start: "top 85%",
             end: "top 20%",
-            scrub: 0.8,
+            scrub: 0.5,
           },
         }
       );
     }
+
+    // --- AUTOMATIC STICKER WIPE OVERLAY ON SECTION SCROLL (MOBILE PHONE & DESKTOP) ---
+    const sectionStories = [
+      { selector: "#haldi", storyNum: 1 },
+      { selector: "#mehendi", storyNum: 2 },
+      { selector: "#sangeet", storyNum: 3 },
+      { selector: "#wedding", storyNum: 4 },
+      { selector: "#reception", storyNum: 5 },
+      { selector: "section.outro", storyNum: 6 },
+    ];
+
+    sectionStories.forEach(({ selector, storyNum }) => {
+      const secEl = document.querySelector(selector);
+      if (secEl) {
+        ScrollTrigger.create({
+          trigger: secEl,
+          start: "top 65%",
+          onEnter: () => {
+            if (currentWipeStoryNum !== storyNum) {
+              currentWipeStoryNum = storyNum;
+              triggerWipeOverlay(storyNum);
+            }
+          },
+          onEnterBack: () => {
+            if (currentWipeStoryNum !== storyNum) {
+              currentWipeStoryNum = storyNum;
+              triggerWipeOverlay(storyNum);
+            }
+          },
+        });
+      }
+    });
 
     // --- REAL-TIME WEDDING COUNTDOWN TIMER ---
     const weddingDate = new Date("2027-06-02T10:00:00+05:30").getTime();
@@ -985,243 +1090,7 @@ if (spotlightImagesContainer) {
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    let transitionStoryCounter = 0;
-
-    const triggerWipeOverlay = (onMidpoint, storyNum = 1) => {
-      const wipeEl = document.querySelector(".page-transition-wipe");
-      const storyImgEl = document.querySelector(".wipe-story-img");
-      if (!wipeEl) {
-        if (onMidpoint) onMidpoint();
-        return;
-      }
-
-      const validStoryNum = ((storyNum - 1) % 6) + 1;
-      if (storyImgEl) {
-        storyImgEl.src = `/transitionstory/${validStoryNum}.webp`;
-        gsap.set(storyImgEl, { scale: 0.7, opacity: 0 });
-      }
-
-      gsap.killTweensOf([wipeEl, storyImgEl]);
-      const tl = gsap.timeline();
-
-      tl.fromTo(
-        wipeEl,
-        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
-        {
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-          duration: 0.5,
-          ease: "power4.inOut",
-          onComplete: () => {
-            if (onMidpoint) onMidpoint();
-          },
-        }
-      );
-
-      if (storyImgEl) {
-        tl.to(
-          storyImgEl,
-          {
-            scale: 1,
-            opacity: 1,
-            duration: 0.35,
-            ease: "power3.out",
-          },
-          "-=0.25"
-        );
-      }
-
-      if (storyImgEl) {
-        tl.to(
-          storyImgEl,
-          {
-            scale: 1.08,
-            opacity: 0,
-            duration: 0.25,
-            ease: "power2.in",
-          },
-          "+=0.15"
-        );
-      }
-
-      tl.to(
-        wipeEl,
-        {
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-          duration: 0.5,
-          ease: "power4.inOut",
-          onComplete: () => {
-            gsap.set(wipeEl, {
-              clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
-            });
-            if (storyImgEl) {
-              gsap.set(storyImgEl, { scale: 0, opacity: 0 });
-            }
-            ScrollTrigger.refresh();
-          },
-        },
-        "-=0.2"
-      );
-    };
-
-    // --- FULL SECTION SNAP & WIPE TRANSITION CONTROLLER ---
-    const allSnapSections = Array.from(
-      document.querySelectorAll(".hero, .intro, .function-section, .outro")
-    );
-
-    const getElementPageTop = (el) => {
-      let top = 0;
-      let curr = el;
-      while (curr) {
-        top += curr.offsetTop;
-        curr = curr.offsetParent;
-      }
-      return top;
-    };
-
-    let currentSectionIdx = 0;
-    let isSectionTransitioning = false;
-    let touchStartYPos = 0;
-
-    const findCurrentSectionIndex = () => {
-      const scrollY = window.scrollY;
-      let closestIdx = 0;
-      let minDistance = Infinity;
-
-      allSnapSections.forEach((sec, idx) => {
-        const secTop = getElementPageTop(sec);
-        const dist = Math.abs(secTop - scrollY);
-        if (dist < minDistance) {
-          minDistance = dist;
-          closestIdx = idx;
-        }
-      });
-
-      currentSectionIdx = closestIdx;
-    };
-
-    window.addEventListener("scroll", findCurrentSectionIndex, { passive: true });
-    findCurrentSectionIndex();
-
-    const goToSnapSection = (targetIdx, isScrollUp = false) => {
-      if (
-        targetIdx < 0 ||
-        targetIdx >= allSnapSections.length ||
-        isSectionTransitioning
-      )
-        return;
-
-      isSectionTransitioning = true;
-      const prevIdx = currentSectionIdx;
-      currentSectionIdx = targetIdx;
-      const targetSec = allSnapSections[targetIdx];
-      const secTop = getElementPageTop(targetSec);
-      const targetY =
-        secTop + Math.max(0, (targetSec.offsetHeight - window.innerHeight) / 2);
-
-      const isHeroToIntro = (prevIdx === 0 && targetIdx === 1) || (prevIdx === 1 && targetIdx === 0);
-      const skipWipe = isScrollUp || isHeroToIntro;
-
-      if (skipWipe) {
-        lenis.scrollTo(targetY, {
-          duration: 1.0,
-          onComplete: () => {
-            isSectionTransitioning = false;
-            ScrollTrigger.refresh();
-          },
-        });
-        setTimeout(() => {
-          isSectionTransitioning = false;
-        }, 1050);
-      } else {
-        transitionStoryCounter++;
-        const storyNum = targetIdx >= 2 ? targetIdx - 1 : transitionStoryCounter;
-
-        triggerWipeOverlay(() => {
-          window.scrollTo({ top: targetY, behavior: "instant" });
-          lenis.scrollTo(targetY, { immediate: true });
-        }, storyNum);
-
-        setTimeout(() => {
-          isSectionTransitioning = false;
-        }, 1150);
-      }
-    };
-
-    // Wheel Scroll Snap Intercept (Deferred for immediate main-thread response)
-    let isWheelThrottled = false;
-    window.addEventListener(
-      "wheel",
-      (e) => {
-        if (isSectionTransitioning) {
-          e.preventDefault();
-          return;
-        }
-
-        if (Math.abs(e.deltaY) > 20 && !isWheelThrottled) {
-          isWheelThrottled = true;
-          e.preventDefault();
-          const deltaY = e.deltaY;
-          requestAnimationFrame(() => {
-            if (deltaY > 0 && currentSectionIdx < allSnapSections.length - 1) {
-              goToSnapSection(currentSectionIdx + 1, false);
-            } else if (deltaY < 0 && currentSectionIdx > 0) {
-              goToSnapSection(currentSectionIdx - 1, true);
-            }
-            setTimeout(() => { isWheelThrottled = false; }, 250);
-          });
-        }
-      },
-      { passive: false }
-    );
-
-    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    if (!isTouchDevice) {
-      window.addEventListener(
-        "touchstart",
-        (e) => {
-          touchStartYPos = e.touches[0].clientY;
-        },
-        { passive: true }
-      );
-
-      window.addEventListener(
-        "touchend",
-        (e) => {
-          if (isSectionTransitioning) return;
-          const touchEndY = e.changedTouches[0].clientY;
-          const diffY = touchStartYPos - touchEndY;
-
-          if (Math.abs(diffY) > 40) {
-            requestAnimationFrame(() => {
-              if (diffY > 0 && currentSectionIdx < allSnapSections.length - 1) {
-                goToSnapSection(currentSectionIdx + 1, false);
-              } else if (diffY < 0 && currentSectionIdx > 0) {
-                goToSnapSection(currentSectionIdx - 1, true);
-              }
-            });
-          }
-        },
-        { passive: true }
-      );
-    }
-
-    // Keyboard Arrow Snap Intercept (Deferred for immediate main-thread response)
-    window.addEventListener("keydown", (e) => {
-      if (isSectionTransitioning) return;
-      if (["ArrowDown", "PageDown"].includes(e.code)) {
-        if (currentSectionIdx < allSnapSections.length - 1) {
-          e.preventDefault();
-          requestAnimationFrame(() => goToSnapSection(currentSectionIdx + 1, false));
-        }
-      } else if (["ArrowUp", "PageUp"].includes(e.code)) {
-        if (currentSectionIdx > 0) {
-          e.preventDefault();
-          requestAnimationFrame(() => goToSnapSection(currentSectionIdx - 1, true));
-        }
-      }
-    });
-
-    // Intercept Nav Link Clicks to use goToSnapSection (Deferred yielding for INP < 30ms)
+    // --- NATURAL SMOOTH NAV LINK SCROLLING ---
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     navLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
@@ -1232,16 +1101,9 @@ if (spotlightImagesContainer) {
         if (!targetEl) return;
 
         e.preventDefault();
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            const targetIdx = allSnapSections.indexOf(targetEl);
-            if (targetIdx !== -1) {
-              const isScrollUp = targetIdx < currentSectionIdx;
-              goToSnapSection(targetIdx, isScrollUp);
-            } else {
-              lenis.scrollTo(targetEl);
-            }
-          }, 0);
+        lenis.scrollTo(targetEl, {
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         });
       });
     });
@@ -1250,7 +1112,7 @@ if (spotlightImagesContainer) {
   setupSectionTransitions();
 }
 
-// --- SECTION VIEWPORT OBSERVER (PAUSE OFFSCREEN ANIMATIONS & PARTICLES FOR MAX INP SPEED) ---
+// --- SECTION VIEWPORT OBSERVER (PAUSE OFFSCREEN ANIMATIONS & PARTICLES FOR MAX PERFORMANCE) ---
 const sectionObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
