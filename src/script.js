@@ -685,6 +685,9 @@ if (spotlightImagesContainer) {
   const triggerWipeOverlay = (storyNum = 1) => {
     if (isWipePlaying) return;
     isWipePlaying = true;
+    setTimeout(() => {
+      isWipePlaying = false;
+    }, 1100);
 
     const wipeEl = document.querySelector(".page-transition-wipe");
     const storyImgEl = document.querySelector(".wipe-story-img");
@@ -696,7 +699,7 @@ if (spotlightImagesContainer) {
     const validStoryNum = ((storyNum - 1) % 6) + 1;
     if (storyImgEl) {
       storyImgEl.src = `/transitionstory/${validStoryNum}.webp`;
-      gsap.set(storyImgEl, { scale: 0.7, opacity: 0 });
+      gsap.set(storyImgEl, { scale: 0.5, opacity: 0 });
     }
 
     gsap.killTweensOf([wipeEl, storyImgEl]);
@@ -711,7 +714,7 @@ if (spotlightImagesContainer) {
       { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
       {
         clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-        duration: 0.45,
+        duration: 0.35,
         ease: "power4.inOut",
       }
     );
@@ -719,12 +722,13 @@ if (spotlightImagesContainer) {
     if (storyImgEl) {
       tl.to(
         storyImgEl,
-        { scale: 1, opacity: 1, duration: 0.35, ease: "power3.out" },
-        "-=0.2"
+        { scale: 1.15, opacity: 1, duration: 0.25, ease: "back.out(1.7)" },
+        "-=0.15"
       );
+      tl.to(storyImgEl, { scale: 1, duration: 0.1 });
       tl.to(
         storyImgEl,
-        { scale: 1.08, opacity: 0, duration: 0.25, ease: "power2.in" },
+        { scale: 0.85, opacity: 0, duration: 0.2, ease: "power2.in" },
         "+=0.1"
       );
     }
@@ -733,7 +737,7 @@ if (spotlightImagesContainer) {
       wipeEl,
       {
         clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-        duration: 0.45,
+        duration: 0.35,
         ease: "power4.inOut",
         onComplete: () => {
           gsap.set(wipeEl, {
@@ -744,7 +748,7 @@ if (spotlightImagesContainer) {
           }
         },
       },
-      "-=0.15"
+      "-=0.1"
     );
   };
 
@@ -875,11 +879,9 @@ if (spotlightImagesContainer) {
       if (secEl) {
         ScrollTrigger.create({
           trigger: secEl,
-          start: "top 50%",
-          once: true,
-          onEnter: () => {
-            triggerWipeOverlay(storyNum);
-          },
+          start: "top 60%",
+          onEnter: () => triggerWipeOverlay(storyNum),
+          onEnterBack: () => triggerWipeOverlay(storyNum),
         });
       }
     });
