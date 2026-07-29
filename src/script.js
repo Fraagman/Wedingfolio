@@ -906,20 +906,24 @@ if (spotlightImagesContainer) {
 
       isSlideTransitioning = true;
 
-      // Skip wipe animation for Hero <-> Intro transitions (slides 0 & 1)
+      const isScrollingUp = targetIndex < currentSlideIndex;
+
+      // Skip wipe animation for Hero <-> Intro transitions (slides 0 & 1) or when scrolling up
       const isHeroIntroTransition =
         (currentSlideIndex === 0 && targetIndex === 1) ||
         (currentSlideIndex === 1 && targetIndex === 0);
 
-      if (!isHeroIntroTransition) {
+      const shouldShowWipe = !isHeroIntroTransition && !isScrollingUp;
+
+      if (shouldShowWipe) {
         const storyNum = slideStoryMap[targetIndex] || 1;
         const targetSlide = slides[targetIndex];
-        // Trigger sticker wipe curtain animation
+        // Trigger sticker wipe curtain animation (only on scroll down)
         triggerWipeOverlay(storyNum, targetSlide);
       }
 
-      // Switch slides — instantly for Hero<->Intro, mid-wipe for others
-      const switchDelay = isHeroIntroTransition ? 0 : 350;
+      // Switch slides — mid-wipe if wipe is active, or instantly/normally when scrolling up
+      const switchDelay = shouldShowWipe ? 350 : 0;
 
       setTimeout(() => {
         slides.forEach((s, idx) => {
@@ -936,7 +940,7 @@ if (spotlightImagesContainer) {
 
       setTimeout(() => {
         isSlideTransitioning = false;
-      }, isHeroIntroTransition ? 100 : 900);
+      }, shouldShowWipe ? 900 : 250);
     }
 
     // Mouse Wheel Navigation (Debounced 1 Slide Per Tick)
