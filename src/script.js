@@ -1137,3 +1137,292 @@ if (typeof navigation !== "undefined" && navigation?.addEventListener) {
     });
   });
 }
+
+// --- BILINGUAL TRANSLATION SYSTEM (ENGLISH <-> HINDI) ---
+const TRANSLATIONS = {
+  en: {
+    hero: {
+      sub: "Together with their families, warmly invite you to celebrate",
+      names: "Maheen & Tanvi",
+      dateTag: "June 2nd – 6th, 2027 &nbsp;•&nbsp; Udaipur, Rajasthan",
+    },
+    intro: {
+      subtitle: "A Celebration of Love",
+      title: "Two Hearts, One Journey",
+      text: "With joy in our hearts, we request the pleasure of your company as we exchange vows, celebrate our traditions, and begin our forever together surrounded by love and family blessings.",
+      dates: "5 Days of Royal Festivities &nbsp;•&nbsp; Udaipur, Rajasthan",
+    },
+    functions: {
+      haldi: {
+        title: "Haldi Night",
+        tagline: "A golden splash of turmeric, laughter & family blessings for Maheen & Tanvi",
+        day: "MON",
+        date: "June 2 2027",
+        time: "10:00 AM onwards",
+        venue: "Courtyard Villa Lawn",
+        dressHeader: "Dress code",
+        dressSub: "Shades of Sun & Gold",
+        dressDetail: "Yellow Kurta, Floral Sarees or Bright Ethnic Wear",
+      },
+      mehendi: {
+        title: "Mehendi Night",
+        tagline: "An afternoon of intricate henna, music & vibrant colors celebrating Maheen & Tanvi",
+        day: "TUE",
+        date: "June 3 2027",
+        time: "03:00 PM onwards",
+        venue: "Mango Grove Garden",
+        dressHeader: "Dress code",
+        dressSub: "Vibrant Festive Shades",
+        dressDetail: "Green, Floral Prints, Lehengas or Indo-Western",
+      },
+      sangeet: {
+        title: "Sangeet Night",
+        tagline: "A magical night of dance, music & celebration with Maheen & Tanvi",
+        day: "WED",
+        date: "June 4 2027",
+        time: "07:30 PM onwards",
+        venue: "Uttar Garden Lawn",
+        dressHeader: "Dress code",
+        dressSub: "Embracing Heritage & Glamour",
+        dressDetail: "Bandhani, Patola, Leheriya or Mirrorwork Ethnic Wear",
+      },
+      wedding: {
+        title: "Wedding Ceremony",
+        tagline: "The sacred union of Maheen & Tanvi under divine blessings & holy fire",
+        day: "THU",
+        date: "June 5 2027",
+        time: "05:00 PM onwards",
+        venue: "The Royal Palace Mandap",
+        dressHeader: "Dress code",
+        dressSub: "Traditional Royal Elegance",
+        dressDetail: "Classic Sherwanis, Kanjeevarams or Regal Silks",
+      },
+      reception: {
+        title: "Grand Reception",
+        tagline: "An enchanting evening celebrating the new journey of Maheen & Tanvi",
+        day: "FRI",
+        date: "June 6 2027",
+        time: "08:00 PM onwards",
+        venue: "Grand Imperial Ballroom",
+        dressHeader: "Dress code",
+        dressSub: "Black Tie & Royal Glamour",
+        dressDetail: "Tuxedos, Evening Gowns or Designer Lehengas",
+      },
+    },
+    outro: {
+      subtitle: "We Can't Wait To Celebrate With You",
+      title: "See You In",
+      days: "Days",
+      hours: "Hours",
+      mins: "Minutes",
+      secs: "Seconds",
+      signature: "With Love, Maheen & Tanvi",
+      bigDay: "The Big Day Is Here!",
+    },
+    toggleBtn: "View in Hindi",
+  },
+  hi: {
+    hero: {
+      sub: "अपने परिवारों के साथ, आपको सादर आमंत्रित करते हैं",
+      names: "महीन एवं तन्वी",
+      dateTag: "२ से ६ जून, २०२७ &nbsp;•&nbsp; उदयपुर, राजस्थान",
+    },
+    intro: {
+      subtitle: "प्रेम का पावन उत्सव",
+      title: "दो दिल, एक सुहाना सफर",
+      text: "अत्यंत हर्ष के साथ, हम आपको इस मांगलिक अवसर पर आमंत्रित करते हैं। आइए, हमारे रीति-रिवाजों और नए जीवन की शुरुआत में शामिल होकर अपना स्नेह और आशीर्वाद प्रदान करें।",
+      dates: "५ दिनों का शाही उत्सव &nbsp;•&nbsp; उदयपुर, राजस्थान",
+    },
+    functions: {
+      haldi: {
+        title: "हल्दी नाइट",
+        tagline: "हल्दी की सुनहरी रंगत, उल्लास और परिवार का पावन आशीर्वाद महीन एवं तन्वी के संग",
+        day: "सोमवार",
+        date: "२ जून २०२७",
+        time: "प्रातः १०:०० बजे से",
+        venue: "कोर्टयार्ड विला लॉन",
+        dressHeader: "पहनावा (ड्रेस कोड)",
+        dressSub: "सूर्य और स्वर्ण के रंग",
+        dressDetail: "पीला कुर्ता, फ्लोरल साड़ी या उज्ज्वल पारंपरिक परिधान",
+      },
+      mehendi: {
+        title: "मेहंदी नाइट",
+        tagline: "मेंहदी की मनमोहक रचावट, संगीत और रंगों भरा हसीन दोपहर उत्सव",
+        day: "मंगलवार",
+        date: "३ जून २०२७",
+        time: "अपराह्न ०३:०० बजे से",
+        venue: "मैंगो ग्रोव गार्डन",
+        dressHeader: "पहनावा (ड्रेस कोड)",
+        dressSub: "उत्सव के उजले रंग",
+        dressDetail: "हरा, फ्लोरल प्रिंट्स, लहंगा या इंडो-वेस्टर्न",
+      },
+      sangeet: {
+        title: "संगीत संध्या",
+        tagline: "नृत्य, संगीत, रौनक और खुशियों से सजी एक जादुई शाम",
+        day: "बुधवार",
+        date: "४ जून २०२७",
+        time: "सायं ०७:३० बजे से",
+        venue: "उत्तर गार्डन लॉन",
+        dressHeader: "पहनावा (ड्रेस कोड)",
+        dressSub: "शाही परंपरा और ग्लैमर",
+        dressDetail: "बांधनी, पटोला, लहेरिया या मिररवर्क एथनिक परिधान",
+      },
+      wedding: {
+        title: "शुभ विवाह",
+        tagline: "पवित्र सात फेरे, ईश्वर का आशीर्वाद एवं महीन व तन्वी का पावन परिणय सूत्र",
+        day: "गुरुवार",
+        date: "५ जून २०२७",
+        time: "सायं ०५:०० बजे से",
+        venue: "द रॉयल पैलेस मंडप",
+        dressHeader: "पहनावा (ड्रेस कोड)",
+        dressSub: "पारंपरिक शाही परिधान",
+        dressDetail: "क्लैसिक शेरवानी, कांजीवरम या शाही सिल्क परिधान",
+      },
+      reception: {
+        title: "शाही रिसेप्शन",
+        tagline: "महीन एवं तन्वी के नए जीवन की शुरुआत में एक भव्य एवं यादगार शाम",
+        day: "शुक्रवार",
+        date: "६ जून २०२७",
+        time: "रात्रि ०८:०० बजे से",
+        venue: "ग्रैंड इम्पीरियल बॉलरूम",
+        dressHeader: "पहनावा (ड्रेस कोड)",
+        dressSub: "फॉर्मल इवनिंग एवं शाही परिधान",
+        dressDetail: "टक्सैडो, इवनिंग गाउन या डिज़ाइनर लहंगा",
+      },
+    },
+    outro: {
+      subtitle: "हम आपके साथ जश्न मनाने के लिए उत्सुक हैं",
+      title: "शुभ घड़ी आने में शेष",
+      days: "दिन",
+      hours: "घंटे",
+      mins: "मिनट",
+      secs: "सेकंड",
+      signature: "सप्रेम, महीन एवं तन्वी",
+      bigDay: "शुभ विवाह का दिन आ गया है!",
+    },
+    toggleBtn: "View in English",
+  },
+};
+
+let currentLang = "en";
+
+function updateSiteLanguage(lang) {
+  currentLang = lang;
+  const t = TRANSLATIONS[lang];
+
+  // 1. Hero
+  const heroSub = document.querySelector(".hero-welcome-sub");
+  if (heroSub) heroSub.textContent = t.hero.sub;
+
+  const heroH1 = document.querySelector(".header h1");
+  if (heroH1) heroH1.textContent = t.hero.names;
+
+  const heroDate = document.querySelector(".hero-date-tag");
+  if (heroDate) heroDate.innerHTML = t.hero.dateTag;
+
+  // 2. Intro
+  const introSub = document.querySelector(".intro-welcome-subtitle");
+  if (introSub) introSub.textContent = t.intro.subtitle;
+
+  const introTitle = document.querySelector(".intro-welcome-title");
+  if (introTitle) introTitle.textContent = t.intro.title;
+
+  const introText = document.querySelector(".intro-welcome-text");
+  if (introText) introText.textContent = t.intro.text;
+
+  const introDates = document.querySelector(".intro-welcome-dates");
+  if (introDates) introDates.innerHTML = t.intro.dates;
+
+  // 3. Function Sections
+  Object.keys(t.functions).forEach((id) => {
+    const sec = document.querySelector(`.function-section#${id}`);
+    if (!sec) return;
+    const fData = t.functions[id];
+
+    const titleEl = sec.querySelector(".card-function-title");
+    if (titleEl) titleEl.textContent = fData.title;
+
+    const taglineEl = sec.querySelector(".card-tagline");
+    if (taglineEl) taglineEl.textContent = fData.tagline;
+
+    const dayEl = sec.querySelector(".card-day");
+    if (dayEl) dayEl.textContent = fData.day;
+
+    const dateEl = sec.querySelector(".card-date");
+    if (dateEl) dateEl.textContent = fData.date;
+
+    const timeEl = sec.querySelector(".card-time");
+    if (timeEl) timeEl.textContent = fData.time;
+
+    const venueEl = sec.querySelector(".card-venue");
+    if (venueEl) venueEl.textContent = fData.venue;
+
+    const dressHeaderEl = sec.querySelector(".dress-code-header");
+    if (dressHeaderEl) dressHeaderEl.textContent = fData.dressHeader;
+
+    const dressSubEl = sec.querySelector(".dress-code-sub");
+    if (dressSubEl) dressSubEl.textContent = fData.dressSub;
+
+    const dressDetailEl = sec.querySelector(".dress-code-detail");
+    if (dressDetailEl) dressDetailEl.textContent = fData.dressDetail;
+  });
+
+  // 4. Outro
+  const outroSub = document.querySelector(".outro-subtitle");
+  if (outroSub) outroSub.textContent = t.outro.subtitle;
+
+  const outroTitle = document.querySelector(".outro-title");
+  if (
+    outroTitle &&
+    outroTitle.textContent !== TRANSLATIONS.en.outro.bigDay &&
+    outroTitle.textContent !== TRANSLATIONS.hi.outro.bigDay
+  ) {
+    outroTitle.textContent = t.outro.title;
+  }
+
+  const daysLabel = document.querySelector(".countdown-box:nth-child(1) .countdown-label");
+  if (daysLabel) daysLabel.textContent = t.outro.days;
+
+  const hoursLabel = document.querySelector(".countdown-box:nth-child(3) .countdown-label");
+  if (hoursLabel) hoursLabel.textContent = t.outro.hours;
+
+  const minsLabel = document.querySelector(".countdown-box:nth-child(5) .countdown-label");
+  if (minsLabel) minsLabel.textContent = t.outro.mins;
+
+  const secsLabel = document.querySelector(".countdown-box:nth-child(7) .countdown-label");
+  if (secsLabel) secsLabel.textContent = t.outro.secs;
+
+  const outroSignature = document.querySelector(".outro-signature");
+  if (outroSignature) outroSignature.textContent = t.outro.signature;
+
+  // 5. Button toggle active state & text
+  const toggleBtnText = document.querySelector(".lang-toggle-text");
+  if (toggleBtnText) toggleBtnText.textContent = t.toggleBtn;
+
+  const toggleBtn = document.querySelector(".lang-toggle-btn");
+  if (toggleBtn) {
+    if (lang === "hi") {
+      toggleBtn.classList.add("active");
+    } else {
+      toggleBtn.classList.remove("active");
+    }
+  }
+
+  ScrollTrigger.refresh();
+}
+
+function initLangToggle() {
+  const langBtn = document.getElementById("lang-toggle-btn");
+  if (langBtn) {
+    langBtn.addEventListener("click", () => {
+      const nextLang = currentLang === "en" ? "hi" : "en";
+      updateSiteLanguage(nextLang);
+    });
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initLangToggle);
+} else {
+  initLangToggle();
+}

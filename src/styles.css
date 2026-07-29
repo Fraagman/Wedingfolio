@@ -132,6 +132,79 @@ img {
   box-sizing: border-box;
 }
 
+/* LANGUAGE TOGGLE BUTTON IN HERO SECTION */
+.lang-toggle-container {
+  position: absolute;
+  top: 1.75rem;
+  right: 1.75rem;
+  z-index: 100;
+}
+
+.lang-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 1.2rem;
+  background: rgba(255, 253, 248, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  border-radius: 50px;
+  color: #4a121a;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(74, 18, 26, 0.12);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.lang-toggle-btn:hover {
+  background: rgba(255, 253, 248, 0.98);
+  border-color: rgba(212, 175, 55, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(74, 18, 26, 0.18);
+}
+
+.lang-toggle-btn .toggle-switch-track {
+  width: 32px;
+  height: 18px;
+  background: rgba(140, 109, 35, 0.35);
+  border-radius: 20px;
+  position: relative;
+  transition: background 0.3s ease;
+  flex-shrink: 0;
+}
+
+.lang-toggle-btn .toggle-switch-thumb {
+  width: 14px;
+  height: 14px;
+  background: #7a2838;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+}
+
+.lang-toggle-btn.active {
+  background: #7a2838;
+  color: #fdf8f0;
+  border-color: #d4af37;
+  box-shadow: 0 4px 20px rgba(122, 40, 56, 0.35);
+}
+
+.lang-toggle-btn.active .toggle-switch-track {
+  background: rgba(212, 175, 55, 0.5);
+}
+
+.lang-toggle-btn.active .toggle-switch-thumb {
+  transform: translateX(14px);
+  background: #fdf8f0;
+}
+
 .hero-welcome-sub {
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
