@@ -864,29 +864,146 @@ if (spotlightImagesContainer) {
       }
     }
 
-    // --- AUTOMATIC STICKER WIPE OVERLAY ON SECTION SCROLL (MOBILE PHONE & DESKTOP) ---
-    const sectionStories = [
-      { selector: "#haldi", storyNum: 1 },
-      { selector: "#mehendi", storyNum: 2 },
-      { selector: "#sangeet", storyNum: 3 },
-      { selector: "#wedding", storyNum: 4 },
-      { selector: "#reception", storyNum: 5 },
-      { selector: "section.outro", storyNum: 6 },
-    ];
+    // --- PPT PRESENTATION SLIDE-DECK NAVIGATION ENGINE ---
+    let currentSlideIndex = 0;
+    let isSlideTransitioning = false;
 
-    sectionStories.forEach(({ selector, storyNum }) => {
-      const secEl = document.querySelector(selector);
-      if (secEl) {
-        ScrollTrigger.create({
-          trigger: secEl,
-          start: "top 60%",
-          onEnter: () => triggerWipeOverlay(storyNum),
-          onEnterBack: () => triggerWipeOverlay(storyNum),
+    const slides = [
+      document.querySelector(".hero"),
+      document.querySelector("section.intro"),
+      document.querySelector("#haldi"),
+      document.querySelector("#mehendi"),
+      document.querySelector("#sangeet"),
+      document.querySelector("#wedding"),
+      document.querySelector("#reception"),
+      document.querySelector("section.outro"),
+    ].filter(Boolean);
+
+    const slideStoryMap = {
+      0: 1, // Hero
+      1: 1, // Intro
+      2: 1, // Haldi
+      3: 2, // Mehendi
+      4: 3, // Sangeet
+      5: 4, // Wedding
+      6: 5, // Reception
+      7: 6, // Outro
+    };
+
+    function initSlideDeck() {
+      slides.forEach((slide, idx) => {
+        if (idx === 0) {
+          slide.classList.add("active-slide");
+        } else {
+          slide.classList.remove("active-slide");
+        }
+      });
+    }
+
+    initSlideDeck();
+
+    function goToSlide(targetIndex) {
+      if (targetIndex < 0 || targetIndex >= slides.length) return;
+      if (targetIndex === currentSlideIndex && !isSlideTransitioning) return;
+      if (isSlideTransitioning) return;
+
+      isSlideTransitioning = true;
+
+      // Skip wipe animation for Hero <-> Intro transitions (slides 0 & 1)
+      const isHeroIntroTransition =
+        (currentSlideIndex === 0 && targetIndex === 1) ||
+        (currentSlideIndex === 1 && targetIndex === 0);
+
+      if (!isHeroIntroTransition) {
+        const storyNum = slideStoryMap[targetIndex] || 1;
+        // Trigger sticker wipe curtain animation
+        triggerWipeOverlay(storyNum);
+      }
+
+      // Switch slides — instantly for Hero<->Intro, mid-wipe for others
+      const switchDelay = isHeroIntroTransition ? 0 : 350;
+
+      setTimeout(() => {
+        slides.forEach((s, idx) => {
+          if (idx === targetIndex) {
+            s.classList.add("active-slide");
+          } else {
+            s.classList.remove("active-slide");
+          }
         });
+
+        currentSlideIndex = targetIndex;
+        ScrollTrigger.refresh();
+      }, switchDelay);
+
+      setTimeout(() => {
+        isSlideTransitioning = false;
+      }, isHeroIntroTransition ? 100 : 900);
+    }
+
+    // Mouse Wheel Navigation (Debounced 1 Slide Per Tick)
+    let wheelCooldown = false;
+    window.addEventListener(
+      "wheel",
+      (e) => {
+        if (wheelCooldown || isSlideTransitioning) return;
+        if (Math.abs(e.deltaY) < 15) return;
+
+        wheelCooldown = true;
+        setTimeout(() => {
+          wheelCooldown = false;
+        }, 700);
+
+        if (e.deltaY > 0) {
+          goToSlide(currentSlideIndex + 1);
+        } else {
+          goToSlide(currentSlideIndex - 1);
+        }
+      },
+      { passive: true }
+    );
+
+    // Touch Swipe Navigation (Mobile)
+    let touchStartY = 0;
+    window.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartY = e.touches[0].clientY;
+      },
+      { passive: true }
+    );
+
+    window.addEventListener(
+      "touchend",
+      (e) => {
+        if (isSlideTransitioning) return;
+        const touchEndY = e.changedTouches[0].clientY;
+        const diffY = touchStartY - touchEndY;
+
+        if (Math.abs(diffY) > 35) {
+          if (diffY > 0) {
+            goToSlide(currentSlideIndex + 1);
+          } else {
+            goToSlide(currentSlideIndex - 1);
+          }
+        }
+      },
+      { passive: true }
+    );
+
+    // Keyboard Navigation
+    window.addEventListener("keydown", (e) => {
+      if (isSlideTransitioning) return;
+      if (["ArrowDown", "PageDown", "Space"].includes(e.code)) {
+        e.preventDefault();
+        goToSlide(currentSlideIndex + 1);
+      } else if (["ArrowUp", "PageUp"].includes(e.code)) {
+        e.preventDefault();
+        goToSlide(currentSlideIndex - 1);
       }
     });
 
-    // --- REAL-TIME WEDDING COUNTDOWN TIMER ---
+    // REAL-TIME WEDDING COUNTDOWN TIMER
     const weddingDate = new Date("2027-06-02T10:00:00+05:30").getTime();
 
     function updateCountdown() {
@@ -923,23 +1040,37 @@ if (spotlightImagesContainer) {
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // --- NATURAL SMOOTH NAV LINK SCROLLING ---
-    const navLinks = document.querySelectorAll('nav a[href^="#"]');
-    navLinks.forEach((link) => {
+    // Top Nav Links Direct Slide Jumping
+    const navSlideTargetMap = {
+      "#haldi": 2,
+      "#mehendi": 3,
+      "#sangeet": 4,
+      "#wedding": 5,
+      "#reception": 6,
+    };
+
+    document.querySelectorAll('nav a[href^="#"]').forEach((link) => {
       link.addEventListener("click", (e) => {
         const targetId = link.getAttribute("href");
-        if (!targetId || targetId === "#") return;
-
-        const targetEl = document.querySelector(targetId);
-        if (!targetEl) return;
-
-        e.preventDefault();
-        lenis.scrollTo(targetEl, {
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        });
+        if (targetId === "#") {
+          e.preventDefault();
+          goToSlide(0);
+          return;
+        }
+        if (navSlideTargetMap[targetId] !== undefined) {
+          e.preventDefault();
+          goToSlide(navSlideTargetMap[targetId]);
+        }
       });
     });
+
+    const logoLink = document.querySelector(".nav-logo a");
+    if (logoLink) {
+      logoLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        goToSlide(0);
+      });
+    }
   }
 
   setupSectionTransitions();
