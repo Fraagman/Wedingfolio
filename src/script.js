@@ -393,16 +393,9 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("haldi-scene-bg");
       bgScene.innerHTML = `
-        <img src="/haldi-bg/10.webp" class="haldi-layer layer-base" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/1.webp" class="haldi-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="haldi-sunbeam"></div>
-        <img src="/haldi-bg/6.webp" class="haldi-layer layer-tree-left" alt="" loading="eager" decoding="async" />
-        <img src="/haldi-bg/7.webp" class="haldi-layer layer-arch" alt="" loading="eager" decoding="async" />
         <canvas id="haldi-particles-canvas" class="haldi-particles-layer"></canvas>
-        <img src="/haldi-bg/9.webp" class="haldi-layer layer-branch-left" alt="" loading="eager" decoding="async" />
-        <img src="/haldi-bg/8.webp" class="haldi-layer layer-branch-right" alt="" loading="eager" decoding="async" />
-        <img src="/haldi-bg/5.webp" class="haldi-layer layer-leaves-left" alt="" loading="eager" decoding="async" />
-        <img src="/haldi-bg/4.webp" class="haldi-layer layer-leaves-right" alt="" loading="eager" decoding="async" />
-        <img src="/haldi-bg/3.webp" class="haldi-layer layer-haldi-bowl" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -413,15 +406,7 @@ if (spotlightImagesContainer) {
       bgScene.innerHTML = `
         <img src="/mehendi-bg/1.webp" class="mehendi-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="mehendi-sunbeam"></div>
-        <img src="/mehendi-bg/10.webp" class="mehendi-layer layer-gazebo" alt="" loading="eager" decoding="async" />
-        <img src="/mehendi-bg/7.webp" class="mehendi-layer layer-flowers-left" alt="" loading="eager" decoding="async" />
-        <img src="/mehendi-bg/6.webp" class="mehendi-layer layer-foliage-right" alt="" loading="eager" decoding="async" />
         <canvas id="mehendi-particles-canvas" class="mehendi-particles-layer"></canvas>
-        <img src="/mehendi-bg/5.webp" class="mehendi-layer layer-canopy-left" alt="" loading="eager" decoding="async" />
-        <img src="/mehendi-bg/4.webp" class="mehendi-layer layer-canopy-right" alt="" loading="eager" decoding="async" />
-        <img src="/mehendi-bg/3.webp" class="mehendi-layer layer-canopy-center" alt="" loading="eager" decoding="async" />
-        <img src="/mehendi-bg/8.webp" class="mehendi-layer layer-fg-grass" alt="" loading="eager" decoding="async" />
-        <img src="/mehendi-bg/9.webp" class="mehendi-layer layer-floor-mandala" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -432,16 +417,7 @@ if (spotlightImagesContainer) {
       bgScene.innerHTML = `
         <img src="/sangeet-bg/1.webp" class="sangeet-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="sangeet-sunbeam"></div>
-        <img src="/sangeet-bg/10.webp" class="sangeet-layer layer-gazebo" alt="" loading="eager" decoding="async" />
-        <img src="/sangeet-bg/8.webp" class="sangeet-layer layer-trees-left" alt="" loading="eager" decoding="async" />
-        <img src="/sangeet-bg/9.webp" class="sangeet-layer layer-trees-right" alt="" loading="eager" decoding="async" />
-        <img src="/sangeet-bg/7.webp" class="sangeet-layer layer-stage-arch" alt="" loading="eager" decoding="async" />
-        <img src="/sangeet-bg/4.webp" class="sangeet-layer layer-stage-cushions" alt="" loading="eager" decoding="async" />
-        <img src="/sangeet-bg/3.webp" class="sangeet-layer layer-floor-mandala" alt="" loading="eager" decoding="async" />
         <canvas id="sangeet-particles-canvas" class="sangeet-particles-layer"></canvas>
-        <img src="/sangeet-bg/11.webp" class="sangeet-layer layer-hanging-canopy" alt="" loading="eager" decoding="async" />
-        <img src="/sangeet-bg/6.webp" class="sangeet-layer layer-tabla" alt="" loading="eager" decoding="async" />
-        <img src="/sangeet-bg/5.webp" class="sangeet-layer layer-mic" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -452,13 +428,7 @@ if (spotlightImagesContainer) {
       bgScene.innerHTML = `
         <img src="/wedding-bg/1.webp" class="wedding-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="wedding-sunbeam"></div>
-        <img src="/wedding-bg/7.webp" class="wedding-layer layer-mandap-arch" alt="" loading="eager" decoding="async" />
-        <img src="/wedding-bg/8.webp" class="wedding-layer layer-parasol-right" alt="" loading="eager" decoding="async" />
-        <img src="/wedding-bg/5.webp" class="wedding-layer layer-banana-leaves" alt="" loading="eager" decoding="async" />
         <canvas id="wedding-particles-canvas" class="wedding-particles-layer"></canvas>
-        <img src="/wedding-bg/3.webp" class="wedding-layer layer-canopy-left" alt="" loading="eager" decoding="async" />
-        <img src="/wedding-bg/9.webp" class="wedding-layer layer-canopy-right" alt="" loading="eager" decoding="async" />
-        <img src="/wedding-bg/6.webp" class="wedding-layer layer-flowers-left" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -469,15 +439,7 @@ if (spotlightImagesContainer) {
       bgScene.innerHTML = `
         <img src="/reception-bg/1.webp" class="reception-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="reception-sunbeam"></div>
-        <img src="/reception-bg/3.webp" class="reception-layer layer-arch-left" alt="" loading="eager" decoding="async" />
-        <img src="/reception-bg/5.webp" class="reception-layer layer-birdcage-right" alt="" loading="eager" decoding="async" />
-        <img src="/reception-bg/10.webp" class="reception-layer layer-couch-lounge" alt="" loading="eager" decoding="async" />
         <canvas id="reception-particles-canvas" class="reception-particles-layer"></canvas>
-        <img src="/reception-bg/8.webp" class="reception-layer layer-canopy-left" alt="" loading="eager" decoding="async" />
-        <img src="/reception-bg/9.webp" class="reception-layer layer-canopy-right" alt="" loading="eager" decoding="async" />
-        <img src="/reception-bg/7.webp" class="reception-layer layer-lanterns-left" alt="" loading="eager" decoding="async" />
-        <img src="/reception-bg/6.webp" class="reception-layer layer-flowers-right" alt="" loading="eager" decoding="async" />
-        <img src="/reception-bg/4.webp" class="reception-layer layer-fg-bushes" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -655,39 +617,23 @@ if (spotlightImagesContainer) {
       updateImageSizes();
       ScrollTrigger.refresh();
     }
-  }, { passive: true });
-
-  // --- HALDI SCENIC LAYER PARALLAX ---
+  }, { passive: true });  // --- SCENIC LAYER PARALLAX ANIMATIONS ---
   const haldiSection = document.querySelector("#haldi");
   if (haldiSection) {
-    const haldiST = gsap.timeline({ scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
-    haldiST
-      .to("#haldi .layer-base", { scale: 1.04, ease: "none" }, 0)
-      .to("#haldi .layer-tree-left", { yPercent: -4, ease: "none" }, 0)
-      .to("#haldi .layer-arch", { scale: 1.02, ease: "none" }, 0)
-      .to("#haldi .layer-branch-left", { yPercent: -6, ease: "none" }, 0)
-      .to("#haldi .layer-branch-right", { yPercent: -6, ease: "none" }, 0)
-      .to("#haldi .layer-leaves-left", { yPercent: -8, ease: "none" }, 0)
-      .to("#haldi .layer-leaves-right", { yPercent: -8, ease: "none" }, 0);
+    gsap.timeline({ scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 0.5 } })
+      .to("#haldi .layer-base", { scale: 1.04, ease: "none" }, 0);
 
     gsap.set("#haldi .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#haldi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: haldiSection, start: "top 70%", toggleActions: "play none none reverse" } });
     gsap.fromTo("#haldi .card-tagline, #haldi .card-event-details, #haldi .card-dress-code", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: haldiSection, start: "top 70%", toggleActions: "play none none reverse" } });
 
-    particleSystems["haldi"] = createParticleSystem("haldi-particles-canvas", haldiSection, { count: 20, centerColor: "rgba(255, 235, 150, 1)", glowColor: "rgba(255, 215, 0, 0.6)" });
+    particleSystems["haldi"] = createParticleSystem("haldi-particles-canvas", haldiSection, { count: 20, centerColor: "rgba(255, 230, 130, 1)", glowColor: "rgba(245, 200, 80, 0.6)" });
   }
 
-  // --- MEHENDI SCENIC LAYER PARALLAX ---
   const mehendiSection = document.querySelector("#mehendi");
   if (mehendiSection) {
-    const mehendiST = gsap.timeline({ scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
-    mehendiST
-      .to("#mehendi .layer-base", { scale: 1.04, ease: "none" }, 0)
-      .to("#mehendi .layer-gazebo", { scale: 1.02, ease: "none" }, 0)
-      .to("#mehendi .layer-flowers-left", { yPercent: -5, ease: "none" }, 0)
-      .to("#mehendi .layer-foliage-right", { yPercent: -5, ease: "none" }, 0)
-      .to("#mehendi .layer-canopy-left", { yPercent: -7, ease: "none" }, 0)
-      .to("#mehendi .layer-canopy-right", { yPercent: -7, ease: "none" }, 0);
+    gsap.timeline({ scrollTrigger: { trigger: mehendiSection, start: "top bottom", end: "bottom top", scrub: 0.5 } })
+      .to("#mehendi .layer-base", { scale: 1.04, ease: "none" }, 0);
 
     gsap.set("#mehendi .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#mehendi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: mehendiSection, start: "top 70%", toggleActions: "play none none reverse" } });
@@ -696,16 +642,10 @@ if (spotlightImagesContainer) {
     particleSystems["mehendi"] = createParticleSystem("mehendi-particles-canvas", mehendiSection, { count: 20, centerColor: "rgba(180, 245, 160, 1)", glowColor: "rgba(160, 225, 140, 0.6)" });
   }
 
-  // --- SANGEET SCENIC LAYER PARALLAX ---
   const sangeetSection = document.querySelector("#sangeet");
   if (sangeetSection) {
-    const sangeetST = gsap.timeline({ scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
-    sangeetST
-      .to("#sangeet .layer-base", { scale: 1.04, ease: "none" }, 0)
-      .to("#sangeet .layer-stage-arch", { scale: 1.02, ease: "none" }, 0)
-      .to("#sangeet .layer-hanging-canopy", { yPercent: -6, ease: "none" }, 0)
-      .to("#sangeet .layer-floor-mandala", { scale: 1.01, ease: "none" }, 0)
-      .to("#sangeet .layer-tabla", { scale: 1.02, ease: "none" }, 0);
+    gsap.timeline({ scrollTrigger: { trigger: sangeetSection, start: "top bottom", end: "bottom top", scrub: 0.5 } })
+      .to("#sangeet .layer-base", { scale: 1.04, ease: "none" }, 0);
 
     gsap.set("#sangeet .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#sangeet .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: sangeetSection, start: "top 70%", toggleActions: "play none none reverse" } });
@@ -714,17 +654,10 @@ if (spotlightImagesContainer) {
     particleSystems["sangeet"] = createParticleSystem("sangeet-particles-canvas", sangeetSection, { count: 20, centerColor: "rgba(255, 230, 150, 1)", glowColor: "rgba(255, 215, 120, 0.6)" });
   }
 
-  // --- WEDDING SCENIC LAYER PARALLAX ---
   const weddingSection = document.querySelector("#wedding");
   if (weddingSection) {
-    const weddingST = gsap.timeline({ scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
-    weddingST
-      .to("#wedding .layer-base", { scale: 1.04, ease: "none" }, 0)
-      .to("#wedding .layer-mandap-arch", { scale: 1.02, ease: "none" }, 0)
-      .to("#wedding .layer-canopy-left", { yPercent: -4, ease: "none" }, 0)
-      .to("#wedding .layer-canopy-right", { yPercent: -4, ease: "none" }, 0)
-      .to("#wedding .layer-parasol-right", { scale: 1.02, ease: "none" }, 0)
-      .to("#wedding .layer-fg-flowers", { scale: 1.02, ease: "none" }, 0);
+    gsap.timeline({ scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 0.5 } })
+      .to("#wedding .layer-base", { scale: 1.04, ease: "none" }, 0);
 
     gsap.set("#wedding .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#wedding .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: weddingSection, start: "top 70%", toggleActions: "play none none reverse" } });
@@ -733,17 +666,10 @@ if (spotlightImagesContainer) {
     particleSystems["wedding"] = createParticleSystem("wedding-particles-canvas", weddingSection, { count: 24, centerColor: "rgba(255, 200, 180, 1)", glowColor: "rgba(240, 160, 140, 0.65)" });
   }
 
-  // --- RECEPTION SCENIC LAYER PARALLAX ---
   const receptionSection = document.querySelector("#reception");
   if (receptionSection) {
-    const receptionST = gsap.timeline({ scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
-    receptionST
-      .to("#reception .layer-base", { scale: 1.04, ease: "none" }, 0)
-      .to("#reception .layer-couch-lounge", { scale: 1.02, ease: "none" }, 0)
-      .to("#reception .layer-canopy-left", { yPercent: -4, ease: "none" }, 0)
-      .to("#reception .layer-canopy-right", { yPercent: -4, ease: "none" }, 0)
-      .to("#reception .layer-lanterns-left", { yPercent: -5, ease: "none" }, 0)
-      .to("#reception .layer-fg-bushes", { scale: 1.02, ease: "none" }, 0);
+    gsap.timeline({ scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 0.5 } })
+      .to("#reception .layer-base", { scale: 1.04, ease: "none" }, 0);
 
     gsap.set("#reception .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#reception .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: receptionSection, start: "top 70%", toggleActions: "play none none reverse" } });

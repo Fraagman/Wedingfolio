@@ -558,20 +558,19 @@ section.spotlight {
 /* Golden Sunlight Shimmer Overlay */
 .haldi-sunbeam {
   position: absolute;
-  top: -10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120vw;
-  height: 70vh;
-  background: radial-gradient(circle at 50% 30%, rgba(255, 220, 110, 0.32) 0%, rgba(245, 195, 75, 0.12) 45%, transparent 75%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 35%, rgba(255, 220, 110, 0.32) 0%, rgba(245, 195, 75, 0.12) 40%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   animation: sunbeamPulse 4s ease-in-out infinite alternate;
 }
 
 @keyframes sunbeamPulse {
-  0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
-  100% { opacity: 1; transform: translateX(-50%) scale(1.06); }
+  0% { opacity: 0.65; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.04); }
 }
 
 /* Floating Turmeric Dust & Marigold Petals Canvas */
@@ -665,20 +664,19 @@ section.spotlight {
 /* Emerald Sunlight Shimmer Overlay */
 .mehendi-sunbeam {
   position: absolute;
-  top: -10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120vw;
-  height: 70vh;
-  background: radial-gradient(circle at 50% 30%, rgba(180, 235, 160, 0.32) 0%, rgba(110, 195, 125, 0.12) 45%, transparent 75%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 35%, rgba(180, 235, 160, 0.32) 0%, rgba(110, 195, 125, 0.12) 40%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   animation: mehendiSunbeamPulse 4s ease-in-out infinite alternate;
 }
 
 @keyframes mehendiSunbeamPulse {
-  0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
-  100% { opacity: 1; transform: translateX(-50%) scale(1.06); }
+  0% { opacity: 0.65; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.04); }
 }
 
 /* Floating Henna Leaves & Golden Sparkles Canvas Layer */
@@ -767,20 +765,19 @@ section.spotlight {
 /* Warm Twilight Lantern Light Shimmer Overlay */
 .sangeet-sunbeam {
   position: absolute;
-  top: -10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120vw;
-  height: 70vh;
-  background: radial-gradient(circle at 50% 30%, rgba(255, 220, 150, 0.35) 0%, rgba(245, 175, 95, 0.14) 45%, transparent 75%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 35%, rgba(255, 220, 150, 0.35) 0%, rgba(245, 175, 95, 0.14) 40%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   animation: sangeetSunbeamPulse 4.2s ease-in-out infinite alternate;
 }
 
 @keyframes sangeetSunbeamPulse {
-  0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
-  100% { opacity: 1; transform: translateX(-50%) scale(1.06); }
+  0% { opacity: 0.65; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.04); }
 }
 
 /* Floating Musical Notes & Golden Twilight Sparkles Canvas Layer */
@@ -870,20 +867,19 @@ section.spotlight {
 /* Divine Crimson & Gold Sacred Light Burst Overlay */
 .wedding-sunbeam {
   position: absolute;
-  top: -10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120vw;
-  height: 70vh;
-  background: radial-gradient(circle at 50% 30%, rgba(255, 215, 140, 0.35) 0%, rgba(225, 145, 90, 0.14) 45%, transparent 75%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 35%, rgba(255, 215, 140, 0.35) 0%, rgba(225, 145, 90, 0.14) 40%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   animation: weddingSunbeamPulse 2.8s ease-in-out infinite alternate;
 }
 
 @keyframes weddingSunbeamPulse {
-  0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
-  100% { opacity: 1; transform: translateX(-50%) scale(1.06); }
+  0% { opacity: 0.65; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.04); }
 }
 
 /* Floating Sacred Rice & Rose Petals Canvas Layer */
@@ -972,20 +968,19 @@ section.spotlight {
 /* Starlight & Fairy Light Glow Overlay */
 .reception-sunbeam {
   position: absolute;
-  top: -10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120vw;
-  height: 70vh;
-  background: radial-gradient(circle at 50% 30%, rgba(235, 205, 130, 0.35) 0%, rgba(160, 130, 210, 0.14) 45%, transparent 75%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 35%, rgba(235, 205, 130, 0.35) 0%, rgba(160, 130, 210, 0.14) 40%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   animation: receptionSunbeamPulse 2.8s ease-in-out infinite alternate;
 }
 
 @keyframes receptionSunbeamPulse {
-  0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
-  100% { opacity: 1; transform: translateX(-50%) scale(1.06); }
+  0% { opacity: 0.65; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.04); }
 }
 
 /* Floating Starlight Sparkles & Champagne Particles Canvas Layer */
@@ -1221,6 +1216,29 @@ section.spotlight {
   font-weight: 400;
   color: #c4bea8;
   line-height: 1.35;
+}
+
+@media (min-width: 1024px) {
+  .function-section {
+    height: 100vh;
+    min-height: 100vh;
+    padding: 6rem 2rem 2rem 2rem;
+  }
+
+  .haldi-layer.layer-base,
+  .mehendi-layer.layer-base,
+  .sangeet-layer.layer-base,
+  .wedding-layer.layer-base,
+  .reception-layer.layer-base {
+    object-fit: cover;
+    object-position: center 30%;
+  }
+
+  .spotlight-text.invitation-card {
+    max-width: 440px;
+    padding: 2.2rem 2rem;
+    margin-top: 1.5rem;
+  }
 }
 
 @media (max-width: 1000px) {
