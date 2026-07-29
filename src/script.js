@@ -411,7 +411,7 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("mehendi-scene-bg");
       bgScene.innerHTML = `
-        <img src="/mehendi-bg/2.webp" class="mehendi-layer layer-base" alt="" loading="eager" decoding="async" />
+        <img src="/mehendi-bg/1.webp" class="mehendi-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="mehendi-sunbeam"></div>
         <img src="/mehendi-bg/10.webp" class="mehendi-layer layer-gazebo" alt="" loading="eager" decoding="async" />
         <img src="/mehendi-bg/7.webp" class="mehendi-layer layer-flowers-left" alt="" loading="eager" decoding="async" />
@@ -430,17 +430,17 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("sangeet-scene-bg");
       bgScene.innerHTML = `
-        <img src="/sangeet-bg/2.webp" class="sangeet-layer layer-base" alt="" loading="eager" decoding="async" />
+        <img src="/sangeet-bg/1.webp" class="sangeet-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="sangeet-sunbeam"></div>
         <img src="/sangeet-bg/10.webp" class="sangeet-layer layer-gazebo" alt="" loading="eager" decoding="async" />
         <img src="/sangeet-bg/8.webp" class="sangeet-layer layer-trees-left" alt="" loading="eager" decoding="async" />
         <img src="/sangeet-bg/9.webp" class="sangeet-layer layer-trees-right" alt="" loading="eager" decoding="async" />
         <img src="/sangeet-bg/7.webp" class="sangeet-layer layer-stage-arch" alt="" loading="eager" decoding="async" />
         <img src="/sangeet-bg/4.webp" class="sangeet-layer layer-stage-cushions" alt="" loading="eager" decoding="async" />
+        <img src="/sangeet-bg/3.webp" class="sangeet-layer layer-floor-mandala" alt="" loading="eager" decoding="async" />
         <canvas id="sangeet-particles-canvas" class="sangeet-particles-layer"></canvas>
         <img src="/sangeet-bg/11.webp" class="sangeet-layer layer-hanging-canopy" alt="" loading="eager" decoding="async" />
-        <img src="/sangeet-bg/6.webp" class="sangeet-layer layer-sitar" alt="" loading="eager" decoding="async" />
-        <img src="/sangeet-bg/3.webp" class="sangeet-layer layer-tabla" alt="" loading="eager" decoding="async" />
+        <img src="/sangeet-bg/6.webp" class="sangeet-layer layer-tabla" alt="" loading="eager" decoding="async" />
         <img src="/sangeet-bg/5.webp" class="sangeet-layer layer-mic" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
@@ -450,9 +450,8 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("wedding-scene-bg");
       bgScene.innerHTML = `
-        <img src="/wedding-bg/2.webp" class="wedding-layer layer-base" alt="" loading="eager" decoding="async" />
+        <img src="/wedding-bg/1.webp" class="wedding-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="wedding-sunbeam"></div>
-        <img src="/wedding-bg/10.webp" class="wedding-layer layer-mandap-platform" alt="" loading="eager" decoding="async" />
         <img src="/wedding-bg/7.webp" class="wedding-layer layer-mandap-arch" alt="" loading="eager" decoding="async" />
         <img src="/wedding-bg/8.webp" class="wedding-layer layer-parasol-right" alt="" loading="eager" decoding="async" />
         <img src="/wedding-bg/5.webp" class="wedding-layer layer-banana-leaves" alt="" loading="eager" decoding="async" />
@@ -460,7 +459,6 @@ if (spotlightImagesContainer) {
         <img src="/wedding-bg/3.webp" class="wedding-layer layer-canopy-left" alt="" loading="eager" decoding="async" />
         <img src="/wedding-bg/9.webp" class="wedding-layer layer-canopy-right" alt="" loading="eager" decoding="async" />
         <img src="/wedding-bg/6.webp" class="wedding-layer layer-flowers-left" alt="" loading="eager" decoding="async" />
-        <img src="/wedding-bg/11.webp" class="wedding-layer layer-fg-flowers" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -469,7 +467,7 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("reception-scene-bg");
       bgScene.innerHTML = `
-        <img src="/reception-bg/2.webp" class="reception-layer layer-base" alt="" loading="eager" decoding="async" />
+        <img src="/reception-bg/1.webp" class="reception-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="reception-sunbeam"></div>
         <img src="/reception-bg/3.webp" class="reception-layer layer-arch-left" alt="" loading="eager" decoding="async" />
         <img src="/reception-bg/5.webp" class="reception-layer layer-birdcage-right" alt="" loading="eager" decoding="async" />
@@ -706,7 +704,7 @@ if (spotlightImagesContainer) {
       .to("#sangeet .layer-base", { scale: 1.04, ease: "none" }, 0)
       .to("#sangeet .layer-stage-arch", { scale: 1.02, ease: "none" }, 0)
       .to("#sangeet .layer-hanging-canopy", { yPercent: -6, ease: "none" }, 0)
-      .to("#sangeet .layer-sitar", { yPercent: -8, ease: "none" }, 0)
+      .to("#sangeet .layer-floor-mandala", { scale: 1.01, ease: "none" }, 0)
       .to("#sangeet .layer-tabla", { scale: 1.02, ease: "none" }, 0);
 
     gsap.set("#sangeet .spotlight-text.invitation-card", { y: 0 });
@@ -721,12 +719,12 @@ if (spotlightImagesContainer) {
   if (weddingSection) {
     const weddingST = gsap.timeline({ scrollTrigger: { trigger: weddingSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
     weddingST
-      .to("#wedding .layer-base", { scale: 1.05, ease: "none" }, 0)
-      .to("#wedding .layer-mandap-arch", { scale: 1.03, ease: "none" }, 0)
-      .to("#wedding .layer-canopy-left", { yPercent: -6, ease: "none" }, 0)
-      .to("#wedding .layer-canopy-right", { yPercent: -6, ease: "none" }, 0)
-      .to("#wedding .layer-parasol-right", { yPercent: -5, ease: "none" }, 0)
-      .to("#wedding .layer-fg-flowers", { yPercent: -8, ease: "none" }, 0);
+      .to("#wedding .layer-base", { scale: 1.04, ease: "none" }, 0)
+      .to("#wedding .layer-mandap-arch", { scale: 1.02, ease: "none" }, 0)
+      .to("#wedding .layer-canopy-left", { yPercent: -4, ease: "none" }, 0)
+      .to("#wedding .layer-canopy-right", { yPercent: -4, ease: "none" }, 0)
+      .to("#wedding .layer-parasol-right", { scale: 1.02, ease: "none" }, 0)
+      .to("#wedding .layer-fg-flowers", { scale: 1.02, ease: "none" }, 0);
 
     gsap.set("#wedding .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#wedding .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: weddingSection, start: "top 70%", toggleActions: "play none none reverse" } });
@@ -740,12 +738,12 @@ if (spotlightImagesContainer) {
   if (receptionSection) {
     const receptionST = gsap.timeline({ scrollTrigger: { trigger: receptionSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
     receptionST
-      .to("#reception .layer-base", { scale: 1.05, ease: "none" }, 0)
-      .to("#reception .layer-couch-lounge", { scale: 1.03, ease: "none" }, 0)
-      .to("#reception .layer-canopy-left", { yPercent: -6, ease: "none" }, 0)
-      .to("#reception .layer-canopy-right", { yPercent: -6, ease: "none" }, 0)
-      .to("#reception .layer-lanterns-left", { yPercent: -8, ease: "none" }, 0)
-      .to("#reception .layer-fg-bushes", { yPercent: -7, ease: "none" }, 0);
+      .to("#reception .layer-base", { scale: 1.04, ease: "none" }, 0)
+      .to("#reception .layer-couch-lounge", { scale: 1.02, ease: "none" }, 0)
+      .to("#reception .layer-canopy-left", { yPercent: -4, ease: "none" }, 0)
+      .to("#reception .layer-canopy-right", { yPercent: -4, ease: "none" }, 0)
+      .to("#reception .layer-lanterns-left", { yPercent: -5, ease: "none" }, 0)
+      .to("#reception .layer-fg-bushes", { scale: 1.02, ease: "none" }, 0);
 
     gsap.set("#reception .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#reception .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: receptionSection, start: "top 70%", toggleActions: "play none none reverse" } });

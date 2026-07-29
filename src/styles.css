@@ -814,11 +814,11 @@ section.spotlight {
 .sangeet-layer.layer-trees-left { z-index: 2; transform-origin: bottom left; }
 .sangeet-layer.layer-trees-right { z-index: 2; transform-origin: bottom right; }
 .sangeet-layer.layer-stage-arch { z-index: 2; transform-origin: center center; }
-.sangeet-layer.layer-stage-cushions { z-index: 2; transform-origin: center center; }
+.sangeet-layer.layer-stage-cushions { z-index: 2; transform-origin: center center; object-position: center bottom; }
+.sangeet-layer.layer-floor-mandala { z-index: 3; transform-origin: bottom center; object-position: center bottom; }
 .sangeet-layer.layer-hanging-canopy { z-index: 4; transform-origin: top right; }
-.sangeet-layer.layer-sitar { z-index: 5; transform-origin: bottom left; }
-.sangeet-layer.layer-tabla { z-index: 5; transform-origin: bottom center; }
-.sangeet-layer.layer-mic { z-index: 5; transform-origin: bottom right; }
+.sangeet-layer.layer-tabla { z-index: 5; transform-origin: bottom left; object-position: center bottom; }
+.sangeet-layer.layer-mic { z-index: 5; transform-origin: bottom right; object-position: center bottom; }
 
 /* Sangeet Invitation Card Layering */
 .function-section#sangeet .function-badge,
@@ -920,7 +920,7 @@ section.spotlight {
 .wedding-layer.layer-canopy-left { z-index: 4; transform-origin: top left; }
 .wedding-layer.layer-canopy-right { z-index: 4; transform-origin: top right; }
 .wedding-layer.layer-flowers-left { z-index: 5; transform-origin: bottom left; }
-.wedding-layer.layer-fg-flowers { z-index: 5; transform-origin: bottom center; }
+.wedding-layer.layer-fg-flowers { z-index: 5; transform-origin: bottom center; object-position: center bottom; }
 
 /* Wedding Invitation Card Layering */
 .function-section#wedding .function-badge,
@@ -1118,10 +1118,11 @@ section.spotlight {
 
 .card-function-title {
   font-family: "Great Vibes", cursive;
-  font-size: clamp(2.8rem, 5.5vw, 3.6rem);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
   font-weight: 400;
   color: #ffffff;
-  line-height: 1.35;
+  line-height: 1.2;
+  white-space: nowrap;
   margin-bottom: 0.75rem;
   padding: 0.25em 0.15em;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55), 0 4px 25px rgba(0, 0, 0, 0.3);
@@ -1256,10 +1257,15 @@ section.spotlight {
   .function-section#sangeet,
   .function-section#wedding,
   .function-section#reception {
-    min-height: 125vh;
-    min-height: 125dvh;
-    padding: 5rem 1rem;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 5.5rem 1rem 1.5rem 1rem;
     border-bottom: none;
+  }
+
+  .card-function-title {
+    font-size: clamp(1.9rem, 7vw, 2.6rem);
+    white-space: nowrap;
   }
 
   .haldi-layer,
