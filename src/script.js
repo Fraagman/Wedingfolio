@@ -35,9 +35,7 @@ const splitText = (selector, type, className, mask = true) => {
 };
 
 splitText(".preloader-header h1", "chars", "char");
-splitText("nav a", "words", "word");
 splitText(".header h1", "words", "word", false);
-splitText(".hero-footer p", "words", "word");
 
 const preloaderImgInitRotations = [7.5, -2.5, -10, 12.5, -5, 5];
 gsap.set(".preloader-img", {
@@ -168,16 +166,6 @@ tl.to(
   1.1,
 );
 
-tl.to(
-  ".hero-footer p .word",
-  {
-    y: "0%",
-    duration: 0.5,
-    ease: "hop",
-    stagger: 0.03,
-  },
-  1.1,
-);
 
 // --- SWIRLING IMAGE COSMOS LAYOUT INIT ---
 const initCosmos = () => {
@@ -302,7 +290,7 @@ const FUNCTIONS_DATA = [
   {
     id: "haldi",
     badge: "",
-    title: "Haldi Ceremony",
+    title: "Haldi Night",
     tagline: "A golden splash of turmeric, laughter & family blessings for Maheen & Tanvi",
     day: "MON",
     date: "June 2 2027",
@@ -682,7 +670,7 @@ if (spotlightImagesContainer) {
   let currentWipeStoryNum = 0;
   let isWipePlaying = false;
 
-  const triggerWipeOverlay = (storyNum = 1) => {
+  const triggerWipeOverlay = (storyNum = 1, targetEl = null) => {
     if (isWipePlaying) return;
     isWipePlaying = true;
     setTimeout(() => {
@@ -716,6 +704,15 @@ if (spotlightImagesContainer) {
         clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
         duration: 0.35,
         ease: "power4.inOut",
+        onComplete: () => {
+          if (targetEl) {
+            if (typeof lenis !== "undefined" && lenis) {
+              lenis.scrollTo(targetEl, { immediate: true });
+            } else {
+              targetEl.scrollIntoView({ behavior: "instant", block: "start" });
+            }
+          }
+        },
       }
     );
 
@@ -879,9 +876,9 @@ if (spotlightImagesContainer) {
       if (secEl) {
         ScrollTrigger.create({
           trigger: secEl,
-          start: "top 60%",
-          onEnter: () => triggerWipeOverlay(storyNum),
-          onEnterBack: () => triggerWipeOverlay(storyNum),
+          start: "top 85%",
+          onEnter: () => triggerWipeOverlay(storyNum, secEl),
+          onEnterBack: () => triggerWipeOverlay(storyNum, secEl),
         });
       }
     });
