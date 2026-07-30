@@ -3,8 +3,26 @@ import { SplitText } from "gsap/SplitText";
 import { CustomEase } from "gsap/all";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Agentation } from "agentation";
 
 gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
+
+// Initialize Agentation visual feedback toolbar
+const initAgentation = () => {
+  const container = document.createElement("div");
+  container.id = "agentation-root";
+  document.body.appendChild(container);
+  const root = createRoot(container);
+  root.render(React.createElement(Agentation));
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initAgentation);
+} else {
+  initAgentation();
+}
 
 // Prevent mobile address-bar resize triggers from causing screen flashing
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -381,9 +399,16 @@ if (spotlightImagesContainer) {
       const bgScene = document.createElement("div");
       bgScene.classList.add("haldi-scene-bg");
       bgScene.innerHTML = `
-        <img src="/haldi-bg/1.webp" class="haldi-layer layer-base" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/10.webp" class="haldi-layer layer-base" alt="" loading="eager" decoding="async" />
         <div class="haldi-sunbeam"></div>
+        <img src="/haldi-bg/6.webp" class="haldi-layer layer-tree-left" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/5.webp" class="haldi-layer layer-leaves-left" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/4.webp" class="haldi-layer layer-leaves-right" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/9.webp" class="haldi-layer layer-branch-left" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/8.webp" class="haldi-layer layer-branch-right" alt="" loading="eager" decoding="async" />
+        <img src="/haldi-bg/7.webp" class="haldi-layer layer-arch" alt="" loading="eager" decoding="async" />
         <canvas id="haldi-particles-canvas" class="haldi-particles-layer"></canvas>
+        <img src="/haldi-bg/3.webp" class="haldi-layer layer-haldi-bowl" alt="" loading="eager" decoding="async" />
       `;
       sectionEl.appendChild(bgScene);
     }
@@ -605,11 +630,27 @@ if (spotlightImagesContainer) {
       updateImageSizes();
       ScrollTrigger.refresh();
     }
-  }, { passive: true });  // --- SCENIC LAYER PARALLAX ANIMATIONS ---
+  }, { passive: true });  // --- HALDI SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
   const haldiSection = document.querySelector("#haldi");
   if (haldiSection) {
-    gsap.timeline({ scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 0.5 } })
-      .to("#haldi .layer-base", { scale: 1.04, ease: "none" }, 0);
+    sectionIdleTweens["haldi"] = [
+      gsap.to("#haldi .layer-branch-left", { rotation: 1.2, xPercent: 0.8, duration: 4.0, yoyo: true, repeat: -1, ease: "sine.inOut", force3D: true }),
+      gsap.to("#haldi .layer-branch-right", { rotation: -1.5, xPercent: -1.0, duration: 4.5, delay: 0.3, yoyo: true, repeat: -1, ease: "sine.inOut", force3D: true }),
+      gsap.to("#haldi .layer-tree-left", { rotation: 0.8, xPercent: 0.5, duration: 5.5, yoyo: true, repeat: -1, ease: "sine.inOut", force3D: true }),
+      gsap.to("#haldi .layer-leaves-left", { rotation: -1.0, scale: 1.01, duration: 4.2, yoyo: true, repeat: -1, ease: "sine.inOut", force3D: true }),
+      gsap.to("#haldi .layer-leaves-right", { rotation: 1.0, scale: 1.01, duration: 4.8, delay: 0.4, yoyo: true, repeat: -1, ease: "sine.inOut", force3D: true }),
+    ];
+
+    const haldiST = gsap.timeline({ scrollTrigger: { trigger: haldiSection, start: "top bottom", end: "bottom top", scrub: 0.5 } });
+    haldiST
+      .to("#haldi .layer-base", { scale: 1.03, ease: "none" }, 0)
+      .to("#haldi .layer-tree-left", { rotation: -1.2, xPercent: -0.8, ease: "none" }, 0)
+      .to("#haldi .layer-arch", { scale: 1.02, ease: "none" }, 0)
+      .to("#haldi .layer-branch-left", { rotation: 2, xPercent: 1.2, ease: "none" }, 0)
+      .to("#haldi .layer-branch-right", { rotation: -2, xPercent: -1.2, ease: "none" }, 0)
+      .to("#haldi .layer-leaves-left", { rotation: -1.5, xPercent: -1.0, ease: "none" }, 0)
+      .to("#haldi .layer-leaves-right", { rotation: 1.5, xPercent: 1.0, ease: "none" }, 0)
+      .to("#haldi .layer-haldi-bowl", { scale: 1.02, ease: "none" }, 0);
 
     gsap.set("#haldi .spotlight-text.invitation-card", { y: 0 });
     gsap.fromTo("#haldi .card-function-title", { opacity: 0, scale: 0.94, y: 15 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: haldiSection, start: "top 70%", toggleActions: "play none none reverse" } });

@@ -637,7 +637,6 @@ section.outro.active-slide {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  contain: layout style;
 }
 
 /* Golden Sunlight Shimmer Overlay */
@@ -679,19 +678,20 @@ section.outro.active-slide {
   object-position: center center;
   pointer-events: none;
   user-select: none;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
-/* Strict 3D TranslateZ Stacking to Eliminate GPU Z-Fighting Flickering */
-.haldi-layer.layer-base { z-index: 0; opacity: 0.95; }
-.haldi-layer.layer-tree-left { z-index: 1; transform-origin: bottom left; }
-.haldi-layer.layer-arch { z-index: 2; transform-origin: center center; }
-.haldi-layer.layer-branch-left { z-index: 4; transform-origin: top left; }
-.haldi-layer.layer-branch-right { z-index: 4; transform-origin: top right; }
-.haldi-layer.layer-leaves-left { z-index: 5; transform-origin: bottom left; }
-.haldi-layer.layer-leaves-right { z-index: 5; transform-origin: bottom right; }
-.haldi-layer.layer-haldi-bowl { z-index: 5; transform-origin: bottom center; }
+/* Explicit Z-Index Stacking (Arch z-index 10 is strictly ABOVE all background trees & foliage) */
+.haldi-layer.layer-base { z-index: 1; opacity: 0.95; }
+.haldi-layer.layer-tree-left { z-index: 2; transform-origin: bottom left; }
+.haldi-layer.layer-leaves-left { z-index: 3; transform-origin: bottom left; }
+.haldi-layer.layer-leaves-right { z-index: 4; transform-origin: bottom right; }
+.haldi-layer.layer-branch-left { z-index: 5; transform-origin: top left; }
+.haldi-layer.layer-branch-right { z-index: 6; transform-origin: top right; }
+.haldi-layer.layer-arch { z-index: 10; transform-origin: center center; }
+.haldi-particles-layer { z-index: 11; }
+.haldi-layer.layer-haldi-bowl { z-index: 12; transform-origin: bottom center; }
 
 /* Haldi Section Content Layering */
 .function-section#haldi .function-badge,
