@@ -1160,34 +1160,38 @@ section.outro.active-slide {
   background: rgba(255, 255, 255, 0.75) !important;
 }
 
-/* 5. GRAND RECEPTION — Radiant Diamond Gold & Luminous White (Dark Midnight Backdrop) */
+/* 5. GRAND RECEPTION — Deep Dark Gold & Antique Bronze (Dark Midnight Backdrop) */
 .function-section#reception .card-function-title {
-  color: #fde047 !important;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8) !important;
+  color: #c59b27 !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 0 15px rgba(184, 134, 11, 0.4) !important;
 }
 .function-section#reception .card-tagline {
-  color: #fef08a !important;
+  color: #d4af37 !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5) !important;
 }
 .function-section#reception .card-day,
 .function-section#reception .dress-code-header {
-  color: #f59e0b !important;
+  color: #aa7c11 !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5) !important;
 }
 .function-section#reception .card-date,
 .function-section#reception .card-venue {
-  color: #ffffff !important;
+  color: #f5e5b8 !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6) !important;
 }
 .function-section#reception .card-time,
 .function-section#reception .dress-code-sub,
 .function-section#reception .dress-code-detail {
-  color: #f8fafc !important;
+  color: #dfc072 !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5) !important;
 }
 .function-section#reception .card-dress-code {
-  border-top-color: rgba(245, 158, 11, 0.4) !important;
+  border-top-color: rgba(184, 134, 11, 0.6) !important;
 }
 .function-section#reception .function-badge {
-  color: #fde047 !important;
-  border-color: rgba(245, 158, 11, 0.4) !important;
-  background: rgba(15, 23, 42, 0.75) !important;
+  color: #c59b27 !important;
+  border-color: rgba(184, 134, 11, 0.6) !important;
+  background: rgba(15, 23, 42, 0.85) !important;
 }
 
 .function-badge {
