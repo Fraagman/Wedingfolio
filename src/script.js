@@ -170,18 +170,20 @@ tl.to(
     ease: "hop",
     stagger: 0.05,
   },
-  1.05,
+  1.05
 );
 
-tl.to(
-  "nav a .word",
+tl.fromTo(
+  [".hero-welcome-sub", ".hero-date-tag", ".lang-toggle-container"],
+  { opacity: 0, y: 15 },
   {
-    y: "0%",
+    opacity: 1,
+    y: 0,
     duration: 0.5,
-    ease: "hop",
-    stagger: 0.03,
+    stagger: 0.08,
+    ease: "power2.out",
   },
-  1.1,
+  1.1
 );
 
 
