@@ -311,7 +311,7 @@ const FUNCTIONS_DATA = [
   {
     id: "haldi",
     badge: "",
-    title: "Haldi Night",
+    title: "Haldi Ceremony",
     tagline: "A golden splash of turmeric, laughter & family blessings for Maheen & Tanvi",
     day: "MON",
     date: "June 2 2027",
@@ -324,7 +324,7 @@ const FUNCTIONS_DATA = [
   {
     id: "mehendi",
     badge: "",
-    title: "Mehendi Night",
+    title: "Mehendi Ceremony",
     tagline: "An afternoon of intricate henna, music & vibrant colors celebrating Maheen & Tanvi",
     day: "TUE",
     date: "June 3 2027",
@@ -1260,7 +1260,7 @@ const TRANSLATIONS = {
     },
     functions: {
       haldi: {
-        title: "Haldi Night",
+        title: "Haldi Ceremony",
         tagline: "A golden splash of turmeric, laughter & family blessings for Maheen & Tanvi",
         day: "MON",
         date: "June 2 2027",
@@ -1271,7 +1271,7 @@ const TRANSLATIONS = {
         dressDetail: "Yellow Kurta, Floral Sarees or Bright Ethnic Wear",
       },
       mehendi: {
-        title: "Mehendi Night",
+        title: "Mehendi Ceremony",
         tagline: "An afternoon of intricate henna, music & vibrant colors celebrating Maheen & Tanvi",
         day: "TUE",
         date: "June 3 2027",
@@ -1341,7 +1341,7 @@ const TRANSLATIONS = {
     },
     functions: {
       haldi: {
-        title: "हल्दी नाइट",
+        title: "हल्दी समारोह",
         tagline: "हल्दी की सुनहरी रंगत, उल्लास और परिवार का पावन आशीर्वाद महीन एवं तन्वी के संग",
         day: "सोमवार",
         date: "२ जून २०२७",
@@ -1352,7 +1352,7 @@ const TRANSLATIONS = {
         dressDetail: "पीला कुर्ता, फ्लोरल साड़ी या उज्ज्वल पारंपरिक परिधान",
       },
       mehendi: {
-        title: "मेहंदी नाइट",
+        title: "मेंहदी समारोह",
         tagline: "मेंहदी की मनमोहक रचावट, संगीत और रंगों भरा हसीन दोपहर उत्सव",
         day: "मंगलवार",
         date: "३ जून २०२७",
