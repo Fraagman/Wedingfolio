@@ -6,6 +6,7 @@ import Lenis from "lenis";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Agentation } from "agentation";
+import { LiquidGlass as YbLiquidGlass } from "@ybouane/liquidglass";
 
 gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
 
@@ -509,24 +510,85 @@ if (spotlightImagesContainer) {
 
     const textDiv = document.createElement("div");
     textDiv.classList.add("spotlight-text", "invitation-card");
-    textDiv.innerHTML = `
-      <h2 class="card-function-title">${func.title}</h2>
-      <p class="card-tagline">${func.tagline}</p>
-      
-      <div class="card-event-details">
-        <span class="card-day">${func.day}</span>
-        <span class="card-date">${func.date}</span>
-        <span class="card-time">${func.time}</span>
-        <span class="card-venue">${func.venue}</span>
-      </div>
 
-      <div class="card-dress-code">
-        <h4 class="dress-code-header">Dress code</h4>
-        <p class="dress-code-sub">${func.dressSub}</p>
-        <p class="dress-code-detail">${func.dressDetail}</p>
+    const glassCard = document.createElement("div");
+    glassCard.classList.add("yb-liquid-glass-card");
+    glassCard.dataset.config = JSON.stringify({
+      blurAmount: 0.00,
+      refraction: 0.69,
+      chromAberration: 0.05,
+      edgeHighlight: 0.05,
+      specular: 0.00,
+      fresnel: 1.00,
+      distortion: 0.00,
+      cornerRadius: 65,
+      zRadius: 40,
+      opacity: 1.00,
+      saturation: 0.00,
+      tintStrength: 0.00,
+      brightness: 0.00,
+      shadowOpacity: 0.30,
+      shadowSpread: 10,
+      shadowOffsetY: 1,
+      floating: false,
+      button: false,
+      bevelMode: 0,
+    });
+
+    glassCard.innerHTML = `
+      <div class="card-inner-content">
+        <h2 class="card-function-title">${func.title}</h2>
+        <p class="card-tagline">${func.tagline}</p>
+        
+        <div class="card-event-details">
+          <span class="card-day">${func.day}</span>
+          <span class="card-date">${func.date}</span>
+          <span class="card-time">${func.time}</span>
+          <span class="card-venue">${func.venue}</span>
+        </div>
+
+        <div class="card-dress-code">
+          <h4 class="dress-code-header">Dress code</h4>
+          <p class="dress-code-sub">${func.dressSub}</p>
+          <p class="dress-code-detail">${func.dressDetail}</p>
+        </div>
       </div>
     `;
+
+    textDiv.appendChild(glassCard);
     sectionEl.appendChild(textDiv);
+
+    try {
+      YbLiquidGlass.init({
+        root: sectionEl,
+        glassElements: [glassCard],
+        defaults: {
+          blurAmount: 0.00,
+          refraction: 0.69,
+          chromAberration: 0.05,
+          edgeHighlight: 0.05,
+          specular: 0.00,
+          fresnel: 1.00,
+          distortion: 0.00,
+          cornerRadius: 65,
+          zRadius: 40,
+          opacity: 1.00,
+          saturation: 0.00,
+          tintStrength: 0.00,
+          brightness: 0.00,
+          shadowOpacity: 0.30,
+          shadowSpread: 10,
+          shadowOffsetY: 1,
+          floating: false,
+          button: false,
+          bevelMode: 0,
+        },
+      }).catch((err) => {
+        console.warn("YbLiquidGlass init fallback:", err);
+      });
+    } catch (e) {
+      console.warn("YbLiquidGlass init error:", e);
+    }
 
     bottomImages.forEach((imgNum) => {
       sectionEl.appendChild(createImageItem(imgNum));
@@ -632,7 +694,9 @@ if (spotlightImagesContainer) {
       updateImageSizes();
       ScrollTrigger.refresh();
     }
-  }, { passive: true });  // --- HALDI SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
+  }, { passive: true });
+
+// --- HALDI SCENE CONSOLIDATED MASTER PARALLAX TIMELINE ---
   const haldiSection = document.querySelector("#haldi");
   if (haldiSection) {
     sectionIdleTweens["haldi"] = [
