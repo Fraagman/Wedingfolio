@@ -869,15 +869,15 @@ if (spotlightImagesContainer) {
       );
 
       if (cardTitle) {
-        splitText(cardTitle, "chars", "char", false);
         gsap.fromTo(
-          cardTitle.querySelectorAll(".char"),
-          { y: "150%" },
+          cardTitle,
+          { opacity: 0, scale: 0.95, y: 20 },
           {
-            y: "0%",
+            opacity: 1,
+            scale: 1,
+            y: 0,
             duration: 0.8,
-            stagger: 0.025,
-            ease: "power4.out",
+            ease: "power3.out",
             scrollTrigger: {
               trigger: section,
               start: "top 75%",
@@ -888,15 +888,14 @@ if (spotlightImagesContainer) {
       }
 
       if (cardTagline) {
-        splitText(cardTagline, "words", "word", false);
         gsap.fromTo(
-          cardTagline.querySelectorAll(".word"),
-          { y: "120%" },
+          cardTagline,
+          { opacity: 0, y: 15 },
           {
-            y: "0%",
+            opacity: 1,
+            y: 0,
             duration: 0.7,
-            stagger: 0.02,
-            ease: "power4.out",
+            ease: "power3.out",
             scrollTrigger: {
               trigger: section,
               start: "top 75%",
