@@ -10,8 +10,15 @@ import { LiquidGlass as YbLiquidGlass } from "@ybouane/liquidglass";
 
 gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
 
-// Initialize Agentation visual feedback toolbar
+// Initialize Agentation visual feedback toolbar (Localhost only)
 const initAgentation = () => {
+  const isLocalHost =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname.endsWith(".local");
+
+  if (!isLocalHost) return;
+
   const container = document.createElement("div");
   container.id = "agentation-root";
   document.body.appendChild(container);
